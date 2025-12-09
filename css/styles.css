@@ -12,4 +12,6 @@ body {
     padding: 2rem;    /* inner margin */
     font-family: Georgia;
     line-height: 1.6;
+    text-align: justify;
+    hyphens: auto;
 }
