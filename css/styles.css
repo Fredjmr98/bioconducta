@@ -1,0 +1,15 @@
+/* Global reset and baseline */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Base layout */
+body {
+    max-width: 800px; /* classic minimalist blog width */
+    margin: 0 auto;   /* centers the whole site */
+    padding: 2rem;    /* inner margin */
+    font-family: Georgia;
+    line-height: 1.6;
+}
