@@ -44,10 +44,11 @@
 
 /* Base layout */
 body {
-    max-width: 800px; /* classic minimalist blog width */
-    margin: 0 auto;   /* centers the whole site */
-    padding: 2rem;    /* inner margin */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
     font-family: Georgia;
+    font-size: 11px;
     line-height: 1.6;
     text-align: justify;
     hyphens: auto;
@@ -55,7 +56,7 @@ body {
 
 .site-header {
     text-align: center;
-    padding: 2rem 0;
+    padding: 1rem 0;
 }
 
 .site-header img {
@@ -66,8 +67,19 @@ body {
 .page-title h1 {
     font-family: Crimson Text;
     font-style: italic;
-    font-size: 2.8rem;
+    font-size: 32px;
     margin-top: 0.2rem;
     margin-bottom: 0.3rem;
     text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    font-style: italic;
+    font-size: 10px;
+    margin-top: 0;        /* eliminates extra gap */
+    margin-bottom: 1rem;  /* space before the rest of the text */
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
