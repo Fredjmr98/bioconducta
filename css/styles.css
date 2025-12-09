@@ -48,7 +48,7 @@ body {
     margin: 0 auto;
     padding: 2rem;
     font-family: Georgia;
-    font-size: 11px;
+    font-size: 14px;
     line-height: 1.6;
     text-align: justify;
     hyphens: auto;
@@ -67,7 +67,7 @@ body {
 .page-title h1 {
     font-family: Crimson Text;
     font-style: italic;
-    font-size: 32px;
+    font-size: 42px;
     margin-top: 0.2rem;
     margin-bottom: 0.3rem;
     text-align: center;
@@ -76,7 +76,7 @@ body {
 .subtitle {
     text-align: center;
     font-style: italic;
-    font-size: 10px;
+    font-size: 13px;
     margin-top: 0;        /* eliminates extra gap */
     margin-bottom: 1rem;  /* space before the rest of the text */
     max-width: 800px;
