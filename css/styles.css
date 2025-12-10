@@ -52,6 +52,7 @@ body {
     line-height: 1.6;
     text-align: justify;
     hyphens: auto;
+    color: #252525;
 }
 
 .site-header {
@@ -71,6 +72,7 @@ body {
     margin-top: 0.2rem;
     margin-bottom: 0.3rem;
     text-align: center;
+    color: #252525;
 }
 
 .subtitle {
@@ -82,4 +84,16 @@ body {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
+    color: #252525;
+}
+
+/* Hyperlinks */
+a {
+  text-decoration: underline; /* always underlined */
+  color: #252525;             /* change link color if you want */
+}
+
+a:hover {
+  text-decoration: none;      /* remove underline on hover */
+  color: #252525;             /* optional hover color */
 }
