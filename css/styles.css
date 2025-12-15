@@ -42,8 +42,22 @@
     box-sizing: border-box;
 }
 
+/* Colors */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #252525;
+  --link-color: #252525;
+}
+
+[data-theme="dark"] {
+  --bg-color: #252525;
+  --text-color: #ffffff;
+  --link-color: #ffffff;
+}
+
 /* Base layout */
 body {
+   background-color: var(--bg-color);
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
@@ -52,12 +66,13 @@ body {
     line-height: 1.6;
     text-align: justify;
     hyphens: auto;
-    color: #252525;
+    color: var(--text-color);
 }
 
 .site-header {
     text-align: center;
     padding: 1rem 0;
+    color: var(--text-color);
 }
 
 .site-header img {
@@ -72,7 +87,11 @@ body {
     margin-top: 0.2rem;
     margin-bottom: 0.3rem;
     text-align: center;
-    color: #252525;
+    color: var(--text-color);
+}
+
+.page-title h2 {
+    color: var(--text-color);
 }
 
 .subtitle {
@@ -84,16 +103,43 @@ body {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    color: #252525;
+    color: var(--text-color);
 }
 
 /* Hyperlinks */
 a {
   text-decoration: underline; /* always underlined */
-  color: #252525;             /* change link color if you want */
+    color: var(--link-color);
 }
 
 a:hover {
   text-decoration: none;      /* remove underline on hover */
-  color: #252525;             /* optional hover color */
+    color: var(--link-color);
+}
+
+/* Icon for Dark Mode */
+.theme-toggle {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 1000;
+
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+  border-radius: 50%;
+
+  width: 3rem;
+  height: 3rem;
+
+  font-size: 1.2rem;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-toggle:hover {
+  opacity: 0.8;
 }
