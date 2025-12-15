@@ -45,14 +45,18 @@
 /* Colors */
 :root {
   --bg-color: #ffffff;
-  --text-color: #080707;
-  --link-color: #080707;
+  --text-color: #252525;
+  --link-color: #252525;
 }
 
 [data-theme="dark"] {
-  --bg-color: #080707;
+  --bg-color: #000000;
   --text-color: #ffffff;
   --link-color: #ffffff;
+}
+
+[data-theme="dark"] img {
+  filter: invert(1);
 }
 
 /* Base layout */
