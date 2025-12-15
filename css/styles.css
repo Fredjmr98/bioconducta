@@ -45,12 +45,12 @@
 /* Colors */
 :root {
   --bg-color: #ffffff;
-  --text-color: #252525;
-  --link-color: #252525;
+  --text-color: #141414;
+  --link-color: #141414;
 }
 
 [data-theme="dark"] {
-  --bg-color: #252525;
+  --bg-color: #141414;
   --text-color: #ffffff;
   --link-color: #ffffff;
 }
