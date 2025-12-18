@@ -153,3 +153,19 @@ ul, ol {
   margin-left: 1.5em;
   padding-left: 1.5em;
 }
+
+/* Equations */
+.equation-row {
+  display: grid;
+  grid-template-columns: 1fr 3ch; /* 3ch comfortably fits "(99)" */
+  align-items: center;
+  margin: 1em 0;
+}
+
+.equation {
+  text-align: center;
+}
+
+.eq-number {
+  text-align: right;
+}
