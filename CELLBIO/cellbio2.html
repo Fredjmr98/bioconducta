@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paredes celulares en bacterias, arqueas y eucariotas — Bioprâxis</title>
+    
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  </head>
+    
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+  ☾
+</button>
+
+    <script>
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  toggle.addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark";
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+    localStorage.setItem("theme", isDark ? "light" : "dark");
+  });
+
+  // Load saved preference
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    root.setAttribute("data-theme", savedTheme);
+  }
+</script>
+
+<header class="site-header container">
+    <img src="../logo.png" alt="Logo">
+</header>
+
+<section class="page-title container">
+    <h1><a href="../index.html" style="text-decoration: none;">Bioprâxis</a></h1>
+</section>
+
+  <p class="subtitle">
+    APÉNDICE SOBRE FISIOLOGÍA CELULAR</p>
+<br>
+  <p class="subtitle">
+    Uniones celulares y matriz extracelular, parte I-A: Uniones celulares</p>
+  
+  <body>
+<p>Algunas células poseen pared celular además de una membrana plasmática. Por ejemplo: algunas bacterias, arqueas, células eucariotas vegetales y fungales. Las paredes celulares son colecciones de macromoléculas insolubles secretadas por la célula que se mantienen próximas a la membrana plasmática.</p>
+<p style="text-indent:0.5in;">A pesar de que algunas células exhiban estructuras 'accesorias' como flagelos, cilios o paredes celulares, esto no quiere decir que sus límites cambien. El límite de una célula sigue siendo definido por su membrana plasmática, y el criterio para definir el limite es el de supervivencia. Si bien una célula puede sobrevivir si se descarta su pared celular, ninguna célula sobrevive si se remueve su membrana plasmática, razón por la cual la membrana plasmática sigue siendo el límite por definición.</p>
+<p style="text-indent:0.5in;">La presente entrada sirve de introducción elemental a las paredes celulares bacterianas, y de manera más superficial las paredes celulares arqueas y eucariotas.</p>
+
+<br>
+<h2>Paredes celulares bacterianas</h2>
+<p>Las paredes celulares son conjuntos insolubles de macromoléculas secretadas por la célula, las cuales están presentes tanto en bacterias, como hongos, algas y plantas superiores. Estas tienen dos funciones principales:</p>
+<ol>
+  <li>Previenen los efectos de la presión osmótica.</li>
+  <li>Determinan la forma de la célula.</li>
+</ol><br>
+
+<p>Estas son fabricadas en el interior de la célula y, posteriormente, son secretadas.</p>
+<p style="text-indent:0.5in;">Las formas de las bacterias, algunas veces esféricas (<i>Pneumococcus</i> y <i>Staphylococcus aureus</i>), otras bastoniformes (<i>Escherichia coli</i>) y quizás espirales (<i>Treponema pallidum</i>) son definidas por sus paredes celulares. Estas paredes están hechas de <b>peptidoglicano</b> (también Ilamado <b>mureína</b>).</p>
+<p style="text-indent:0.5in;">El peptidoglicano consiste de cadenas polisacáridas lineales entrecruzadas por pequeños péptidos. Las cadenas de peptidoglicano se componen de un monómero disacárido que, a su vez, se constituye de una molécula de <b>ácido N-acetilmurámico (NAM)</b> y otra de <b>N-acetilglucosamina (NAG)</b>.</p>
+<p style="text-indent:0.5in;">Recordando que el grupo acetilo tiene la estructura visible en la Figura 1, en la Figura 3 podemos identificar el acetilo dentro del NAG, partiendo de que, sin el grupo acetilo, lo único que tenemos es una glucosamina, lo cual no es más que una glucosa donde el hidroxilo del segundo carbono ha sido reemplazado por un grupo amino (como en la Figura 2).</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 1. Grupo acetilo. Este enlaza con el grupo amino de la glucosamina, formando un N-acetilglucosamina. <b>Las imágenes pueden verse afectadas si se usa el modo oscuro</b>.</i></p>
+<img src="cellbio2/cellbio2_1.png" alt="Figura 1" style="width: 15%; height: auto;">
+<br><br>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 2. Glucosamina. Obsérvese el grupo amino que reemplaza un hidroxilo en el segundo carbono.</i></p>
+<img src="cellbio2/cellbio2_2.png" alt="Figura 2" style="width: 25%; height: auto;">
+<br><br>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 3. N-acetilglucosamina (NAG).</i></p>
+<img src="cellbio2/cellbio2_3.png" alt="Figura 3" style="width: 20%; height: auto;">
+<br><br>
+
+<p>Ahora bien, el ácido N-acetilmurámico se deriva de la N-acetilglucosamina, por lo cual se parte de su estructura en la Figura 3. El cambio ocurre en el tercer carbono de la glucosa. En este caso, el hidroxilo del carbono 3 pierde su hidrógeno para formar un enlace éter (Figura 4) con un ácido láctico (Figura 5) por medio de una reacción de deshidratación, lo cual quiere decir que, mientras el hidroxilo del carbono 3 pierde un hidrógeno, el ácido láctico pierde un hidroxilo completo.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 4. Enlace éter.</i></p>
+<img src="cellbio2/cellbio2_4.png" alt="Figura 4" style="width: 12%; height: auto;">
+<br><br>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 5. Ácido láctico.</i></p>
+<img src="cellbio2/cellbio2_5.png" alt="Figura 5" style="width: 16%; height: auto;">
+<br><br>
+
+<p>El resultado es un ácido N-acetilmurámico (Figura 6) debido a la presencia de un ácido carboxílico. El "murámico" detrás de su nombre simplemente del latín <i>murus</i>, para referirse a la pared celular, ya que fue aislado por primera vez como un constituyente clave de la pared celular de las bacterias.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 6. Ácido N-acetilmurámico.</i></p>
+<img src="cellbio2/cellbio2_6.png" alt="Figura 6" style="width: 30%; height: auto;">
+<br><br>
+
+<p>A modo de resumen, se tiene que el peptidoglicano es un polisacárido que se compone de monómeros disacáridos NAM y NAG por enlaces β-1,4 glucosidicos (Figura 7).</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 7. Peptidoglicano (Cooper, 2019, p. 540).</i></p>
+<img src="cellbio2/cellbio2_7.png" alt="Figura 7">
+<br><br>
+
+<p>Además de componerse de estos disacáridos, es menester tomar en cuenta que los NAM poseen <b>tetrapéptidos</b> que se enlazan entre sí por <b>puentes de pentaglicina</b> para mantener la rigidez y linealidad de la estructura (Figura 7). Los tetrapéptidos se enlazan al grupo carboxilo de NAM por medio de un enlace amida (Figura 8), y estos tetrapéptidos tienen dos estructuras alternativas:</p><br>
+<ol>
+  <li>L-Alanina (L-Ala), D-ácido glutámico (D-Glu), ácido diaminopimélico (DAP) y D-Alanina (D-Ala) (Figura 8 y Figura 9a).</li>
+  <li>L-Ala, D-Glu, L-Lisina (L-Lys) y D-Ala (Figura 9b).</li>
+</ol>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 8. Estructura de un monómero de peptidoglicano incluyendo el tetrapéptido enlazado al ácido láctico del NAM (Willey, Sherwood & Woolverton, 2008, p. 56).</i></p>
+<img src="cellbio2/cellbio2_8.png" alt="Figura 8">
+<br><br>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 9. Alternativas al tetrapéptido del NAM donde el tercer péptido puede ser DAP o L-Lys (Willey, Sherwood & Woolverton, 2008, p. 56).</i></p>
+<img src="cellbio2/cellbio2_9.png" alt="Figura 9">
+<br><br>
+
+<p>Cada cadena de peptidoglicano se enlaza entre sí por medio de puentes de glicina que se forman entre los tetrapéptidos del NAM (Figura 6 y Figura 9).</p>
+
+<br>
+<h3>Tinción de Gram: Celulas Gram-positivas y Gram-negativas</h3>
+<p>El grosor de la pared celular de una bacteria puede ser estimado de acuerdo a una técnica Ilamada <b>tinción de Gram</b>. Esta tinción divide a las bacterias en dos clases: aquellas que reaccionan en púrpura y las otras que reaccionan en rosado (Figura 9). Aquellas en púrpura se denominan <b>Gram-positivas</b>, mientras que las rosadas son <b>Gram-negativas</b>.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 10. Tinción de Gram a una mezcla de S. aureus (Gram-positiva / púrpura) y E. coli (Gram-negativa / rosado).</i></p>
+<img src="cellbio2/cellbio2_10.jpg" alt="Figura 10">
+<br><br>
+
+<p>Más allá del color que toman al aplicar tinción de Gram, lo que separan a estas dos clases de bacterias es el grosor de su pared celular:</p><br>
+<ol>
+  <li><b>Gram-positivas (púrpuras):</b> Grosor de 20-80 nm de una capa homogénea de peptidoglicano (mureína) (Figura 11, izquierda).</li>
+  <li><b>Gram-negativas (rosadas):</b> Grosor de 2-7 nm de una capa de peptidoglicano cubierta por una capa de 7-8 nm de membrana externa (la cual también es accesoria) (Figura 11, derecha).</li>
+</ol><br>
+
+<p>El término <b>envoltura celular</b> puede ser empleado para referirse al complejo de membrana plasmática, pared celular y membrana externa (en el caso de bacterias Gram-negativas).</p>
+<p style="text-indent:0.5in;">En el caso de las bacterias Gram-negativas, estas exhiben un espacio entre la membrana externa y su membrana plasmática, el cual es Ilamado <b>espacio periplásmico</b>. La sustancia que lo ocupa se denomina <b>periplasma</b>. La naturaleza del periplasma y el espacio periplásmico difiere entre bacterias Gram-positivas y Gram-negativas.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 11. Diferencia entre bacterias Gram-positivas (izquierda) y Gram-negativas (derecha). PM: Membrana plasmática. W: pared de peptidoglicano Gram-positiva. OM: Membrana externa. M: Capa de peptidoglicano o mureína. P: Espacio periplásmico (Willey, Sherwood & Woolverton, 2008, p. 55).</i></p>
+<img src="cellbio2/cellbio2_11.png" alt="Figura 11">
+<br><br>
+
+<p>La envoltura celular de las bacterias Gram-positivas se componen principalmente de una capa gruesa de peptidoglicano con grandes cantidades de <b>ácido teicoico</b> (Figura 12). Este es un polímero de glicerol o ribitol enlazado a través de grupos de fosfato (Figura 13). Estos se enlazan al peptidoglicano o a lípidos de la membrana plasmática (y en tal caso se Ilama ácido lipoteicoico). Se cree que tienen un papel en mantener la estructura de la pared celular.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 12. Envoltura celular de las bacterias Gram-positivas (Willey, Sherwood & Woolverton, 2008, p. 57).</i></p>
+<img src="cellbio2/cellbio2_12.png" alt="Figura 12">
+<br><br>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 13. Estructura del ácido teicoico (Willey, Sherwood & Woolverton, 2008, p. 58).</i></p>
+<img src="cellbio2/cellbio2_13.png" alt="Figura 13">
+<br><br>
+
+<p>Por otro Iado, dentro del periplasma de las bacterias Gram-positivas, se encuentran <b>exoenzimas</b> que sirven para degradar nutrientes poliméricos muy grandes para pasar por su cuenta a través de la membrana plasmática.</p>
+<p style="text-indent:0.5in;">Ahora bien, la envoltura celular de las bacterias Gram-negativas tiene un espacio periplásmico mucho más amplio de 1-71 nm, constituyendo desde el 20% al 40% del volumen celular total de estas bacterias. Mientras que algunas proteínas periplásmicas sirven para la adquisición de nutrientes, otras sirven para la conservación de la energía. Algunas tienen cadenas de transporte de electrones en sus espacios periplásmicos.</p>
+<br>
+
+<p>La membrana externa de las bacterias Gram-negativas se ubica fuera de la fina capa de peptidoglicano y se vincula a la célula por dos medios:</p>
+<ol>
+  <li>Lipoproteínas de Braun: Es la proteína más abundante en la membrana externa. Enlazada covalentemente al peptidoglicano subyacente. La membrana externa y la lipoproteína se pueden aislar como una unidad debido al fuerte enlace que existe entre ambas por las lipoproteínas de Braun.</li>
+  <li>Sitios de adhesión entre la membrana externa y la membrana plasmática. Son regiones de contacto directo o de fusión verdadera de membrana.</li>
+</ol><br>
+
+<p>Estas membranas externas también contienen <b>lipopolisacáridos</b> (LPSs) compuestos de 1) Iípido A, 2) un polisacárido nuclear y 3) cadenas de polisacáridos 0 (Figura 14).</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 14. Estructura de los lipopolisacáridos de la Salmonella (Willey, Sherwood & Woolverton, 2008, p. 60).</i></p>
+<img src="cellbio2/cellbio2_14.png" alt="Figura 14">
+<br><br>
+
+<p>El <b>lípido A</b> contiene dos azúcares derivados de la glucosamina, cada uno enlazado a tres ácidos grasos y un fosfato o pirofosfato. Los ácidos grasos enlazan el LPS a la membrana externa, mientras que el resto de la estructura se proyecta hacia el exterior. Por otro lado, la región central de polisacáridos conecta con el Iípido A. En la <i>Salmonella</i>, esta está compuesta de 10 azúcares. Por último, los <b>O polisacáridos</b> se enlazan a la región central de polisacáridos. Estos varían en composición entre cepas bacterianas.</p>
+<p style="text-indent:0.5in;">Los LPSs contribuyen a la carga negativa de la superficie bacteriana. También estabilizan la estructura de la membrana externa y puede que contribuyan a la adhesión de la bacteria a superficies, así como también a la formación de biopelículas. Por último, y de mayor relevancia, los LPSs sirven para crear una barrera de permeabilidad. Se dice que evitan la entrada de sales biliares, antibióticos y otras sustancias tóxicas para la bacteria.</p>
+<p style="text-indent:0.5in;">A pesar de los LPSs, la membrana externa es técnicamente más permeable gracias a la presencia de trímeros de porina, proteínas, los cuales permiten el pasaje de moléculas de 600-700 daltons.</p><br>
+
+<p>La Figura 15 resume las partes de la envoltura celular de las bacterias Gram-negativas.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 15. Esquema de la envoltura celular de bacterias Gram-negativas (Willey, Sherwood & Woolverton, 2008,
+p. 59).</i></p>
+<img src="cellbio2/cellbio2_15.png" alt="Figura 15">
+<br><br>
+
+<br>
+<h2>Paredes celulares arqueas</h2>
+<p>Las paredes celulares de las arqueas normalmente se componen de heteropolisacáridos complejos. Por ejemplo, las arqueas generadoras de metano, como la <i>Methanobacterium</i>, tienen paredes celulares de <b>pseudomureína</b>. Esta tiene L-aminoácidos en vez de D-aminoácidos en sus tetrapéptidos y ácido N- acetiltalosaminurónico en vez de ácido N-acetilmuránico. Asimismo, sus enlaces glucosídicos son β-1,3 en vez de β-1,4 (Figura 16).</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 16. Estructura de la pseudomureína en las paredes celulares de arqueas (Willey, Sherwood & Woolverton, 2008, p. 63).</i></p>
+<img src="cellbio2/cellbio2_16.png" alt="Figura 16">
+<br><br>
+
+<p>Otras arqueas contienen polisacáridos complejos similares al sulfato de condroitina en el tejido conectivo de los animales. Por último, la tinción de Gram no funciona igual en las arqueas. Los colores exhibidos no se correlacionan fuertemente con una pared celular especifica como en las bacterias.</p>
+
+<br>
+<h2>Paredes celulares eucariotas</h2>
+<p>Las paredes celulares eucariotas son similares a las bacterianas. Por ejemplo, si se observan la quitina (la pared celular de las eucariotas fungales), se resalta que están hechas de N-acetilglucosamina (uno de los componentes de las paredes celulares bacterianas). La principal diferencia es que, mientras que la pared celular bacteriana se compone de monómeros disacáridos de NAM y NAG, la pared celular fungal se compone de monómeros monosacáridos de NAM. Del mismo modo, si se estudia la celulosa (la cual compone la pared celular de algas y células vegetales superiores), se nota que se compone de glucosa. Es decir, de N-acetilglucosamina donde el acetamido ha sido reemplazado por un grupo hidroxilo. Es decir, las paredes celulares eucariotas son versiones simplificadas de las paredes celulares bacterianas (ver Figura 17).</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 17. Comparación de la quitina con la celulosa (Cooper, 2019, p. 541).</i></p>
+<img src="cellbio2/cellbio2_17.png" alt="Figura 17">
+<br><br>
+
+<p>Tanto en la quitina como en la glucosa se enlazan los monómeros por medio de enlaces glucosídicos β-1,4, del mismo modo que en las bacterias. Esto sugiere una continuidad entre estas especies. Por otro lado, los polímeros lineales de celulosa normalmente contienen más de 10,000 monómeros de glucosa. 36 cadenas de celulosa se asocian en paralelo entre sí para formar microfibrilos de 3-nm, los cuales se extienden muchas micras en longitud (Figura 17).</p>
+<p style="text-indent:0.5in;">Ahora bien, estos microfibrilos de celulosa están incrustados en una matriz de proteínas y otros dos tipos de polisacáridos: <b>hemicelulosas</b> y <b>pectinas</b> (Figura 18). Por una parte, la hemicelulosa es un polisacárido ramificado que se enlaza a los microfibrilos de celulosa por medio de puentes de hidrógeno, lo cual estabiliza a la celulosa como fibras duras. Por otra parte, tanto los microfibrilos de celulosa como la hemicelulosa están embebidos en una matriz gelatinosa formada por pectinas, las cuales son polisacáridos con grandes cantidades de ácido galacturónico negativamente cargado. La Figura 19 representa gráficamente cómo se relacionan estas estructuras.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 18. Hemicelulosas y pectinas (Cooper, 2019, p. 541).</i></p>
+<img src="cellbio2/cellbio2_18.png" alt="Figura 18">
+<br><br>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 19. Pared celular de las plantas (Cooper, 2019, p. 542).</i></p>
+<img src="cellbio2/cellbio2_19.png" alt="Figura 19">
+<br><br>
+
+<p>La pectina puede enlazarse a iones cargados como el Ca<sup>2+</sup>	y atrapar moléculas de agua para formar gel.</p><br>
+
+<p>Regresando a las funciones, las paredes celulares de las plantas evitan los efectos de la presión osmótica. Puesto que estas no mantienen un balance osmótico entre su citosol y los fluidos extracelulares (contrario a los animales, y afín a las bacterias), la presión osmótica constantemente guía el flujo del agua dentro de la célula. Las células vegetales son capaces de resistir este flujo de agua gracias a sus paredes de celulosa, las cuales evitan tanto que se hinchen como que estallen.</p>
+<p style="text-indent:0.5in;">La <b>presión de turgencia</b> es la presión hidrostática que fuerza a la membrana plasmática a expandirse por la acumulación de agua dentro de la célula. Esta presión es la que le da rigidez a las plantas, lo cual es observable al comparar una planta hidratada con una deshidratada. Asimismo, la expansión de las plantas vegetales ocurre principalmente por la presión de turgencia más que por la fabricación de componentes en el citosol. Hormonas vegetales como la <b>auxina</b> activan proteínas llamadas <b>expansinas</b>, las cuales debilitan una región de la pared celular para que la presión de turgencia expanda la célula en esa dirección. A medida que esto ocurre, el agua que entra a la célula se almacena en la vacuola central, lo cual permite, efectivamente, expandir la célula sin incrementar la cantidad de citosol (Figura 20).</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 20. Expansión de una célula vegetal por medio de presión de turgencia (Cooper, 2019, p. 542).</i></p>
+<img src="cellbio2/cellbio2_20.png" alt="Figura 20">
+<br><br>
+
+<p>A medida que la célula se expande, componentes de la pared celular son depositados fuera de la membrana plasmática (Figura 21). Entretanto, los componentes de la matriz como la hemicelulosa y la pectina se sintetizan en el aparato Golgi y luego secretados. Por último, a partir de los componentes de la pared celular, el complejo enzimático llamado <b>celulosa sintasa</b> los procesa para crear más celulosa.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 20. Síntesis de celulosa durante la elongación celular en células de plantas superiores (Cooper, 2019, p. 543).</i></p>
+<img src="cellbio2/cellbio2_21.png" alt="Figura 21">
+<br><br>
+
+<br>
+
+<h2>Referencias bibliográficas</h2>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Cooper, G. M. (2019). <i>The cell: A molecular approach</i> (8th ed.). Oxford University Press</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Madigan, M. T., Bender, K. S., Buckley, D. H., Sattley, W. M., & Stahl, D. A. (2019).
+<i>Brock biology of microorganisms</i> (15th ed.). (Global ed.). Pearson</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">McMurry, J., Ballantine, D. S., Hoeger, C. A., & Peterson, V. E. (2018). <i>Fundamentals of general, organic, and biological chemistry</i> (8th ed. in SI units). Pearson</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Willey, J. M., Sherwood, L. M., & Woolverton, C. J. (2008). <i>Prescott, Harley, and
+Klein's microbiology</i>. 7th ed. McGraw-Hill</p>
+    <br>
+    <div style="text-align: center; margin-top: 20px;"><p>Freddy J. Molero-Ramírez</p>
+    <p>fmolero@mail.uniatlantico.edu.co</p></div>
+</body>
