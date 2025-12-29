@@ -169,3 +169,9 @@ ul, ol {
 .eq-number {
   text-align: right;
 }
+
+/* Constraints on image width */
+img {
+  max-width: 100%;
+  height: auto;
+}
