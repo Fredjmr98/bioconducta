@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bioenergética y metabolismo, parte I: Termodinámica desde la biología celular — Bioprâxis</title>
+    
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  </head>
+    
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+  ☾
+</button>
+
+    <script>
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  toggle.addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark";
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+    localStorage.setItem("theme", isDark ? "light" : "dark");
+  });
+
+  // Load saved preference
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    root.setAttribute("data-theme", savedTheme);
+  }
+</script>
+
+<header class="site-header container">
+    <img src="../logo.png" alt="Logo">
+</header>
+
+<section class="page-title container">
+    <h1><a href="../index.html" style="text-decoration: none;">Bioprâxis</a></h1>
+</section>
+
+  <p class="subtitle">
+    APÉNDICE SOBRE FISIOLOGÍA CELULAR</p>
+<br>
+  <p class="subtitle">
+    Bioenergética y metabolismo, parte I: Termodinámica desde la biología celular</p>
+  
+  <body>
+<p>La termodinámica es una de esas ramas sumamente mal interpretadas fuera de su campo de aplicación físico, lo cual fácilmente se podría decir de cualquier otra subdisciplina científica, de no ser porque la termodinámica es una de las más abusadas para toda clase de metáforas y especulaciones acerca de la consciencia, la conducta, la vida, la información y hasta la apologética cristiana; unas peores que otras.</p>
+
+<br>
+<h2>La primera ley de la termodinámica</h2>
+<p><i>La energía total de un sistema y su entorno permanece constante</i> (Cooper 2019), lo cual normalmente se traduce a la energía no se crea ni se destruye, tan solo se transforma: se convierte de un tipo a otro. Piénsese en los intercambios entre energía cinética y potencial al estudiar la trayectoria de una partícula en descenso vertical. A medida que la partícula cae, su energía gravitacional potencial se reduce mientras que su energía cinética aumenta. En un ejemplo más biológico, la energía química es “convertida” en energía mecánica, como lo que ocurre en la contracción de un músculo.</p>
+<p style="text-indent:0.5in;">La Figura 1 ilustra diferentes formas de cambios en tipos de energía, usando primero el ejemplo de un ladrillo en picada. A medida que el ladrillo está suspendido sobre la superficie, este posee una energía potencial gravitacional que se va convirtiendo en energía cinética a medida que desciende, hasta que, al caer, ‘transforma’ su energía cinética en calor liberado.</p>
+<p style="text-indent:0.5in;">Del mismo modo, la Figura 1 ilustra un caso donde energía química es almacenada en moléculas de gas e hidrógeno. La cantidad de energía liberada cuando se forman las moléculas de agua lleva a que estas vibren y, por medio de colisiones espontáneas entre moléculas de agua, la energía es eventualmente transferida como calor al entorno.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 1. Las células vivas no ‘desafían’ la segunda ley de la termodinámica. En la izquierda, las moléculas tanto dentro como fuera de la célula exhiben un grado de desorden aparente. La célula, a través del metabolismo, ordena las moléculas en su interior mientras que aumenta la cantidad de desorden en el entorno a través de la liberación de calor (Alberts et al., 2014, p. 87)</b>.</i></p>
+<img src="cellbio4/cellbio4_1.png" alt="Figura 1">
+<br><br>
+
+<br>
+<h2>La segunda ley de la termodinámica</h2>
+<p><i>El grado de <b>desorden</b> (o <b>entropía</b>) en un sistema incrementa con el paso del tiempo</i> (Cooper, 2019). Cooper no entra en detalle sobre lo que el desorden o la entropía implica, tan solo esperando que sea comprensible a través de una serie de ejemplos biológicos. Intuitivamente, afirma Cooper, las células parecen violar la segunda ley en la medida que los precursores de sus componentes son menos ordenados: las proteínas son polímeros <i>ordenados</i> de aminoácidos, por lo cual la síntesis de proteína implica una reducción (en vez de un aumento) de entropía.</p>
+<p style="text-indent:0.5in;">Más allá de la definición de desorden o entropía implicada en el texto, Cooper resuelve el fallo intuitivo haciendo referencia a que las células son sistemas abiertos, por lo cual intercambian energía con el entorno. Esto quiere decir que el aumento de entropía puede ser balanceado a través del entorno. La totalidad sistema-entorno puede aumentar su entropía sin que el incremento se vea estrictamente manifestado en el sistema celular en sí mismo. Cooper (2019) afirma que una reacción química reduce la entropía del sistema en tanto el calor liberado por la reacción sea suficiente para generar un incremento mayor de entropía en el entorno (el cual compense por el orden generado dentro de la célula). La Figura 2 ilustra cómo el aumento de ‘orden’ en la célula implica un aumento de ‘desorden’ en el entorno.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 2. Las células vivas no ‘desafían’ la segunda ley de la termodinámica. En la izquierda, las moléculas tanto dentro como fuera de la célula exhiben un grado de desorden aparente. La célula, a través del metabolismo, ordena las moléculas en su interior mientras que aumenta la cantidad de desorden en el entorno a través de la liberación de calor (Alberts et al., 2014, p. 86)</b>.</i></p>
+<img src="cellbio4/cellbio4_2.png" alt="Figura 2">
+<br><br>
+
+<br>
+<h2>Energía libre de Gibbs</h2>
+<p>La energética de las reacciones bioquímicas es descrita en términos de la función deltada de la energía libre de Gibbs (G) (Cooper, 2019). La Ecuación 1 ilustra que el cambio en energía libre de Gibbs, o ΔG, es igual al cambio en entalpía (ΔH) menos el producto de la temperatura absoluta (T) por el cambio en entropía (ΔS).</p>
+<div class="equation-row">
+  <div class="equation">
+    $ΔG = ΔH - TΔS$
+  </div>
+  <div class="eq-number">
+    (1)
+  </div>
+</div>
+
+<p>La entalpía se refiere al calor liberado o absorbido durante una reacción química.</p><br>
+
+<p>En el caso químico hipotético donde A pueda ser convertido a B:</p>
+<center>
+    $A → B$
+</center>
+
+<p>Las reacciones químicas ocurrirán espontáneamente en la dirección energéticamente favorable, es decir, aquella que implique una reducción de energía libre (ΔG < 0). Entonces, si para A → B la reacción implica ΔG < 0, entonces la reacción ocurrirá en la dirección hacia delante, mientras que si la reacción implica ΔG > 0 esta irá en dirección contraria. Es decir, se favorecen direcciones de reacciones químicas donde ΔG es negativo. Esto se debe a que la segunda ley de la termodinámica necesita que las reacciones químicas procedan solo si el resultado implica un aumento en el ‘desorden’ del universo. Por ello, solo cuando energía libre de Gibbs es perdida se favorece esa dirección espontáneamente. Así, las <b>reacciones energéticamente favorables</b> son aquellas que aumentan el desorden a través de la reducción energía libre de Gibbs.</p>
+<p style="text-indent:0.5in;">Puesto que el ΔG de una reacción es una función tanto de las propiedades intrínsecas de los reactivos y los productos como de las condiciones del entorno (temperatura, concentraciones), los cambios de energía libre se definen bajo <b>condiciones estándares</b>: concentración 1-M de todos los reactivos y productos y 1 atm de presión.</p>
+<p style="text-indent:0.5in;">En condiciones estándares, se puede determinar el <b>cambio estándar de energía libre de Gibbs</b> (ΔG°) de una reacción. Una vez definido el estado estándar, ΔG° se entiende convencionalmente como una propiedad característica de la reacción química misma.</p>
+<p style="text-indent:0.5in;">Ahora bien, con un entendimiento de ΔG° y la razón de concentración [B]/[A] para una reacción A→B dada, es posible también determinar ΔG ya que este es una función de ambas. Así, la Ecuación 2 ilustra un segundo método para determinar ΔG si se conoce ΔG° para la reacción:</p>
+
+<p>En el caso químico hipotético donde A pueda ser convertido a B:</p>
+<div class="equation-row">
+  <div class="equation">
+    $ΔG = ΔG° + RT ln \frac{[B]}{[A]}$
+  </div>
+  <div class="eq-number">
+    (2)
+  </div>
+</div>
+
+<p>Es decir, el cambio de energía libre de Gibbs es igual a la sumatoria de dos términos, el primero siendo el cambio estándar de energía libre de Gibbs de la misma reacción química más el producto de la constante de gas (R) por la temperatura absoluta (T) y el logaritmo natural de la razón de las concentraciones de B y A.</p>
+<p style="text-indent:0.5in;">En el caso donde ΔG sea igual a 0, esto quiere decir que la reacción no procede con una preferencia direccional, lo cual se conoce como punto de equilibrio. Es decir, la reacción ocurre en tasas iguales en ambas direcciones. Para que ΔG sea igual a 0, ΔG° y RT ln [B]/[A] deben ser iguales en magnitud y contrarios en signo. Defínase la concentración a la que ΔG=0 como K=[B]/[A], así, adquirimos la Ecuación 3:</p>
+
+<p>En el caso químico hipotético donde A pueda ser convertido a B:</p>
+<div class="equation-row">
+  <div class="equation">
+    $0 = ΔG° + RT ln K$
+  </div>
+  <div class="eq-number">
+    (3)
+  </div>
+</div>
+
+<p>Lo cual nos arroja la Ecuación 4:</p>
+
+<p>En el caso químico hipotético donde A pueda ser convertido a B:</p>
+<div class="equation-row">
+  <div class="equation">
+    $ΔG° = -RT ln K$
+  </div>
+  <div class="eq-number">
+    (4)
+  </div>
+</div>
+
+<p>Y en este sentido RT ln K está directamente relacionado a ΔG°, siendo igual en magnitud y opuesto en signo.</p><br>
+
+<p>Así, si la razón real [B]/[A] es mayor que la razón de equilibrio (K), ΔG > 0, por lo cual la reacción ocurrirá en la dirección contraria (de B hacia A). Por último, si [B]/[A] es menor que K, entonces ΔG < 0, lo cual implica que se favorecerá la reacción de A hacia B.</p><br>
+
+<p>Para propósitos bioquímicos, ΔG° no es particularmente útil ya que las condiciones celulares difieren. Por ello, se emplea el cambio en energía libre de Gibbs ΔG°’, el cual implica una solución acuosa de pH = 7.</p>
+
+<br>
+
+<h2>Referencias bibliográficas</h2>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Alberts, B., Bray, D., Hopkin, K., Johnson, A., Lewis, J., Raff, M., Roberts, K., & Walter, P. (2014). <i>Essential cell biology</i> (4th ed.). Garland Science</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Cooper, G. M. (2019). <i>The cell: A molecular approach</i> (8th ed.). Oxford University Press</p>
+    <br>
+    <div style="text-align: center; margin-top: 20px;"><p>Freddy J. Molero-Ramírez</p>
+    <p>fmolero@mail.uniatlantico.edu.co</p></div>
+</body>
