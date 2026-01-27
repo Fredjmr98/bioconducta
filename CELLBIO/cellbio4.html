@@ -116,7 +116,7 @@ Retrieved 2025-12-09, License - CC BY-SA 4.0
 
 <p>En el caso químico hipotético donde A pueda ser convertido a B:</p>
 <center>
-    $A → B$
+    A → B
 </center>
 
 <p>Las reacciones químicas ocurrirán espontáneamente en la dirección energéticamente favorable, es decir, aquella que implique una reducción de energía libre (ΔG < 0). Entonces, si para A → B la reacción implica ΔG < 0, entonces la reacción ocurrirá en la dirección hacia delante, mientras que si la reacción implica ΔG > 0 esta irá en dirección contraria. Es decir, se favorecen direcciones de reacciones químicas donde ΔG es negativo. Esto se debe a que la segunda ley de la termodinámica necesita que las reacciones químicas procedan solo si el resultado implica un aumento en el ‘desorden’ del universo. Por ello, solo cuando energía libre de Gibbs es perdida se favorece esa dirección espontáneamente. Así, las <b>reacciones energéticamente favorables</b> son aquellas que aumentan el desorden a través de la reducción energía libre de Gibbs.</p>
@@ -166,17 +166,62 @@ Retrieved 2025-12-09, License - CC BY-SA 4.0
 <p>Para propósitos bioquímicos, ΔG° no es particularmente útil ya que las condiciones celulares difieren. Por ello, se emplea el cambio en energía libre de Gibbs ΔG°’, el cual implica una solución acuosa de pH = 7.</p>
 
 <br>
+<h2>El rol del ATP</h2>
+<p>Bajo condiciones celulares, numerosas reacciones biológicas son termodinámicamente desfavorables (ΔG > 0). Por ello, para que estas reacciones ocurran debe existir una fuente de energía adicional. Dada la siguiente reacción:</p>
+<center>
+    A⇌B<br>
+    $ΔG = +10 kcal/mol$
+</center>
+<p>La conversión de A a B es energéticamente desfavorable, por lo cual la reacción tiende netamente al lado contrario. No obstante, al acoplar esta reacción con la siguiente:</p>
+<center>
+    C⇌D<br>
+    $ΔG = -20 kcal/mol$
+</center>
+<p>Ambas reacciones toman la siguiente forma:</p>
+<center>
+    A+C⇌B+D<br>
+    $ΔG = -10 kcal/mol$
+</center>
+<p>La sumatoria de ΔG para ambas reacciones produce un ΔG neto menor a 0, lo cual hace que la primera reacción considerada se vuelva energéticamente favorable. En las células, las enzimas son las que se encargan de ejecutar estas reacciones acopladas energéticamente favorables para producir biomoléculas que, de otra manera, implican cambios energéticos desfavorables.</p>
+<p style="text-indent:0.5in;">Ahora bien, para que las enzimas operen de esta manera, es necesaria una reacción química capaz de liberar suficiente energía libre de Gibbs para impulsar la ocurrencia de otras reacciones energéticamente desfavorables. En las células, este papel es tomado por el <b>adenosín trifosfato</b> (<b>ATP</b>).</p>
+<p style="text-indent:0.5in;">Cooper (2019) afirma que el ATP sirve como un “almacén” de energía libre dentro de la célula (Figura 3). Químicamente hablando, no hay nada especial en los enlaces de fosfato. La razón por la que son llamados enlaces de alta energía radica en que, al ser hidrolizados dentro de la célula, liberan grandes cantidades de energía libre de Gibbs.</p>
+
+<br>
+<p style="font-size: 14px;"><i>Figura 3. Los enlaces entre los grupos de fosfato del ATP se describen como enlaces de “alta energía” ya que la hidrólisis resulta en una reducción sustancial de energía libre de Gibbs. El ATP puede ser hidrolizado a ADP más un grupo fosfato (HPO<sub>4</sub><sup>2-</sup>) o AMP más un pirofosfato. A su vez, el pirofosfato puede ser hidrolizado para liberar más energía (Cooper, 2019, p. 84)</b>.</i></p>
+<img src="cellbio4/cellbio4_3.png" alt="Figura 3">
+<br><br>
+
+<p>En la hidrólisis de ATP a adenosín difosfato (ADP) más fosfato (P<sub>i</sub>), el cambio energético es de ΔG°’ = -7.3 kcal/mol. Ahora bien, las diferencias en concentración intracelular al comparar el cambio en energía libre en condiciones estándares con los de una célula en estado normal arroja que la cantidad de energía liberada es mucho mayor, de ΔG = -12 kcal/mol.</p>
+<p style="text-indent:0.5in;">Así como el ATP puede ser hidrolizado a ADP + P<sub>i</sub>, también puede ser hidrolizado a adenosín monofosfato (AMP) más pirofosfato (PP<sub>i</sub>). Esta reacción, según Cooper (2019), cede prácticamente la misma cantidad de energía libre de Gibbs que la hidrólisis de ATP a ADP + P<sub>i</sub>, con la diferencia de que el pirofosfato en sí mismo puede ser rápidamente hidrolizado con un ΔG similar a la hidrólisis del ATP a ADP.</p>
+<p style="text-indent:0.5in;">En función de esta reducción en la energía libre por la hidrólisis de ATP, esta reacción química sirve para impulsar otras reacciones químicamente desfavorables a través de un acoplamiento. A modo de ejemplo, el primer paso en la glucólisis, que forma una glucosa-6-fosfato (G6P) a partir de una glucosa y un grupo fosfato, es energéticamente desfavorable:</p>
+<center>
+    Glucosa + fosfato (HPO<sub>4</sub><sup>2-</sup>) → Glucosa-6-fosfato + H<sub>2</sub>O<br>
+    $ΔG°’ = +3.3 kcal/mol$
+</center>
+<p>Para poder impulsar esta reacción química, debe ser acoplada con la hidrólisis de ATP:</p>
+<center>
+    ATP + H<sub>2</sub>O → ADP + HPO<sub>4</sub><sup>2-</sup><br>
+    $ΔG°’ = -7.3 kcal/mol$
+</center>
+<p>La reacción combinada toma la siguiente forma:</p>
+<center>
+    Glucosa + ATP → Glucosa-6-fosfato + ADP<br>
+    $ΔG°’ = -4.0 kcal/mol$
+</center>
+<p>Otros trifosfato de nucleósidos también poseen enlaces de alta energía, por lo cual pueden ser usados de la misma forma que el ATP. No obstante, para la gran mayoría de las reacciones energéticamente desfavorables el ATP facilita la energía libre necesaria para impulsarlas.</p>
+
+<br>
 <h2>El lenguaje de la termodinámica en el salón de clases de biología celular</h2>
 <p>Además de los libros de texto, cabe resaltar cómo se emplea la termodinámica en el lenguaje y el tipo de posturas a las que se invita implícita e inconscientemente a través de este:</p>
-<ol>
+<ul>
   <li>Se habla de “orden” y “desorden” dentro y fuera de las células, algo que estas pueden ‘mantener’ y ‘regular’.</li>
   <li>Se afirma que las células “logran” que reacciones con un ΔG° positivo ocurran espontáneamente en el citosol.</li>
   <li>Se establece que las leyes de la termodinámica pueden “determinar” las direcciones de las rutas metabólicas.</li>
   <li>Se establece que el ATP “posee” energía, como si esta fuera algo capaz de ser almacenado.</li>
   <li>Así como puede ser “almacenada”, la energía también puede ser “liberada” de su encierro, lo cual se dice que ocurre durante la hidrólisis de los enlaces de fosfato.</li>
-</ol>
+</ul>
 <p>Por una parte, el enmarque de las células es teleonómico. El lenguaje pedagógico sugiere que las células operan bajo criterios de logro, lo cual implica normatividad funcional: existen estados correctos y otros fallidos para la célula. Si bien esto no implica necesariamente una forma de intención, este lenguaje permite y autoriza el desarrollo de posturas teleológicas sobre la actividad celular. Aunado al tratamiento de la célula como capaz de “regular” y “mantener” su propio “desorden”, el resultado es la construcción de la célula como un agente causal normativo.</p>
-<p style="text-indent:0.5in;">El discurso agencial, causal y normativo de la célula se extiende en la medida que se afirma que las células tienen control de regulación y mantenimiento de su “orden y desorden”, tomando en cuenta que la base explicativa de estos términos son las probabilidades. Las probabilidades en la mecánica estadística no son propiedades inherentes de los sistemas, así como la medida de entropía como inaccesibilidad o falta de información de los gases no es una propiedad de estos, sino de lo que sabemos sobre ellos. A modo de ejemplo, reducir el volumen V de un gas ideal también reduce su entropía (en términos de información) porque reduce la cantidad de microestados posibles y, por ende, la falta de información que tenemos sobre el gas. Esto tiene como consecuencia que atribuir la capacidad de regular y mantener su propio orden implica que la célula actúa como si tuviera conocimiento sobre las probabilidades de su propio sistema, lenguaje que legitima la atribución de mecanismos de procesamiento de información y computacionales a estas.</p>
+<p style="text-indent:0.5in;">El discurso agencial, causal y normativo de la célula se extiende en la medida que se afirma que las células tienen control de regulación y mantenimiento de su “orden y desorden”, tomando en cuenta que la base explicativa de estos términos son las probabilidades. Las probabilidades en la mecánica estadística no son propiedades inherentes de los sistemas, así como la medida de entropía como inaccesibilidad o falta de información de los gases no es una propiedad de estos, sino de lo que sabemos sobre ellos. A modo de ejemplo, reducir el volumen V de un gas ideal también reduce su entropía (en términos de información) porque reduce la cantidad de microestados posibles y, por ende, la falta de información que tenemos sobre el gas. Esto tiene como consecuencia que atribuir la capacidad de regular y mantener su propio orden implica que la célula actúa como si tuviera conocimiento sobre las probabilidades de su propio sistema, lenguaje que legitima la atribución de mecanismos de procesamiento de información y computacionales a esta.</p>
 
 <br>
 
