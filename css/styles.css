@@ -175,3 +175,23 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* Tables */
+
+    table {
+      border-collapse: collapse;
+      margin-bottom: 1.5em;
+    }
+    th, td {
+      border: 1px solid #000;
+      width: 50px;
+      height: 40px;
+      text-align: center;
+      vertical-align: middle;
+      font-family: serif;
+    }
+    caption {
+      caption-side: top;
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
