@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popper, I: Notas sobre la testabilidad y tautología de la selección natural — Bioprâxis</title>
+    
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  </head>
+    
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+  ☾
+</button>
+
+    <script>
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  toggle.addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark";
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+    localStorage.setItem("theme", isDark ? "light" : "dark");
+  });
+
+  // Load saved preference
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    root.setAttribute("data-theme", savedTheme);
+  }
+</script>
+
+<header class="site-header container">
+    <img src="../logo.png" alt="Logo">
+</header>
+
+<section class="page-title container">
+    <h1><a href="../index.html" style="text-decoration: none;">Bioprâxis</a></h1>
+</section>
+
+  <p class="subtitle">
+    SESIONES DE LECTURA EN FILOSOFÍA DE LAS CIENCIAS</p>
+<br>
+  <p class="subtitle">
+    Capítulo 1 de 'Behind the mirror': La vida como un proceso de aprendizaje</p>
+  
+  <body>
+<p>Popper afirma que la selección natural y el darwinismo (los cuales usa de manera intercambiada) no son teorías científicas comprobables. En cambio, considera que son programas de investigación metafísica, o un marco para teorías científicas comprobables. Hay al menos tres argumentos empleados por Popper a favor de esta tesis:</p>
+<ol>
+<li>El argumento de la necesidad lógica</li>
+<li>El argumento de sus límites predictivos</li>
+<li>El argumento de la tautología</li>
+</ol>
+<br>
+
+<h2>El argumento de la necesidad lógica</h2>
+<p>Según Popper, el "darwinismo" es un caso de lógica situacional. Para entender esto, es necesario imaginar un marco con condiciones específicas donde existen y se reproducen entidades con cierto grado limitado de constancia y, a su vez, variabilidad. En virtud de cómo las entidades se acoplen a las condiciones del marco de acuerdo a su variabilidad, unas perdurarán y se replicarán mientras que otras no. Es decir, la filtración de entidades no ajustadas a las condiciones del marco es una necesidad lógica.</p>
+<p style="padding-left:0.5in;">"Then a situation is given in which the idea of trial and error-elimination, or of Darwinism, becomes not merely applicable, but almost logically necessary [...]  if a life-permitting situation occurs, and if life originates, then this total situation makes the Darwinian idea one of situational logic" (Popper, 1992, p. 196).</p>
+<br>
+<p>Es decir, el darwinismo o, mejor dicho, la selección natural, es una consecuencia lógica del conjunto de condiciones impuestas por la naturaleza sobre la variabilidad de los organismos.</p>
+<p style="text-indent:0.5in;">El argumento de necesidad lógica falla en demostrar por sí mismo que la teoría de la selección natural (o el "darwinismo", para Popper) no pueda considerarse una teoría científica comprobable. Numerosas teorías científicas comprobables surgen como necesidad de las condiciones ya descubiertas por el trabajo tanto empírico como teórico anterior. En el caso de la física, un ejemplo muy básico implica la demostración lógica del valor constante de la aceleración por la gravedad (Kleppner & Kolenkow, 2014).</p>
+<p style="text-indent:0.5in;">Partiendo de que, en la superficie de la Tierra, la fuerza gravitacional sobre una masa <i>m</i> es igual a:</p>
+<div class="equation-row">
+  <div class="equation">
+    $F = -\frac{GM_em}{R_e^2}$
+  </div>
+  <div class="eq-number">
+    (1)
+  </div>
+</div>
+<p style="text-indent:0.5in;">Y que la aceleración dada por la gravedad es::</p>
+<div class="equation-row">
+  <div class="equation">
+    $a = \frac{F}{m} = g$
+  </div>
+  <div class="eq-number">
+    (2)
+  </div>
+</div>
+<p style="text-indent:0.5in;">Se pueden sustitutir los valores de la siguiente manera:</p>
+<div class="equation-row">
+  <div class="equation">
+    $g = -\frac{GM_em}{R_e^2m}$
+  </div>
+  <div class="eq-number">
+    (3)
+  </div>
+</div>
+<p style="text-indent:0.5in;">Con la masa cancelándose tanto en el numerador como el denominador, arrojando que:</p>
+<div class="equation-row">
+  <div class="equation">
+    $g = -\frac{GM_e}{R_e^2}$
+  </div>
+  <div class="eq-number">
+    (4)
+  </div>
+</div>
+<p style="text-indent:0.5in;">Donde todos estos valores son constantes.</p>
+<p style="text-indent:0.5in;">Es decir, al igual que con la selección natural, dada una serie de condiciones especiales establecidas por una teoría mecánica como la mecánica racional de Newton, es posible que algunos productos de la teoría sean lógicamente necesitados por el marco suprateórico y empírico en el que se embebe. La analogía con la aceleración gravitacional es doble ya que la selección natural puede ser observar empíricamente (algo que se elaborará en más detalle adelante), al igual que se pudo determinar la aceleración por la gravedad a través de medios empíricos (MacDougal, 2012), pero la selección natural también es una consecuencia lógica de una serie de consideraciones biológicas al igual que lo es la aceleración a partir de la mecánica newtoniana.</p>
+<p style="text-indent:0.5in;">Del mismo modo, la derivación lógica de la selección natural, a partir de la identificación de ciertas configuraciones a nivel empírico en las condiciones de vida de las poblaciones biológicas, no implica ni apoya necesariamente la idea de que la selección natural es un programa de investigación metafísica.</p>
+<br>
+
+<h2>El argumento de sus límites predictivos</h2>
+<p>Antes de entrar en detalle sobre el argumento, es necesario establecer lo que Popper entiende por darwinismo y selección natural. Popper identifica el darwinismo con una serie de postulados:</p>
+<ol>
+<li>El origen de la diversidad de la vida a partir de un conjunto minúsculo de organismos, o de un solo organismo ancestral</li>
+<li>Una teoría evolutiva que explica el origen de la diversidad contemporánea a partir de un pequeño grupo de organismos con las siguientes características:
+<ol>
+<li>Herencia: los descendientes reproducen a sus padres con suficiente precisión</li>
+<li>Variación: existen variaciones pequeñas entre los descendientes, las más importantes siendo mutaciones accidentales y hereditarias</li>
+<li>Selección natural: hay mecanismos que controlan la eliminación de variaciones y material hereditario. Algunas permiten que solo variaciones "pequeñas" se diseminen mientras que otras eliminan variaciones "grandes".</li>
+<li>Variabilidad: Puede que la selección natural controle la variabilidad.</li>
+</ol></li></ol>
+<br>
+<p>Posteriormente, afirma que lo que denomina darwinismo es lo que otros llaman "neo-darwinismo" o "síntesis moderna". Esto es relativamente consistente con la literatura en biología evolutiva. A modo ilustrativo, el libro de texto de Herron & Freeman (2014) comenta:</p>
+<p style="padding-left:0.5in;"><ol>
+<li>"Individuals vary as a result of mutation creating new alleles, and segregation and independent assortment shuffling alleles into new combinations.</li>
+<li>Individuals pass their alleles on to their offspring intact.</li>
+<li>In every generation, some individuals are more successful at surviving and reproducing than others.</li>
+<li>The individuals most successful at surviving and reproducing are those with the alleles and allelic combinations that best adapt them to their environment" (Herron & Freeman, 2014, p. 110).</li>
+</ol></p>
+<br>
+<p>Similarmente, Futuyma & Kirkpatrick (2017) relatan:</p>
+<p style="padding-left:0.5in;">"The consensus they forged is known as the evolutionary synthesis, or modern synthesis, and its chief principle, that adaptive evolution is caused by natural selection acting on particulate (Mendelian) genetic variation, is often referred to as neo-Darwinism" (Futuyma & Kirkpatrick, 2017, p. 16).</p>
+<br>
+<p>Sin embargo, existe un problema, y es que, aunque la selección natural haya sido fundamental para la Síntesis Moderna, esta no era el único mecanismo evolutivo que tenía disponible para explicar la variabilidad. Según Futuyma & Kirkpatrick (2017), la evolución para los neo-darwinistas era una función de la selección natural (principalmente), la deriva génica y el flujo génico. Es decir, el darwinismo y la selección natural no son equivalentes. Históricamente, esto también es confirmado por el hecho de que Darwin no contempló la selección natural como el único mecanismo evolutivo (Gould & Lewontin, 1979).</p>
+<br>
+<p>Con base en esto, hay 3 posibles objetivos a los que se dirige el argumento de Popper y ambos deben ser evaluados:</p>
+<ol>
+<li>La Síntesis Moderna.</li>
+<li>El mecanismo de la evolución por selección natural.</li>
+<li>La metanarrativa neo-darwinista producto de las teorías que constituyen el marco.</li>
+</ol>
+<br>
+<p>Durante la formulación del argumento, se utilizará "el darwinismo" como marcador de posición y posteriormente se evaluarán las afirmaciones para cada alternativa.</p>
+<br>
+<p>Partiendo de estas consideraciones, el argumento de Popper se resume a: puesto que el darwinismo no es comprobable, es un programa de investigación metafísico. En defensa de esta tesis, Popper ofrece el siguiente ejemplo:</p>
+<p style="padding-left:0.5in;">"[I]f ever on some planet we find life which satisfies conditions (a) and (b), then (c) will come into play and bring about in time a rich variety of distinct forms. Darwinism, however, does not assert as much as this. For assume that we find life on Mars consisting of exactly three species of bacteria with a genetic outfit similar to that of three terrestrial species. Is Darwinism refuted? By no means. We shall say that these three species were the only forms among the many mutants which were sufficiently well adjusted to survive. And we shall say the same if there is only one species (or none). Thus Darwinism does not really predict the evolution of variety. It therefore cannot really explain it. At best, it can predict the evolution of variety under “favourable conditions”. But it is hardly possible to describe in general terms what favourable conditions are—except that, in their presence, a variety of forms will emerge." (Popper, 1992, p. 199).</p>
+<br>
+<p>Así, el argumento se expande a:</p>
+<p style="padding-left:0.5in;"><b>P1:</b> Si el darwinismo no puede predecir la variabilidad independiente de condiciones favorables, entonces no es una teoría científica comprobable.</p>
+<p style="padding-left:0.5in;"><b>P2:</b> El darwinismo no puede predecir la variabilidad independiente de condiciones favorables (lo cual es establecido con base en un experimento mental sobre vida en Marte).</p>
+<p style="padding-left:0.5in;"><b>C1:</b> El darwinismo no es una teoría científica comprobable (de P1 y P2).</p>
+<p style="padding-left:0.5in;"><b>P3:</b> Si un teoría no es comprobable, entonces no es científica.</p>
+<p style="padding-left:0.5in;"><b>P4:</b> Si una teoría no es científica, entonces es un programa de investigación metafísica.</p>
+<p style="padding-left:0.5in;"><b>C2:</b> El darwinismo no es una teoría científica (de C1 y P3).</p>
+<p style="padding-left:0.5in;"><b>C3:</b> El darwinismo es un programa de investigación metafísica (PIM) (de C2 y P4).</p>
+<br>
+<p>Si tomamos el darwinismo para significar la Síntesis Moderna, entonces el argumento se construye sobre bases erradas. Por una parte, la Síntesis Moderna no es una "teoría" sobre cuántas especies pueden evolucionar en un planeta, en cambio, es un consenso con respecto a los principios fundamentales del pensamiento evolutivo, el cual permea sobre diferentes programas de investigación científica como la genética de poblaciones, la paleontología y la sistemática. Campos como la genética de poblaciones y la paleontología producen teorías, sin embargo, la Síntesis Moderna en sí misma no puede ser entendida sino como principios organizadores de estas teorías. Por ello, no constituye una teoría singular cuya contrastación dependa de una predicción única acerca del grado de diversidad biológica en un ecosistema o planeta. Esto tampoco implica necesariamente que consiste en un programa de investigación metafísica.</p>
+<p style="text-indent:0.5in;">Del mismo modo, incluso si la Síntesis Moderna fuese una teoría, el propósito de ella no es predecir cuánta diversidad debe existir, sino los mecanismos por los cuales la diversidad se produce, los cuales van desde migración y selección natural hasta flujo y deriva génica. Si los criterios de logro de la Síntesis Moderna no concuerdan con aquellos que Popper emplea para juzgarla como incomprobable, entonces el argumento falla en demostrar esta conclusión.</p>
+<p style="text-indent:0.5in;">Por otro lado, la tesis de que todo programa de investigación no científica debe ser considerado un PIM será analizada en una entrada distinta. Esta depende de una definición previa de metafísica, la cual no es facilitada en el texto.</p>
+<br>
+<p>Ahora bien, si partimos de que el darwinismo significa el mecanismo evolutivo de la selección natural, entonces el argumento también falla, ya que este mecanismo tampoco busca explicar cuánta diversidad debe producirse, sino qué circunstancias son las que llevan a los cambios en frecuencia de alelo de una población a partir de la variabilidad. Por ello, aun si se concede que la selección natural no permite predecir el número de especies que evolucionarán en un planeta determinado, tal afirmación no constituye una objeción relevante. La teoría de la selección natural no fue diseñada para responder esa pregunta. Su propósito consiste en explicar cambios diferenciales en la frecuencia de variantes hereditarias dentro de poblaciones biológicas sometidas a distintas presiones ambientales. Es decir, puesto que su dominio son los cambios dentro de una población biológica, el argumento falla al asumir que debería ser capaz de predecir algo al nivel de la diversidad de especies en su totalidad.</p>
+<p style="text-indent:0.5in;">Por último, si consideramos el darwinismo como las metanarrativas que surgen alrededor de las consideraciones de la Síntesis Extendida, entonces es posible conceder que el darwinismo no es una teoría ni un programa de investigación científica, sin embargo, no por las razones blandidas por Popper. Una metanarrativa, en este caso, es una historia sobre la realidad creada a partir de ciertas presuposiciones sobre la manera en que esta opera. Bien sea una historia que comienza con el jardín de Edén, adquiere su clímax en el pecado capital y espera terminar con el apocalipsis o una historia sobre el origen de toda la diversidad humana a partir de un solo organismo unicelular apelando a versiones simplificadas de los mecanismos evolutivos. Un término posiblemente mejor es el de Weltanschauung. Así, la metanarrativa de la Síntesis Moderna puede entenderse como las extrapolaciones optimistas de los biólogos sobre la explicación de todos sus fenómenos de interés con base en las herramientas acordadas, algo que terminó demostrando limitaciones. Esta metanarrativa ha requerido arreglos tras posteriores descubrimientos como la teoría neutral molecular de Kimura (Futuyma & Kirkpatrick, 2017) y los de la síntesis extendida. Sin embargo, ninguna de estas limitaciones estuvieron relacionadas a la incapacidad de establecer cuánta diversidad debemos esperar ni el porqué, sino a los límites de los mecanismos previamente consensuados para explicar casos concretos de evolución.</p>
+<p style="text-indent:0.5in;">En retrospectiva, tomemos el sentido de darwinismo que sea, existe un problema común al argumento de Popper y es la pertinencia de ejemplos como la cantidad de especiesa encontrar en Marte y su diversidad para juzgar la validez científica de la selección natural, la Síntesis Moderna o su metanarrativa. Ni las herramientas de la Síntesis Extendida ni la selección natural se formaron para explicar cuánta diversidad hay que esperar y por qué una cantidad y no otra.</p>
+<br>
+
+<h2>El argumento de la tautología</h2>
+<p>El siguiente extracto ilumina lo que Popper quiere decir sobre el carácter tautológico del darwinismo:</p>
+<p style="padding-left:0.5in;">"its predictive or explanatory power is still more disappointing. Take “adaptation”. At first sight natural selection appears to explain it, and in a way it does; but hardly in a scientific way. To say that a species now living is adapted to its environment is, in fact, almost tautological. Indeed we use the terms “adaptation” and “selection” in such a way that we can say that, if the species were not adapted, it would have been eliminated by natural selection. Similarly, if a species has been eliminated it must have been ill adapted to the conditions. Adaptation or fitness is defined by modern evolutionists as survival value, and can be measured by actual success in survival: there is hardly any possibility of testing a theory as feeble as this" (Popper, 1992, p. 199).</p>
+<br>
+<p>En este caso, parece que el objetivo es precisamente el mecanismo de la selección natural. Por ello, se organizará una respuesta a la crítica con base en este.</p>
+<br>
+<p>En su forma más abstracta, la selección natural usa términos como "adaptación" o "condiciones favorables", los cuales parecen ausentes de contenido empírico y que pueden flexibilizarse hasta el punto tautológico. Sin embargo, esta versión más abstracta de la selección natural funciona como una plantilla organizadora para hipótesis mucho más concretas. Al fin y al cabo, los estudios en biología evolutiva no se limitan a afirmar que una especie existe meramente porque está "más adaptada". Los ejemplos canónicos de los libros de texto ayudan a mostrar cómo estas categorías se concretizan. A modo ilustrativo, lo favorable para una población de ratones habitando una playa de arena clara es tener pelaje claro en relación a depredadores que sean sensibles al contraste de los colores entre pelaje y arena. Cabe resaltar que la biología, contraria a otras ciencias como la física, es mucho más sensible al contexto, por lo cual principios generales pueden verse vacíos hasta que se operacionalizan para los fines de cada investigación. No es lo mismo afirmar que la presión es inversamente proporcional al volumen (algo que se aplica a circunstancias experimentales muy específicas) a aseverar que las poblaciones pueden evolucionar por selección natural. La forma que toma la selección natural depende en gran medida de circunstancias tan variopintas como la variabilidad genética y fenotípica de los organismos y la manera en que ese fenotipo se acopla al entorno en que habitan.</p>
+<p style="text-indent:0.5in;">Ahora bien, tomando esto en cuenta, es posible responder a la carga tautológica. Afirmar que un organismo sobrevivió porque está más adaptado y que está más adaptado porque sobrevivió no es protocolo en la investigación biológica. Una vez se concretizan las maneras en que se estudiará la selección natural, es también posible especificar criterios para determinar qué rasgo es más apto y bajo qué condiciones se sobrevive. Elaboremos el ejemplo de los ratones:</p>
+<ol>
+<li>La playa es de arena blancuzca.</li>
+<li>La población de ratones varía en cuanto al color de su pelaje, algunos más blancos y otros más oscuros.</li>
+<li>Las aves rapaces que depredan estos ratones son sensibles al contraste entre el color de los ratones y de la arena de la playa.</li>
+<li>Antes de medir el cambio poblacional, la hipótesis permite predecir que la frecuencia de los alelos asociados al pelaje claro aumentará generación tras generación.</li>
+<li>Posteriormente, se observa que las aves rapaces depredaron a los ratones de pelaje oscuro. A su vez, ignoraron la mayoría de las veces a los ratones de pelaje claro.</li>
+<li>Es decir, la frecuencia de los alelos asociados al pelaje claro aumentó generación tras generación.</li>
+</ol>
+<br>
+<p>Así, el criterio de supervivencia no es meramente "adaptabilidad", sino color de pelaje en relación a la sensibilidad visual de las aves rapaces. Es decir, no sobrevivieron por ser más aptos, sino porque las aves rapaces eran insensibles al pelaje claro debido a la ausencia de contraste. Estos y otros ejemplos muchos más diversos, no solo en términos de color de pelaje ni depredadores, son englobados por la forma más abstracta de la selección natural. Pues, de otra manera, en vez de una teoría general solo serían posibles teorías especiales para cada tipo de selección con base en la clase de rasgo fenotípico o presión ambiental.</p>
+<p style="text-indent:0.5in;">Ergo, la selección natural no es tautológica. En cambio, su forma más abstracta carece de contenido empírico sustancial, pero en sus operacionalizaciones para los fines de cada investigación adquiere tal contenido. La impresión de una tautología se disipa al ver cómo la selección natural es empleada en biología, es decir, al trascender las formulaciones elementales introductorias.</p>
+<br>
+<p>Como consideración final, es posible formular objeciones a la posición de Popper desde perspectivas posteriores en filosofía de la ciencia, particularmente a partir de Duhem. Desde esta óptica, una teoría o principio científico no tiene por qué individualmente ser capaz de generar predicciones que la falseen. Esto es algo sumamente complicado incluso para el área de la física, donde las predicciones como las del movimiento de los objetos astrofísicos no dependen de principios o proposiciones teóricas individuales, sino de conjuntos de teorías e hipótesis auxiliares en agrupación. Así como se necesitan hipótesis auxiliares para realizar predicciones en la física, es posible pensar en la selección natural en su nivel más abstracto como una teoría que depende de hipótesis auxiliares acerca de la ecología, la genética y las características fenotípicas de los organismos para generar predicciones concretas. Bajo esta interpretación, la ausencia de predicciones específicas derivadas exclusivamente de la selección natural no constituiría una razón suficiente para negarle carácter científico.</p>
+<br>
+
+<br>
+<br>
+
+<h2>Referencias bibliográficas</h2>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Futuyma, D. J., & Kirkpatrick, M. (2017). <i>Evolution</i> (4<sup>th</sup> ed.). Sinauer Associates, Inc.</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Gould, S. J., & Lewontin, R. C. (1979). The spandrels of San Marco and the Panglossian paradigm: A critique of the adaptationist programme. <i>Proceedings of the Royal Society of London. B. Biological Sciences, 205</i>(1161), 581-598. https://doi.org/10.1098/rspb.1979.0086</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Herron, J. C., & Freeman, S. (2014). <i>Evolutionary analysis</i> (5<sup>th</sup> global ed.). Pearson</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Kleppner, D., & Kolenkow, R. (2014). <i>An introduction to mechanics</i> (2<sup>nd</sup> ed.). Cambridge University Press</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Popper, K. (1992). <i>Unended quest: An intellectual autobiography</i>. Routledge</p>
+
+    <br>
+
+    <div style="text-align: center; margin-top: 20px;"><p>Freddy J. Molero-Ramírez</p>
+    <p>fmolero@mail.uniatlantico.edu.co</p></div>
+</body>
