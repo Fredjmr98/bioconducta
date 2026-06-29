@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conceptos básicos en sistemas de retroalimentación y control — Bioprâxis</title>
+    
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  </head>
+    
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+  ☾
+</button>
+
+    <script>
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  toggle.addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark";
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+    localStorage.setItem("theme", isDark ? "light" : "dark");
+  });
+
+  // Load saved preference
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    root.setAttribute("data-theme", savedTheme);
+  }
+</script>
+
+<header class="site-header container">
+    <img src="../logo.png" alt="Logo">
+</header>
+
+<section class="page-title container">
+    <h1><a href="../index.html" style="text-decoration: none;">Bioprâxis</a></h1>
+</section>
+
+  <p class="subtitle">
+    SESIONES DE LECTURA EN FILOSOFÍA DE LAS CIENCIAS</p>
+<br>
+  <p class="subtitle">
+    Conceptos básicos en sistemas de retroalimentación y control</p>
+  
+  <body>
+<p>Un sistema dinámico es un sistema cuya conducta cambia con el tiempo, usualmente en respuesta a estimulación externa.</p>
+<br>
+
+<h2>Sistemas de retroalimentación y prealimentación</h2>
+<p>Existen dos tipos generales de sistemas de interés para la ingeniería de control: los sistemas de retroalimentación (<i>feedback</i>) y prealimentación (<i>feedforward</i>). Ambos implican situaciones donde dos o más sistemas dinámicos se conectan de tal forma que se influyen entre sí, por lo cual sus dinámicas están fuertemente acopladas. Las formas de causalidad propias de estos sistemas son circulares más que lineales.</p>
+<br>
+
+<p>Estos pueden subdividirse en sistemas de bucle cerrado o abierto:</p>
+<p style="font-size: 14px;"><i>Figura 1. Sistemas de bucle cerrado (a) y bucle abierto (b) (Åström & Murray, 2021, p. 1-1).</i></p>
+<img src="CS1\1.png" alt="Figura 1">
+<br><br>
+<ul>
+<li><b>Bucle cerrado:</b> Los sistemas están interconectados en un ciclo (Figura 1a).</li>
+<li><b>Bucle abierto:</b> Los sistemas no se interconectan de la misma forma (Figura 1b).</li>
+</ul>
+<br>
+<p>La decisión de designar un sistema como 1 o 2 es arbitraria. Es decir, depende de dónde el investigador quiera empezar la descripción del sistema de interés.</p>
+
+<br>
+<p>Asimismo, la retroalimentación puede subdividirse en:</p>
+<ul>
+<li><b>Negativa:</b> El sistema reacciona a perturbaciones para reducir sus efectos. Característica de sistemas homeostáticos. Una de las ventajas de este tipo de retroalimentación es la resiliencia a influencias externas.</li>
+<li><b>Positiva:</b> Un aumento en una variable o señal lleva al sistema a incrementar esta cantidad a través de retroalimentación hasta alcanzar un valor deseado.</li>
+</ul>
+<br>
+<p style="font-size: 14px;"><i>Figura 2. Sistemas de retroalimentación (a) y prealimentación (b) (Åström & Murray, 2021, p. 1-4).</i></p>
+<img src="CS1\2.png" alt="Figura 2">
+<br><br>
+
+<p>La retroalimentación es reactiva. Es decir, implica acciones correctivas sobre un error. Partiendo de la Figura 2a, un control C tiene una señal de referencia <i>r</i> que describe la salida deseada de P. Además, existe una señal de perturbación <i>v</i> que representa una perturbación externa al proceso. En un sistema retroalimentativo, se mide la salida <i>y</i>, mientras que el controlador C intenta ajustar la entrada a P de tal forma que la salida de P mantenga un valor y en el valor deseado de referencia <i>r</i>.</p>
+<p style="text-indent:0.5in;">A modo ilustrativo, podemos pensar en cómo es controlado el nivel de glucosa en la circulación por el hígado y el páncreas. Cuando la concentración de glucosa aumenta más allá de los valores óptimos, el páncreas produce insulina para almacenar el exceso en el hígado. Cuando esta decrece debajo de los valores óptimos, el páncreas genera glucagón, el cual tiene un efecto inverso a la insulina.</p>
+<p style="text-indent:0.5in;">Podría tomarse el hígado como el control C, el cual tiene un valor de referencia <i>r</i> en términos de glucagón e insulina deseados para el páncreas. Las salidas y de glucagón e insulina del proceso P del páncreas son alteradas por perturbaciones <i>v</i> en la cantidad de glucosa en el sistema circulatorio. Al generar y fuera del valor de referencia <i>r</i>, C genera actividad para reducir <i>v</i>, hasta que P vuelve a su producción deseada de <i>y</i>. Esto es lo que permite mantener la concentración de glucosa en la sangre constante, a aproximadamente 90 mg por cada 100 mL de sangre. Este es un caso de retroalimentación negativa.</p>
+<br>
+
+<p>Por otro lado, la prealimentación consiste en medir perturbaciones antes de que entren en un sistema para generar señales de control que las contrarresten. En la Figura 2b, se ilustra un sistema de prealimentación. La diferencia principal es que C mide tanto <i>r</i> como <i>v</i> directamente para generar una entrada para P que cree la salida deseada.</p>
+<br>
+
+<h2>Control</h2>
+<p>En la ingeniería de control o de sistemas, control se refiere al uso de algoritmos y retroalimentación en sistemas ingenieriles. A pesar de que estos conceptos son propios de la ingeniería, esto no ha evitado su uso para estudiar sistemas biológicos desde el nivel subcelular hasta el ecosistémico. Algunos ejemplos de interés para el semillero de investigación se observan en Wiener (1961/1985, 1988).</p>
+<p style="text-indent:0.5in;">Åström & Murray (2021) afirman que el control es una ciencia de información, la cual incluye el uso de información en representaciones tanto análogas como digitales. Es decir, un controlador moderno siente la operación de un sistema, la compara a una conducta deseada, computa acciones correctivas basada en un modelo de la respuesta a estímulos externos del sistema, y actualiza el sistema para efectuar los cambios deseados. Los autores identifican el bucle de retroalimentación de sensación, computación y actuación con el concepto central de control, por lo cual no sorprende tampoco el impacto que estas ideas han tenido en las ciencias cognitivas.</p>
+
+<br>
+<br>
+
+<h2>Referencias bibliográficas</h2>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Åström, K. J., & Murray, R. M. (2021). <i>Feedback systems: An introduction for scientists and engineers</i> (2<sup>nd</sup> ed.). Princeton University Press</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Wiener, N. (1985). <i>Cibernética: O el control y comunicación en animales y máquinas</i> (F. Martín, Trans.). Tusquets Editores (Original work published 1961)</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Wiener, N. (1988). <i>Cibernética y sociedad</i> (J. N. Cerro, Trans.). Editorial Sudamericana</p>
+
+    <br>
+
+    <div style="text-align: center; margin-top: 20px;"><p>Freddy J. Molero-Ramírez</p>
+    <p>fmolero@mail.uniatlantico.edu.co</p></div>
+</body>
