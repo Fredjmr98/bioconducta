@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introducción al condicionamiento clásico — Bioprâxis</title>
+    
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+  </head>
+    
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+  ☾
+</button>
+
+    <script>
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  toggle.addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark";
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+    localStorage.setItem("theme", isDark ? "light" : "dark");
+  });
+
+  // Load saved preference
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    root.setAttribute("data-theme", savedTheme);
+  }
+</script>
+
+<header class="site-header container">
+    <img src="../../logo.png" alt="Logo">
+</header>
+
+<section class="page-title container">
+    <h1><a href="../../index.html" style="text-decoration: none;">Bioprâxis</a></h1>
+</section>
+
+  <p class="subtitle">
+    ANOTACIONES SOBRE TEORÍA DEL CONDICIONAMIENTO<br>Condicionamiento clásico</p>
+<br>
+  <p class="subtitle">
+    Introducción al condicionamiento clásico</p>
+  
+  <body>
+<p>Después de Watson se fijaron dos "paradigmas" principales de aprendizaje (Bouton, 2016). Estos son:</p>
+<ol>
+  <li>El condicionamiento clásico. También conocido como condicionamiento respondiente, condicionamiento tipo S, condicionamiento pavloviano y aprendizaje de estímulo.</li>
+  <li>El condicionamiento operante. También conocido como condicionamiento tipo R y aprendizaje de respuesta.</li>
+</ol>
+<br>
+<p>Históricamente, el condicionamiento clásico fue popularizado por el trabajo de Ivan Petrovich Pavlov, quien fue de los primeros en estudiar el tema contemporáneamente a Vladimir Mikhailovich Bekhterev (Henley, 2019). Por ello también se le llama condicionamiento pavloviano. Del mismo modo, por ser el primer paradigma de aprendizaje fundacional (en relación al operante), se le denomina también clásico.</p>
+<br>
+
+<h2>Ilustración paradigmática</h2>
+<p>El ejemplo paradigmático de condicionamiento respondiente se ve de la siguiente manera:</p>
+<ol>
+  <li>Enjaezamos a un perro dentro de un laboratorio para someterlo a una serie de condiciones.</li>
+  <li>Le presentamos el sonido de un metrónomo.</li>
+  <li>El sonido del metrónomo evoca comportamientos de orientación. Es decir, los músculos atrapados del perro responden al sonido del metrónomo, así como también intenta el animal voltear hacia este.</li>
+  <li>Posteriormente, se le presenta comida.</li>
+  <li>La comida hace que se empiecen a producir jugos gástricos y que el animal salive.</li>
+  <li>Una vez emparejamos múltiples veces el metrónomo con de la comida en este orden, el metrónomo empezará a evocar los jugos gástricos y la salivación también.</li>
+</ol>
+<br>
+<p>Tenemos dos estímulos, el metrónomo y la comida. Al principio, decimos que el sonido del metrónomo es un estímulo neutral, siendo el criterio que no evoca nuestra respuesta de interés, a decir, la salivación y la producción de jugos gástricos. Por otro lado, la comida es un estímulo incondicionado, en el sentido de que evoca respuestas de nuestro interés que no tienen que ser entrenadas, tal y como la misma salivación y producción de jugos gástricos, a las cuales, a su vez, llamamos respuestas incondicionadas. Tras emparejar múltiples veces ambos estímulos, una vez el sonido del metrónomo comienza a evocar las mismas respuestas que la comida se dice que ahora es un "estímulo condicionado", y que la salivación y la producción de jugos gástricos al estímulo condicionado es una "respuesta condicionada".</p>
+<br>
+<p>Los siguientes puntos han de tomarse en cuenta para evitar caer en caracterizaciones simplificadas:</p>
+<ul>
+  <li>Los estímulos neutrales no son estímulos que <b>no evocan respuestas</b>. Simplemente no evocan las respuestas de interés para el investigador. Como ya se mencionó previamente, el sonido del metrónomo estimula al perro a orientarse hacia la fuente de este. Es decir, sí hay una respuesta, la cual es más aún incondicionada, ya que el perro no es entrenado para orientarse hacia los sonidos del metrónomo, simplemente es parte de su estructura biológica el orientarse hace sonidos del mismo modo que salive y produce jugos gástricos frente a comida.</li>
+  <li>Ergo, al leer estímulo neutral, este se separa de estímulo incondicionado no porque no produzca una respuesta, sino porque no produce (aún) la respuesta de interés que se espera condicionar.</li>
+</ul>
+
+<br>
+<h2>Piezas del rompecabezas pavloviano</h2>
+<table>
+  <tr>
+    <th>Estímulo neutro (EN)</th>
+    <td>Estímulo que evoca en sí mismo respuestas que no son de nuestro interés investigativo. Por ejemplo: las respuestas de orientación al metrónomo al estudiar las respuestas fisiológicas como la salivación.</td>
+  </tr>
+  <tr>
+    <th>Estímulo incondicionado (EI)</th>
+    <td>Estímulo que evoca respuestas de nuestro interés investigativo sin tener que ser entrenado. Por ejemplo: no hay que entrenar a un perro para que salive ante comida.</td>
+  </tr>
+  <tr>
+    <th>Respuesta incondicionada (RI)</th>
+    <td>Respuesta que no necesita ser entrenada y buscamos ligar a un estímulo neutral, como la salivación y producción de jugos gástricos.</td>
+  </tr>
+  <tr>
+    <th>Estímulo condicionado (EC)</th>
+    <td>Estímulo que evoca respuestas de nuestro interés investigativo tras ser entrenado, v. gr., el perro que, tras entrenamiento, saliva ante la campana (la cual antes era un EN).</td>
+  </tr>
+  <tr>
+    <th>Respuesta condicionada (RC)</th>
+    <td>Respuesta ligada a un EI que necesita ser entrenada para ser emitida ante un EN, como la salivación y producción de jugos gástricos ante el sonido de un metrónomo.</td>
+  </tr>
+</table>
+<p>En la teoría de Pavlov, el condicionamiento clásico es la respuesta a la pregunta de cómo se aprende (Gech, 1998): El animal nace con una serie de reflejos (respuestas incondicionadas) evocados por estímulos no aprendidos (estímulos incondicionados) y con la habilidad de formar asociaciones. Los estímulos neutrales que están presentes cuando el reflejo es activado se asocian con ese reflejo, de tal forma que estos estímulos en sí mismos ejercen control sobre los reflejos que previamente solo eran desencadenados por los estímulos incondicionales (desencadenadores innatos y no-aprendidos).</p>
+
+<br>
+<h2>Importancia</h2>
+<p>De acuerdo a Bouton (2016), hay dos razones por las que se considera al condicionamiento respondiente importante:</p>
+<ol>
+  <li>Es fundamental para la adaptación, ya que es la manera en la que el animal aprende a anticipar y lidiar con próximos eventos biológicamente significativos.</li>
+  <li>Después de que el condicionamiento ocurre, el organismo se comporta como si hubiese aprendido a asociar un estímulo con otro. En el ejemplo anterior, vimos que el perro se comporta como si hubiera aprendido a asociar el sonido del metrónomo con la comida. El condicionamiento clásico, por ende, representa una situación en la que el animal parecer aprender a asociar estímulos en su entorno. Por ello, este paradigma de aprendizaje se usa como método para investigar cómo los animales "aprenden" sobre estímulos.</li>
+</ol>
+<br>
+<p>A partir del segundo punto es que Bouton (2016) decide llamarlo <b>aprendizaje de estímulo</b>.</p>
+
+<br>
+<h2>Diferencias con el condicionamiento operante</h2>
+<ol>
+  <li>El condicionamiento respondiente consiste en dos estímulos siendo espaciotemporalmente emparejados por el investigador para observar los cambios que causan en la conducta del animal.</li>
+  <li>Por otro lado, el condicionamiento operante consiste en el emparejamiento por el investigador de una conducta discreta del animal con una consecuencia para observar cómo esta afecta la conducta de interés.</li>
+</ol>
+<br>
+
+<h2>¿Qué se puede condicionar a través de este procedimiento?</h2>
+<p>Normalmente se cree que el condicionamiento clásico solo puede condicionar reflejos fuertemente "programados" en los circuitos neuronales del organismo o respuestas autonómicas como la salivación y la producción de jugos gástricos. Esto se debe a que, normalmente, cuando se enseña el condicionamiento clásico solo se usa el experimento de Pavlov u otros experimentos que comparten las mismas características:</p>
+<ol>
+  <li>Un interés del investigador en ver cómo respuestas autonómicas son modificadas, por lo cual si ocurre otro tipo de cambio conductual es muy probable que el investigador lo ignore.</li>
+  <li>Las condiciones en que se encuentra el animal. Normalmente, los animales son atrapados y mantenidos en una posición fija para evitar que se muevan de cualquier manera durante los experimentos. Es decir, un perro solo puede exhibir salivación y producción de jugos gástricos porque es lo único que las condiciones impuestas por el investigador le permiten.</li>
+</ol>
+<br>
+<p>Con respecto al primer punto, si realizamos experimentos de condicionamiento respondiente y nos interesamos por más que las respuestas fisiológicas, nos daremos cuenta de que el perro también contrae sus músculos esqueléticos y se orienta al metrónomo. El metrónomo hace más que evocar eventualmente salivación y jugos gástricos; este, antes de cualquier emparejamiento por el investigador, estimula una serie de conductas por sí mismo. Al respecto:</p>
+<p style="padding-left:0.5in;">"To any such sound, the dog will make various types of reactions —any of the appropriate sort which he can make, strapped down as he is: he may prick up his ears, he may turn his head toward the sound, certain of his body muscles may stiffen" (Breland & Breland, 1966, p. 56).</p>
+<br>
+<p>Ahora, sobre el segundo punto, sabemos desde los tiempos de Pavlov que el condicionamiento respondiente ya hace mucho más que condicionar la saliva. Hearst (1975) nos reporta que, por ejemplo, Pavlov creía que las respuestas de los músculos esqueléticos (y no solo las respuestas autonómicas) podían ser condicionadas de esta manera. La razón por la que esto es importante es porque por un tiempo algunos autores defendieron la idea de que el condicionamiento respondiente solo puede afectar respuestas autonómicas<sup>1</sup>.</p>
+<p style="text-indent:0.5in;">¿Cómo sabemos que el condicionamiento respondiente también puede condicionar más que respuestas fisiológicas? Por una parte, tenemos las observaciones de Howard Liddell, quien trabajó en el laboratorio de Pavlov. Aunque Liddell nunca reportó sus observaciones, Lorenz popularizó su correspondencia con el autor a finales de la década de los 60s (Timberlake & Grant, 1975), escribiendo:</p>
+<p style="padding-left:0.5in;">"While working in Pavlov's laboratory, Liddell unharnessed a dog from the conditioning apparatus and allowed it to approach the predictive stimulus. On the basis of Liddell's description, Lorenz identified the dog's behavior toward the predictive stimulus as food begging in the genus <i>Canis</i>. Lorenz used this illustration to suggest that an entire behavior system was conditioned by the procedures of classical conditioning, not just an isolated reflex" (Timberlake & Grant, 1975, p. 692).</p>
+<br>
+<p>Al respecto, Lorenz afirmó directamente:</p>
+<p style="padding-left:0.5in;">"Even the classical salivating response is really only one part of a complicated system of feeding behavior, all of which is activated by the conditioned stimulus and which, in the experiment, is prevented from being performed only by the simple means of tying the dog to a frame. My late friend Howard Liddell told me about an unpublished experiment he did while working as a guest in Pavlov’s laboratory ( 51). It consisted simply in freeing from its harness a dog that had been conditioned to salivate at the acceleration in the beat of a metronome. The dog at once ran to the machine, wagged its tail at it, tried to jump up to it, barked, and so on; in other words, it showed as clearly as possible the whole system of behavior patterns serving, in a number of <i>Canidae</i>, to beg food from a conspecific. It is, in fact, this whole system that is being conditioned in the classical experiment" (Lorenz, 1969, p. 47).</p>
+<br>
+<p>Asimismo, no tenemos que referirnos a los aportes inéditos de Liddell, ya que el propio Pavlov escribió al respecto, razón por la que él, desde un principio, creyó que los musculos esqueléticos (y, por ende, respuestas usualmente consideradas "operantes") podían ser condicionados a través de este medio:</p>
+<p style="padding-left:0.5in;">"The first reaction elicited by the established conditioned stimulus usually consists in a movement toward the stimulus, i.e., the animal turns to the place where the stimulus is. If the stimulus is within reach, the animal even tries to touch it, with his mouth. Thus if the conditioned stimulus is the switching on of a lamp, the dog licks the lamp; if the conditioned stimulus is a sound the dog will even snap at the air. . . . [He appears] to eat the sound, that is, licking his lips and making the noise of chewing with his teeth as though it were a matter of having the food itself. . . . The conditioned stimulus actually stands for the food. In the case of several conditioned stimuli coming from different directions the animal turns toward each of them" (Pavlov, 1941, pp. 141 y 150, citado de Hearst, 1975, p. 199).</p>
+<br>
+<p>Como podemos ver, el condicionamiento clásico solo parece condicionar respuestas fisiológicas cuando lo único que le permitimos al animal es exhibir respuestas fisiológicas. En cambio, un animal libre, al ser condicionado de esta manera, hará mucho más que eso: interactuará con su entorno de maneras que normalmente no se esperan de este tipo de condicionamiento. Veremos mucho más de esto al aprender sobre automoldeamiento.</p>
+<br>
+
+<h2>¿Proceso o procedimiento experimental?</h2>
+<p>Como última nota, la cual será elaborada más a fondo en otra ocasión, el condicionamiento clásico es primera e históricamente un procedimiento experimental. No es un mecanismo de aprendizaje implementado a nivel neuronal ni el entorno "asociando" estímulos. A través del condicionamiento clásico se pueden estudiar las clases de circunstancias que propician la diferenciación de las funciones de respuesta de un organismo, y también los mecanismos neuronales necesarios para que estas funciones de respuesta se diferencien. Sin embargo, una cosa es la capacidad de un organismo para diferenciar las funciones de sus respuestas y otra es el paradigma experimental empleado para estudiar este fenómeno. No se debe confundir el procedimiento experimental con el fenómeno de interés, por mucho que los investigadores tiendan a insistir que hay algo llamado "condicionamiento clásico" u "operante" allá en la naturaleza.</p>
+<br>
+
+<p>En notas siguientes se estudiarán diversos fenómenos del condicionamiento clásico, desde diferentes paradigmas de investigación hasta sus aplicaciones para diferentes preguntas sobre la conducta y su organización en los animales.</p>
+
+<br>
+<br>
+
+
+<h2>Notas</h2>
+<p style="padding-left:0.5in;"><b>1.</b> Curiosamente, autores que escribieron mucho después del trabajo de Pavlov y que, de haberse familiarizado con la literatura, habrían descubierto que no.</p>
+
+<br>
+<br>
+
+    <br>
+<h2>Referencias bibliográficas</h2>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Bouton, M. E. (2016). <i>Learning and behavior: A contemporary synthesis</i> (2<sup>nd</sup> ed.). Sinauer Associates, Inc.</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Breland, K., & Breland, M. (1966). <i>Animal behavior: Critical issues in psychology</i>. The Macmillan Company</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Gech, C. (1998). <i>Chapter 2: The Basic Findings In Classical Conditioning</i>. Claude Gabriel Cech. https://userweb.ucs.louisiana.edu/~cgc2646/LRN/Chap2.html</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Hearst, E. (1975). The classical-instrumental distinction: Reflexes, voluntary behavior, and categories of associative learning. In W. K. Estes (Ed.), <i>Handbook of learning and cognitive processes. Volume 2: Conditioning and behavior theory</i>. Psychology Press</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Henley, T. B. (2019). <i>Hergenhahn’s an introduction to the history of psychology</i> (8<sup>th</sup> ed.). Cengage</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Lorenz, K. (1969). Innate bases of learning. In H. Hydén, K. Lorenz, H. W. Magoun, W. Penfield, & K. H. Pribram (Eds.), <i>On the biology of learning</i>. Harcourt, Brace & World, Inc.</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Timberlake, W., & Grant, D. L. (1975). Auto-shaping in rats to the presentation of another rat predicting food. <i>Science, 190</i>(4215), 690-692. https://doi.org/10.1126/science.190.4215.690</p>
+    <br>
+    <div style="text-align: center; margin-top: 20px;"><p>Freddy J. Molero-Ramírez</p>
+    <p>fmolero@mail.uniatlantico.edu.co</p></div>
+</body>
