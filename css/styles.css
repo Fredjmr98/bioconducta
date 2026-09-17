@@ -176,6 +176,24 @@ img {
   height: auto;
 }
 
+/* Philosophical theses */
+.thesis-row {
+  display: grid;
+  grid-template-columns: 5ch 1fr;
+  column-gap: 1em;
+  align-items: start;
+  margin: 1em 0;
+}
+
+.thesis-number {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.thesis {
+  text-align: left;
+}
+
 /* Tables */
 
     table {
