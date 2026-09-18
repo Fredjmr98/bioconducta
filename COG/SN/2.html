@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La teoría informacional de Dretske — Bioprâxis</title>
+    
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+  </head>
+    
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+  ☾
+</button>
+
+    <script>
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  toggle.addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark";
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+    localStorage.setItem("theme", isDark ? "light" : "dark");
+  });
+
+  // Load saved preference
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    root.setAttribute("data-theme", savedTheme);
+  }
+</script>
+
+<header class="site-header container">
+    <img src="../../logo.png" alt="Logo">
+</header>
+
+<section class="page-title container">
+    <h1><a href="../../index.html" style="text-decoration: none;">Bioprâxis</a></h1>
+</section>
+
+  <p class="subtitle">
+    ANOTACIONES SOBRE CIENCIAS COGNITIVAS Y SU FILOSOFÍA<br>El Proyecto de la Semántica Naturalizada</p>
+<br>
+  <p class="subtitle">
+    La teoría informacional de Dretske</p>
+  
+  <body>
+<p>En una entrada anterior fuimos expuestos al proyecto de la semántica naturalizada, o de la naturalización del contenido mental para demostrar la fisicalidad de la intencionalidad. En esta y las siguientes entradas se verán resúmenes de los proyectos principales, empezando con lo que Loewer (2017) titula la teoría causal cruda (TCC) y la teoría informacional de Dretske (DRET). Nadie nunca se ha suscrito a la TCC, pero su utilidad radica en la clase de problemas que explicaciones más sofisticadas (como la teoría de Dretske) intentan resolver.</p>
+
+<br>
+<h2>La teoría causal cruda</h2>
+<div class="thesis-row">
+  <div class="thesis-number">(TCC)</div>
+  <div class="thesis">
+    Es metafísicamente necesario que (si los <i>tokens</i> de f son causados por y solo por instancias de una propiedad F, entonces f se refiere a F)
+  </div>
+</div>
+<p>A modo ilustrativo, si los tokens de la representación mental del tipo GATO solo son causados por la instanciación de la propiedad 'ser un gato' por objetos que interactúan con el agente, entonces la representación mental de GATO se refiere a dichos objetos que instancian dicha propiedad.</p>
+<p style="text-indent:0.5in;">Esta teoría sufre de dos problemas: el problema del error y el problema de la granularidad fina. El <b>problema del error</b> se refiere al hecho de que la teoría no permite la tokenización de f que no esté causada por F. Así, si f ocurre como parte de la creencia perceptual que x es un f, puesto que f es causado por F entonces se sigue que la creencia es verdadera. Empero, afirma Loewer (2017), existen casos en que x sea causado por la instanciación de una propiedad ¬F, dígase, P. A modo ilustrativo, puede que la creencia perceptual que x es un gato sea causada por una fosa joven y no por un gato.</p>
+<p style="text-indent:0.5in;">Loewer afirma que el problema del error es un caso especial del <b>problema de disyunción</b>. Es decir, la TCC implica que, sea o no f un componente de una creencia, la disyunción<sup>1</sup> de todas las causas de los tokens de f son la referencia de f. Esto quiere decir que, si f es causado por gatos, fosas, cachorros, pronunciaciones de la palabra /ˈɡato/ y de la palabra /ʃa/, y así sucesivamente, entonces para la TCC f se refiere a la propiedad de ser un gato, o de ser una fosa, o de ser un cachorro o de la pronunciación de /'gato/ o /ʃa/, etc.</p>
+<p style="text-indent:0.5in;">Ahora bien, el <b>problema de la granularidad fina</b> establece que las relaciones semánticas parecen ser más finamente diferenciadas (<i>fine-grained</i>) que las relaciones causales. Así, f puede referirse a F y no G aunque tanto F como G sean metafísicamente o nomológicamente coinstanciados. A modo ilustrativo: las propiedades de ser triangular y trilateral son aparentemente distintas, y a su vez son necesariamente co-instanciadas. Es decir, las cosas triangulares causan tokens de f solo en caso de que las cosas trilaterales lo hagan también, pero un predicado puede referirse a una propiedad y no la otra. Otro ejemplo curioso que debemos a Quine es el de la coinstanciación de las propiedades de ser un conejo y de ser una parte no separada de un conejo (<i>undetached rabbit part</i>). Cuando la propiedad de ser un conejo es instanciada, la propiedad de ser una parte no separada de conejo también es instanciada.</p>
+<p style="text-indent:0.5in;">En resumen, un heredero naturalista a la TCC debe ser capaz de establecer cómo una representación puede ser susceptible a error, así como también especificar cómo puede referirse a una propiedad y no otra que sea coinstanciada.</p>
+
+<br>
+<h2>La teoría informacional de Dretske</h2>
+<p>Para entender la teoría informacional de Dretske primero es necesario definir información. Dretske identifica la información con una condición del siguiente tipo: un estado T porta o contiene información de p si y solo si existe una regularidad nomológica o contrafáctica de modo que, si ocurre una T, también se cumple p. Así, la altura del mercurio (T) en un termómetro porta información sobre la temperatura ambiente (p) en la medida en que si ocurre T, también se da p. Con esta idea de información, Dretske construye los contenidos de una creencia a partir de la información que esta contiene bajo ciertas circunstancias. Loewer expone la siguiente formulación preliminar de la teoría:</p>
+<div class="thesis-row">
+  <div class="thesis-number">(DRET)</div>
+  <div class="thesis">
+    Es metafísicamente necesario que (si B contiene la información de que p, entonces B tiene la condición de verdad de que p)
+  </div>
+</div>
+<p>De otra manera, un estado mental T es sobre p si T contiene la información que p. Esto quiere decir que T versa sobre p si existe una regularidad nomológica o contrafáctica de modo que, si T ocurre, p también se cumple. Esto es una versión cruda de la teoría informacional de Dretske fuertemente análoga a la teoría causal cruda donde, en vez de causalidad, se habla de información.</p>
+<p style="text-indent:0.5in;">Loewer identifica el problema de la granularidad fina en esta teoría. Si p implica q, el hecho de que T porte información sobre p implica que también porta información sobre q, lo cual quiere decir que por necesidad debe ser tanto acerca de p como de q, incluso si el agente cree que p pero no cree que q. Asimismo, si p y q coocurren nomológicamente o metafísicamente, entonces portar información sobre p también implica portar información sobre q. Así, de acuerdo a DRET, ninguna creencia puede tener el contenido exacto de que x es un conejo, ya que cada estado que porte información de que x es un conejo también porta información de que hay una parte no separada de conejo. Según Loewer, los intentos de Dretske de resolver este problema no han sido exitosos.</p>
+<p style="text-indent:0.5in;">Asimismo, Loewer afirma que DRET sufre del problema del error. Según, la creencia de que p siempre porta información de p, lo cual quiere decir que cada vez que la creencia es tokenizada esta es verdadera. Los intentos de resolver esta problemática también son poco exitosos y no serán discutidos.</p>
+
+<br>
+<br>
+
+<h2>Notas</h2>
+<p style="padding-left:0.5in;"><b>1.</b> En términos lógicos, esto se refiere al operador "OR" o "∨".</p>
+
+<br>
+<br>
+
+    <br>
+<h2>Referencias bibliográficas</h2>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Evans, V. (2019). <i>Cognitive linguistics: A complete guide</i>. Edinburgh University Press</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Loewer, B. (2017). A guide to naturalizing semantics. In B. Hale, C. Wright & A. Miller (Eds.), <i>A companion to the philosophy of language</i> (2<sup>nd</sup> ed.). Wiley Blackwell</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Saussure, F. de. (1959). <i>Course in general linguistics</i> (W. Baskin, Trans.). Philosophical Library. (Original work published 1916)</p>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Smortchkova, J., Dołęga, K., & Schlicht, T. (2020). <i>What are mental representations?</i> Oxford University Press</p>
+    <br>
+    <div style="text-align: center; margin-top: 20px;"><p>Freddy J. Molero-Ramírez</p>
+    <p>fmolero@mail.uniatlantico.edu.co</p></div>
+</body>
