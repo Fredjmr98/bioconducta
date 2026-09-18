@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Las explicaciones de condiciones óptimas — Bioprâxis</title>
+    
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$']]
+    }
+  };
+</script>
+    <link rel="icon" href="../../favicon.ico" type="image/x-icon">
+  </head>
+    
+
+<!--
+Source - https://stackoverflow.com/a
+Posted by nullromo
+Retrieved 2025-12-09, License - CC BY-SA 4.0
+-->
+
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
+  ☾
+</button>
+
+    <script>
+  const toggle = document.getElementById("theme-toggle");
+  const root = document.documentElement;
+
+  toggle.addEventListener("click", () => {
+    const isDark = root.getAttribute("data-theme") === "dark";
+    root.setAttribute("data-theme", isDark ? "light" : "dark");
+    localStorage.setItem("theme", isDark ? "light" : "dark");
+  });
+
+  // Load saved preference
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme) {
+    root.setAttribute("data-theme", savedTheme);
+  }
+</script>
+
+<header class="site-header container">
+    <img src="../../logo.png" alt="Logo">
+</header>
+
+<section class="page-title container">
+    <h1><a href="../../index.html" style="text-decoration: none;">Bioprâxis</a></h1>
+</section>
+
+  <p class="subtitle">
+    ANOTACIONES SOBRE CIENCIAS COGNITIVAS Y SU FILOSOFÍA<br>El Proyecto de la Semántica Naturalizada</p>
+<br>
+  <p class="subtitle">
+    Las explicaciones de condiciones óptimas</p>
+  
+  <body>
+<p>En las entradas anteriores hemos discutido las bases del proyecto de la semántica naturalizada, el problema que intentan responder, la teoría causal cruda y la teoría informacional de Dretske. Existen otros enfoques, entre ellos, las explicaciones en términos de condiciones óptimas. De modo simplificado, la tesis de las explicaciones en términos de condiciones óptimas (OPT) es que existe una clase de creencias para las que existen condiciones epistémicamente óptimas bajo las que una persona tendría la creencia solo si es verdad. Es decir, pueden existir condiciones en las que una persona puede tener dicha creencia incluso si es falsa, mientras que las condiciones epistémicamente óptimas permite que la persona tenga la misma creencia en caso de que sea verdad.</p>
+<br>
+<div class="thesis-row">
+  <div class="thesis-number">(OPT)</div>
+  <div class="thesis">
+    Es metafísicamente necesario que (si B es una creencia del tipo K entonces existen condiciones epistémicamente óptimas C<sub>B</sub> tal que la condición de verdad de B es p si, sea C<sub>B</sub>, entonces B covariaría nomológicamente con p)
+  </div>
+</div>
+<p>Así, si para un sujeto A hay un estado de creencia B, el cual bajo condiciones óptimas covaría con la presencia de una pelota roja ubicado en frente de A, entonces el contenido de B es que hay una pelota roja en frente de A. En este caso, las condiciones óptimas serían: que los ojos de A estén abiertos, que preste atención a lo que ve, que la iluminación sea buena, etc.</p>
+<p style="text-indent:0.5in;">Esta teoría permite errores, como se estableció previamente. Sin embargo, sufre de un problema distinto, y es que las condiciones óptimas no son naturalistas. El predicado "epistémicamente óptimo" es intencional para Loewer y no es claro que se pueda especificar dicha propiedad sin referencia a nociones semánticas. Asimismo, las condiciones óptimas difieren de una creencia a otra. Por ejemplo, quizás para identificar una pelota roja frente a A debe haber buenas condiciones de iluminación, mientras que para identificar una luciérnaga en la habitación las luces deben estar apagadas. Esto quiere decir que las condiciones son contingentes en los contenidos de la creencia, y no se puede apelar a los contenidos de la creencia. Según Loewer, el naturalizador no puede apelar a los contenidos de una creencia para caracterizar sus condiciones óptimas. Por ello, la teoría falla como proyecto naturalizador.</p>
+
+<br>
+<br>
+
+    <br>
+<h2>Referencias bibliográficas</h2>
+    <p style="padding-left:0.5in; text-indent:-0.5in;">Loewer, B. (2017). A guide to naturalizing semantics. In B. Hale, C. Wright & A. Miller (Eds.), <i>A companion to the philosophy of language</i> (2<sup>nd</sup> ed.). Wiley Blackwell</p>
+    <br>
+    <div style="text-align: center; margin-top: 20px;"><p>Freddy J. Molero-Ramírez</p>
+    <p>fmolero@mail.uniatlantico.edu.co</p></div>
+</body>
