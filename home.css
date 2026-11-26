@@ -1,0 +1,20 @@
+/* Bioprâxis home page: table of contents in the same textbook style. Load after styles.css. */
+.toc { list-style: none; margin: .4rem 0 1.6rem; padding: 0; font-family: var(--sans); }
+.toc li { display: grid; grid-template-columns: 3rem 1fr; column-gap: .9rem; align-items: baseline; padding: .6rem 0; border-bottom: 1px solid var(--rule); text-align: left; }
+.toc .num { font: 300 2rem/1 var(--sans); color: var(--accent); text-align: right; }
+.toc .title { font: 500 1.25rem/1.25 var(--head); color: var(--ink); }
+.toc a.title { text-decoration: none; }
+.toc a.title:hover { color: var(--accent); text-decoration: underline; text-underline-offset: .18em; }
+.toc .desc { display: block; margin-top: .15rem; font: .95rem/1.35 var(--sans); color: var(--muted); }
+.toc .tag { margin-left: .6rem; padding: .05em .55em; border: 1px solid var(--rule); border-radius: 2px; font: 500 .78rem var(--sans); color: var(--muted); white-space: nowrap; }
+.toc li.soon .num { color: var(--slate); }
+.toc li.soon .title { color: var(--muted); }
+
+/* plain list (no chapter numbers), for notes and reading sessions */
+.toc--plain li { display: block; padding: .5rem 0; }
+.toc--plain .title { font-size: 1.08rem; font-weight: 500; }
+
+.colophon { clear: both; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font: .95rem/1.5 var(--sans); color: var(--muted); text-align: left; }
+.colophon p { margin: 0; text-indent: 0; }
+
+@media (max-width: 62rem) { .chapter-num:empty { display: none; } .toc li { grid-template-columns: 2.2rem 1fr; } }

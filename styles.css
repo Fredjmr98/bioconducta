@@ -1,0 +1,193 @@
+/* Bioprâxis — textbook theme
+   Palette: dark purple ink and accent on a warm neutral paper; lighter violet for definitions.
+   Layout: left margin column for definitions and small images; text column;
+   figures can stay in the text (.fig), span margin+text (.wide) or exceed
+   the layout (.bleed). Opt in per page with <body class="book-page">. */
+
+:root {
+  --bg: #f7f5f3;
+  --ink: #1f1830;
+  --muted: #62597a;
+  --rule: #dcd6e2;
+  --accent: #4b2a7b;
+  --accent-soft: #ece7f4;
+  --alt: #7b5ea7;
+  --alt-soft: #f2eef8;
+  --slate: #7f7794;
+  --serif: "Crimson Pro", "Crimson Text", "Minion Pro", Georgia, serif;
+  --sans: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --head: "Barlow Semi Condensed", "Barlow", "Arial Narrow", Arial, sans-serif;
+  --margin-w: 14rem;
+  --text-w: 40rem;
+  --gap: 2.5rem;
+}
+[data-theme="dark"] {
+  --bg: #150f22; --ink: #e8e2f2; --muted: #a89fc0; --rule: #2e2540;
+  --accent: #b79df0; --accent-soft: #221a38; --alt: #9d83cf; --alt-soft: #1c1530;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #150f22; --ink: #e8e2f2; --muted: #a89fc0; --rule: #2e2540;
+    --accent: #b79df0; --accent-soft: #221a38; --alt: #9d83cf; --alt-soft: #1c1530;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font: 1.12rem/1.34 var(--serif);
+}
+body:not(.book-page) { max-width: 46rem; margin: 0 auto; padding: 2rem 1.25rem; text-align: justify; hyphens: auto; }
+.book-page { overflow-x: clip; }
+
+a { color: var(--accent); text-decoration: underline; text-underline-offset: .15em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+img { max-width: 100%; height: auto; display: block; }
+[data-theme="dark"] .invert { filter: invert(1); } /* only for line-art such as the logo */
+
+/* Page frame */
+.book { max-width: calc(var(--margin-w) + var(--text-w) + var(--gap) + 2.5rem); margin: 0 auto; padding: 0 1.25rem 5rem; }
+.masthead {
+  display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  padding: .9rem 0; border-bottom: 1px solid var(--rule);
+  font: 600 .9rem var(--sans); color: var(--muted);
+}
+.masthead a { color: var(--ink); text-decoration: none; }
+
+/* Chapter opening */
+.chapter-head { padding: 3.5rem 0 2rem; display: grid; grid-template-columns: var(--margin-w) 1fr; column-gap: var(--gap); align-items: end; }
+.chapter-num { font: 200 8rem/.8 var(--sans); color: var(--accent); text-align: right; }
+.chapter-head h1 { margin: 0; font: 400 clamp(2.4rem, 5vw, 3.7rem)/1.08 var(--sans); color: var(--ink); max-width: 22ch; }
+.chapter-head .deck { margin: .8rem 0 0; font: 1.05rem/1.5 var(--sans); color: var(--muted); max-width: 40rem; }
+/* thick rule under the chapter title */
+.comb { height: 10px; margin: 0 0 2.5rem; background: var(--accent); }
+
+/* Body: a text column plus a left margin column built from floats.
+   Side items (.margin) float into the margin without taking space from the text, so they never
+   push paragraphs down; consecutive ones stack. Put each one right before the paragraph it belongs to. */
+.book-body { --offset: calc(var(--margin-w) + var(--gap)); display: flow-root; padding-left: var(--offset); }
+.book-body > .margin { float: left; clear: left; width: var(--margin-w); margin: .25rem 0 1rem calc(-1 * var(--offset)); }
+.book-body > .wide { clear: both; margin-left: calc(-1 * var(--offset)); }
+.book-body > .bleed { clear: both; width: min(calc(100vw - 2rem), 80rem);
+  margin-left: calc((100% - var(--offset) - min(calc(100vw - 2rem), 80rem)) / 2); }
+
+.book-body p { margin: 0; text-indent: 1.4em; text-align: justify; hyphens: auto; }
+/* Automatic indent: every paragraph is indented, except the first one after a heading, box, equation,
+   learning objectives or in-text figure. Side items (.margin) are skipped, up to four in a row. */
+.book-body :is(h2, h3, .objectives, .box, .math, figure:not(.margin)) + p,
+.book-body :is(h2, h3, .objectives, .box, .math, figure:not(.margin)) + .margin + p,
+.book-body :is(h2, h3, .objectives, .box, .math, figure:not(.margin)) + .margin + .margin + p,
+.book-body :is(h2, h3, .objectives, .box, .math, figure:not(.margin)) + .margin + .margin + .margin + p,
+.book-body :is(h2, h3, .objectives, .box, .math, figure:not(.margin)) + .margin + .margin + .margin + .margin + p,
+.book-body .lead { text-indent: 0; }
+/* manual overrides, if ever needed */
+.book-body p.noindent { text-indent: 0; }
+.book-body p.indent { text-indent: 1.4em; }
+.lead::first-letter { float: left; font: 600 3.4rem/.82 var(--sans); padding: .2rem .45rem 0 0; color: var(--accent); }
+.book-body h2 { margin: 1.9rem 0 .7rem; font: 500 1.75rem/1.2 var(--head); color: var(--accent); }
+.book-body h2 .sec { color: var(--ink); font-weight: 400; margin-right: .5rem; }
+.book-body h3 { margin: 1.3rem 0 .4rem; font: 600 1.15rem var(--head); color: var(--accent); }
+
+/* Margin notes: definitions and small images (place BEFORE the paragraph they belong to) */
+.margin { align-self: start; margin: .25rem 0 1rem; padding-top: .5rem; border-top: 2px solid var(--alt);
+  font: .84rem/1.35 var(--sans); color: var(--muted); text-align: left; }
+.margin .term { display: block; margin-bottom: .2rem; font-weight: 700; color: var(--alt); font-size: .95rem; }
+.margin img { width: 100%; margin-bottom: .5rem; border-radius: 2px; }
+figure.margin { border-top-color: var(--accent); }
+
+/* Figures */
+figure { margin: 1.2rem 0; }
+figure img { width: 100%; }
+figcaption { margin-top: .4rem; font: .84rem/1.35 var(--sans); color: var(--muted); text-align: left; }
+figcaption b { color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: .02em; }
+/* in-text cross-reference to a figure or table, e.g. (FIGURA 1.2) */
+.xref { font: 700 .9em var(--sans); text-transform: uppercase; letter-spacing: .02em; color: var(--accent); }
+/* reference to a box: same label, tinted like the box it points to */
+.xref--box { text-transform: none; letter-spacing: 0; font-weight: 600; font-size: .95em; background: var(--accent-soft); padding: .05em .4em; border-radius: 2px; white-space: nowrap; }
+figure.margin figcaption { font-size: .8rem; }
+.wide figcaption { margin-left: calc(var(--margin-w) + var(--gap)); max-width: var(--text-w); }
+.bleed figcaption { max-width: var(--text-w); margin-inline: auto; }
+
+/* Boxes */
+.box { margin: 1.3rem 0; padding: .8rem 1.1rem .9rem; background: var(--accent-soft); border-left: 3px solid var(--accent); font: .92rem/1.4 var(--sans); }
+.book-body .box p { text-align: left; text-indent: 0; hyphens: manual; margin: 0 0 .5rem; font: inherit; }
+.box > :last-child { margin-bottom: 0; }
+.box-title { margin: 0 0 .4rem; font: 600 1.1rem var(--sans); color: var(--accent); }
+.box h4 { margin: .6rem 0 .1rem; font: 600 .95rem var(--sans); color: var(--accent); }
+.box ul { margin: 0 0 .5rem; padding-left: 1.2rem; }
+.box--alt { background: var(--alt-soft); border-left-color: var(--alt); }
+.box--alt .box-title, .box--alt h4 { color: var(--alt); }
+.box--outline { background: transparent; border: 1px solid var(--rule); border-left: 4px solid var(--accent); }
+
+/* LaTeX (MathJax): numbered equations sit at the right edge of the text column */
+mjx-container[display="true"] { overflow-x: auto; overflow-y: hidden; margin: .9em 0 !important; }
+
+/* Citations: the year is the link; the reference list has a hanging indent */
+.cite a { text-decoration: none; }
+.cite a:hover { text-decoration: underline; }
+.cite-missing { color: #b3261e; font-family: var(--sans); }
+.references { clear: both; margin-top: 2rem; }
+.ref { margin: 0 0 .45rem; padding-left: 1.6em; text-indent: -1.6em; font-size: .95rem; line-height: 1.3; text-align: left; hyphens: manual; scroll-margin-top: 2rem; }
+.ref:target { background: var(--accent-soft); box-shadow: 0 0 0 6px var(--accent-soft); }
+.ref .backrefs a { text-decoration: none; font-family: var(--sans); font-size: .85em; }
+
+/* Learning objectives: no box, small slate squares (as in Futuyma & Kirkpatrick) */
+.objectives { margin: 1rem 0 1.3rem; font: 1rem/1.35 var(--sans); }
+.book-body .objectives p { text-indent: 0; text-align: left; }
+.objectives .obj-title { margin: 0 0 .35rem; font: 600 1.1rem var(--sans); color: var(--ink); }
+.objectives ul { list-style: none; margin: 0; padding: 0; }
+.objectives li { position: relative; margin: 0 0 .3rem; padding-left: 1.3rem; text-align: left; }
+.objectives li::before { content: ""; position: absolute; left: 0; top: .5em; width: .55em; height: .55em; background: var(--slate); }
+
+/* Legacy components, kept */
+.equation-row { display: grid; grid-template-columns: 4ch 1fr 4ch; align-items: center; margin: 1em 0; }
+.equation { grid-column: 2; text-align: center; }
+.eq-number { text-align: right; }
+.thesis-row { display: grid; grid-template-columns: 5ch 1fr; column-gap: 1em; align-items: start; margin: 1em 0; }
+.thesis-number { text-align: right; white-space: nowrap; }
+.thesis { text-align: left; }
+.table-wrap { overflow-x: auto; margin-bottom: 1.5em; }
+table { border-collapse: collapse; }
+th, td { border: 1px solid var(--ink); padding: .4em .7em; text-align: left; vertical-align: middle; }
+caption { caption-side: top; font-weight: 700; margin-bottom: .5em; text-align: left; }
+ul, ol { padding-left: 1.5em; }
+
+/* Theme toggle: round, quiet button; fills with the accent colour on hover */
+.theme-toggle { position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 1000; width: 2.8rem; height: 2.8rem; padding: 0; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  background: var(--bg); color: var(--accent); border: 1px solid var(--rule);
+  box-shadow: 0 2px 10px rgba(20, 10, 40, .14);
+  transition: background-color .2s, color .2s, border-color .2s, transform .15s; }
+.theme-toggle:hover { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.theme-toggle:active { transform: scale(.93); }
+.theme-toggle svg { display: block; }
+@media (prefers-reduced-motion: reduce) { .theme-toggle { transition: none; } }
+
+/* Narrow screens: one column; margin notes become inline callouts */
+@media (max-width: 62rem) {
+  .chapter-head { grid-template-columns: 1fr; row-gap: 1rem; }
+  .chapter-num { text-align: left; font-size: 5rem; }
+  .book-body { padding-left: 0; }
+  .book-body > .margin { float: none; clear: none; width: auto; max-width: 20rem; margin: 1.2rem 0; padding: .7rem .9rem; border-top: 0; border-left: 3px solid var(--alt); background: var(--alt-soft); }
+  .book-body > figure.margin { border-left-color: var(--accent); background: var(--accent-soft); }
+  .book-body > .wide { margin-left: 0; }
+  .wide figcaption { margin-left: 0; }
+  .book-body > .bleed { margin-left: 0; width: calc(100vw - 2rem); position: relative; left: 50%; transform: translateX(-50%); }
+  body { font-size: 1.05rem; }
+}
+@media print { .theme-toggle { display: none; } body { background: #fff; color: #000; } }
+
+/* Embedded interactive figure (iframe) with fullscreen button */
+.embed3d-frame { position: relative; aspect-ratio: 16 / 10; min-height: 24rem; background: var(--accent-soft); border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+.embed3d-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.embed3d-frame:fullscreen { aspect-ratio: auto; width: 100%; height: 100%; border: 0; border-radius: 0; }
+.embed3d-frame:-webkit-full-screen { aspect-ratio: auto; width: 100%; height: 100%; border: 0; border-radius: 0; }
+.embed3d-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: .5rem; font: 500 .9rem var(--sans); }
+.embed3d-tools button, .embed3d-close { padding: .3rem .8rem; border: 1px solid var(--accent); border-radius: 2px; background: var(--bg); color: var(--accent); font: 500 .9rem var(--sans); cursor: pointer; }
+.embed3d-tools button:hover, .embed3d-close:hover { background: var(--accent); color: var(--bg); }
+.embed3d-close { display: none; }
+.embed3d.is-full .embed3d-frame { position: fixed; inset: 0; z-index: 2000; aspect-ratio: auto; min-height: 0; border: 0; border-radius: 0; }
+.embed3d.is-full .embed3d-close { display: block; position: fixed; z-index: 2001; top: .7rem; left: 50%; transform: translateX(-50%); }
+@media print { .embed3d-frame, .embed3d-tools { display: none; } }

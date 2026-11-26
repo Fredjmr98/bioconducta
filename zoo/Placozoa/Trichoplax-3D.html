@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plan Corporal 3D de Trichoplax adhaerens — Smith et al. (2014)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* Bioprâxis — Textbook Theme Tokens */
+    :root {
+      --bg: #f7f5f3;
+      --panel-bg: rgba(247, 245, 243, 0.92);
+      --panel-sub: #efecf2;
+      --ink: #1f1830;
+      --muted: #62597a;
+      --rule: #dcd6e2;
+      --accent: #4b2a7b;
+      --accent-soft: #ece7f4;
+      --alt: #7b5ea7;
+      --alt-soft: #f2eef8;
+      --slate: #7f7794;
+      --serif: "Crimson Pro", "Crimson Text", Georgia, serif;
+      --sans: "Barlow", "Helvetica Neue", Arial, sans-serif;
+      --head: "Barlow Semi Condensed", "Barlow", Arial, sans-serif;
+      --shadow: 0 8px 26px rgba(31, 24, 48, 0.10);
+    }
+
+    [data-theme="dark"] {
+      --bg: #150f22;
+      --panel-bg: rgba(21, 15, 34, 0.90);
+      --panel-sub: #1e1631;
+      --ink: #e8e2f2;
+      --muted: #a89fc0;
+      --rule: #2e2540;
+      --accent: #b79df0;
+      --accent-soft: #221a38;
+      --alt: #9d83cf;
+      --alt-soft: #1c1530;
+      --slate: #8e83aa;
+      --shadow: 0 12px 32px rgba(8, 5, 16, 0.55);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #150f22;
+        --panel-bg: rgba(21, 15, 34, 0.90);
+        --panel-sub: #1e1631;
+        --ink: #e8e2f2;
+        --muted: #a89fc0;
+        --rule: #2e2540;
+        --accent: #b79df0;
+        --accent-soft: #221a38;
+        --alt: #9d83cf;
+        --alt-soft: #1c1530;
+        --slate: #8e83aa;
+        --shadow: 0 12px 32px rgba(8, 5, 16, 0.55);
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--ink);
+      user-select: none;
+      -webkit-user-select: none;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+    #canvas-container {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      outline: none;
+    }
+    .bio-panel {
+      background: var(--panel-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--rule);
+      box-shadow: var(--shadow);
+      color: var(--ink);
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+    .bio-head {
+      font-family: var(--head);
+    }
+    .bio-serif {
+      font-family: var(--serif);
+    }
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .bio-callout {
+      background: var(--accent-soft);
+      border-left: 3px solid var(--accent);
+    }
+    .bio-callout-alt {
+      background: var(--alt-soft);
+      border-left: 3px solid var(--alt);
+    }
+    .bio-btn {
+      background: var(--panel-sub);
+      color: var(--ink);
+      border: 1px solid var(--rule);
+      transition: all 0.16s ease;
+    }
+    .bio-btn:hover {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .bio-btn-active {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+    .bio-btn-active:hover {
+      background: var(--accent);
+      color: var(--bg);
+    }
+    /* Custom range slider */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--rule);
+      height: 5px;
+      border-radius: 2px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      cursor: pointer;
+      box-shadow: 0 1px 5px rgba(31, 24, 48, 0.35);
+      transition: transform 0.12s ease;
+    }
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.16);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      cursor: pointer;
+    }
+    /* Custom scrollbar for panels */
+    .custom-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: var(--rule);
+      border-radius: 2px;
+    }
+    .cell-row {
+      background: var(--panel-sub);
+      border: 1px solid var(--rule);
+      transition: all 0.15s ease;
+    }
+    .cell-row:hover {
+      border-color: var(--alt);
+      background: var(--alt-soft);
+    }
+    .cell-row.active-cell {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      border-left-width: 3px;
+    }
+    #hover-tooltip {
+      pointer-events: none;
+      transition: opacity 0.12s ease;
+    }
+    /* Bioprâxis round theme toggle button */
+    .theme-toggle {
+      width: 2.3rem;
+      height: 2.3rem;
+      padding: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: var(--bg);
+      color: var(--accent);
+      border: 1px solid var(--rule);
+      box-shadow: 0 2px 8px rgba(20, 10, 40, 0.12);
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    .theme-toggle:active {
+      transform: scale(0.93);
+    }
+      /* embedded in the chapter: compact header until fullscreen */
+    .hud-off .hud-extra { display: none; }
+    .hud-off #theme-toggle-btn { display: none; }
+  </style>
+</head>
+<body>
+
+  <!-- 3D Viewport -->
+  <div id="canvas-container"></div>
+
+  <!-- Hover Tooltip -->
+  <div id="hover-tooltip" class="fixed z-30 hidden px-3 py-1.5 rounded bio-panel text-xs shadow-md" style="border-left: 3px solid var(--accent);">
+    <div class="flex items-center gap-2">
+      <span id="tooltip-dot" class="w-2.5 h-2.5 rounded-full inline-block border border-black/20"></span>
+      <span id="tooltip-title" class="font-semibold" style="color: var(--ink);"></span>
+      <span id="tooltip-pct" class="mono font-semibold text-[11px]" style="color: var(--accent);"></span>
+    </div>
+    <div id="tooltip-sub" class="text-[10px] mt-0.5" style="color: var(--muted);">Haz clic para inspeccionar ultraestructura y función</div>
+  </div>
+
+  <!-- Top-Left Title & Citation Header -->
+  <header class="fixed top-3 left-3 z-20 max-w-sm sm:max-w-md bio-panel rounded-md p-3.5 sm:p-4" style="border-top: 4px solid var(--accent);">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="inline-block w-2 h-2" style="background: var(--slate);"></span>
+          <span class="text-[10px] uppercase tracking-widest font-bold" style="color: var(--accent);">Filo Placozoa · Histología 3D</span>
+        </div>
+        <h1 class="bio-head text-lg sm:text-xl font-semibold tracking-tight mt-0.5" style="color: var(--ink);">
+          Plan corporal de <em>Trichoplax adhaerens</em>
+        </h1>
+        <p class="hud-extra bio-serif text-[13px] leading-snug mt-0.5" style="color: var(--muted);">
+          Bloque esquemático borde–interior · Basado en <span class="font-semibold" style="color: var(--accent);">Smith et al. (2014)</span>, <em>Curr. Biol.</em> 24, 1565–1572
+        </p>
+      </div>
+      <div class="flex items-center gap-1.5 shrink-0">
+        <button id="theme-toggle-btn" class="theme-toggle" title="Cambiar tema claro / oscuro" aria-label="Cambiar tema">
+          <!-- Sun / Moon icon swapped via JS -->
+          <svg id="theme-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+        <button id="toggle-hud-btn" title="Ocultar o mostrar paneles" class="bio-btn px-2.5 py-1.5 rounded text-xs font-medium">
+          Ocultar UI
+        </button>
+      </div>
+    </div>
+
+    <!-- Spatial Orientation Legend Bar -->
+    <div class="hud-extra mt-3 pt-2.5 flex items-center justify-between text-[11px]" style="border-top: 1px solid var(--rule); color: var(--muted);">
+      <div class="flex items-center gap-1.5">
+        <span class="px-1.5 py-0.5 rounded font-bold mono text-[10px]" style="background: var(--accent-soft); color: var(--accent);">← BORDE / MARGEN</span>
+        <span>0–20 µm</span>
+      </div>
+      <div class="h-px flex-1 mx-2" style="background: var(--rule);"></div>
+      <div class="flex items-center gap-1.5">
+        <span>&gt;20 µm</span>
+        <span class="px-1.5 py-0.5 rounded font-bold mono text-[10px]" style="background: var(--alt-soft); color: var(--alt);">INTERIOR →</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Left Controls Panel: Cell Types (Table S1) & Strain Toggle -->
+  <aside id="left-panel" class="fixed top-[148px] sm:top-[154px] left-3 z-20 w-[290px] sm:w-[320px] max-h-[calc(100vh-230px)] overflow-y-auto custom-scroll bio-panel rounded-md p-3.5 space-y-3">
+    <div class="flex items-center justify-between">
+      <h2 class="bio-head text-xs font-bold uppercase tracking-wider" style="color: var(--accent);">6 Tipos Celulares Somáticos (Tabla S1)</h2>
+      <div class="flex gap-1">
+        <button id="btn-show-all" class="bio-btn text-[10px] font-semibold px-2 py-0.5 rounded">Todos</button>
+        <button id="btn-solo-reset" class="bio-btn text-[10px] font-semibold px-2 py-0.5 rounded">Reiniciar</button>
+      </div>
+    </div>
+
+    <!-- Cell Type List Container -->
+    <div id="cell-type-list" class="space-y-1.5"></div>
+
+    <!-- Dorsal Shiny Spheres & Cilia Toggles -->
+    <div class="pt-2.5 space-y-2" style="border-top: 1px solid var(--rule);">
+      <div class="bio-head text-[11px] font-bold uppercase tracking-wider" style="color: var(--alt);">Cepa y Rasgos Ultraestructurales</div>
+
+      <!-- Toggle: Dorsal Shiny Spheres (Field Strain) -->
+      <label class="bio-callout-alt flex items-start justify-between gap-2 p-2.5 rounded-r cursor-pointer transition">
+        <div class="flex-1">
+          <div class="flex items-center gap-1.5">
+            <span class="w-2.5 h-2.5 rounded-full border border-black/20" style="background: #f5e6a3;"></span>
+            <span class="text-xs font-bold" style="color: var(--alt);">Esferas Brillantes Dorsales</span>
+          </div>
+          <p class="text-[11px] leading-snug mt-0.5" style="color: var(--muted);">
+            Cepa silvestre (~5 µm, esferas lipídicas dorsales; ausentes en el clon de laboratorio de Grell, Fig. S2B)
+          </p>
+        </div>
+        <input id="toggle-shiny-spheres" type="checkbox" checked class="mt-1 w-4 h-4 rounded cursor-pointer" style="accent-color: var(--accent);" />
+      </label>
+
+      <!-- Toggle: Cilia & Microvilli + Wave Animation -->
+      <div class="grid grid-cols-2 gap-1.5">
+        <label class="bio-btn flex items-center justify-between px-2.5 py-1.5 rounded cursor-pointer">
+          <span class="text-[11px] font-medium">Cilios y Microvell.</span>
+          <input id="toggle-cilia" type="checkbox" checked class="w-3.5 h-3.5 cursor-pointer" style="accent-color: var(--accent);" />
+        </label>
+        <label class="bio-btn flex items-center justify-between px-2.5 py-1.5 rounded cursor-pointer">
+          <span class="text-[11px] font-medium">Batido Ciliar</span>
+          <input id="toggle-wave" type="checkbox" checked class="w-3.5 h-3.5 cursor-pointer" style="accent-color: var(--accent);" />
+        </label>
+      </div>
+    </div>
+
+    <!-- Sectioning & Layer Separation Sliders -->
+    <div class="pt-2.5 space-y-2.5" style="border-top: 1px solid var(--rule);">
+      <div>
+        <div class="flex justify-between text-[11px] mb-1">
+          <span class="font-medium" style="color: var(--ink);">Separación de Capas (Vista Explosiva)</span>
+          <span id="explode-val" class="mono font-semibold" style="color: var(--accent);">0%</span>
+        </div>
+        <input id="slider-explode" type="range" min="0" max="100" value="0" class="w-full" />
+      </div>
+
+      <div>
+        <div class="flex justify-between text-[11px] mb-1">
+          <span class="font-medium" style="color: var(--ink);">Corte Transversal (Eje Z)</span>
+          <span id="clip-val" class="mono font-semibold" style="color: var(--accent);">100%</span>
+        </div>
+        <input id="slider-clip" type="range" min="25" max="100" value="100" class="w-full" />
+      </div>
+    </div>
+  </aside>
+
+  <!-- Right Inspector Card (Detailed Cell Info — styled like Bioprâxis .margin + .box) -->
+  <aside id="inspector-panel" class="fixed top-3 right-3 z-20 w-[300px] sm:w-[345px] max-h-[calc(100vh-95px)] overflow-y-auto custom-scroll bio-panel rounded-md p-4 transition-all" style="border-top: 3px solid var(--alt);">
+    <div class="flex items-center justify-between pb-2.5" style="border-bottom: 1px solid var(--rule);">
+      <div class="flex items-center gap-2">
+        <span id="insp-swatch" class="w-3.5 h-3.5 rounded-full border border-black/25" style="background: var(--accent);"></span>
+        <span id="insp-category" class="bio-head text-[11px] font-bold uppercase tracking-wider" style="color: var(--alt);">Vista General</span>
+      </div>
+      <span id="insp-badge" class="mono text-[11px] font-semibold px-2 py-0.5 rounded" style="background: var(--accent-soft); color: var(--accent);">
+        50 124 células totales
+      </span>
+    </div>
+
+    <h3 id="insp-title" class="bio-head text-lg font-semibold mt-2.5" style="color: var(--accent);">Plan Corporal Trilaminar</h3>
+    <p id="insp-subtitle" class="text-xs mt-0.5" style="color: var(--muted);">Haz clic en cualquier célula del bloque 3D o de la leyenda para inspeccionarla</p>
+
+    <!-- Quantitative Metrics Grid -->
+    <div class="grid grid-cols-2 gap-2 mt-3">
+      <div class="p-2 rounded" style="background: var(--panel-sub); border: 1px solid var(--rule);">
+        <div class="text-[10px] font-semibold uppercase tracking-wide" style="color: var(--muted);">Proporción Poblacional</div>
+        <div id="insp-pct" class="mono text-sm font-bold mt-0.5" style="color: var(--accent);">100% (6 tipos)</div>
+      </div>
+      <div class="p-2 rounded" style="background: var(--panel-sub); border: 1px solid var(--rule);">
+        <div class="text-[10px] font-semibold uppercase tracking-wide" style="color: var(--muted);">Recuento Est. (0,5 mm)</div>
+        <div id="insp-count" class="mono text-sm font-bold mt-0.5" style="color: var(--ink);">~50 124 células</div>
+      </div>
+    </div>
+
+    <!-- Detailed Sections (Editorial Crimson Pro body + Bioprâxis .box callout) -->
+    <div class="mt-3 space-y-2.5 leading-relaxed">
+      <div>
+        <div class="bio-head text-[11px] font-bold uppercase tracking-wider" style="color: var(--alt);">Distribución Espacial</div>
+        <p id="insp-location" class="bio-serif text-[14.5px] leading-snug mt-0.5" style="color: var(--ink);">
+          Techo epitelial dorsal delgado en pavimento, cavidad interior llena de líquido con una red de células fibrosas y una gruesa placa ventral seudocolumnar orientada hacia el sustrato.
+        </p>
+      </div>
+
+      <div>
+        <div class="bio-head text-[11px] font-bold uppercase tracking-wider" style="color: var(--alt);">Ultraestructura y Marcadores</div>
+        <p id="insp-markers" class="bio-serif text-[14.5px] leading-snug mt-0.5" style="color: var(--ink);">
+          Criofijación y sustitución por congelación (MET) e inmunofluorescencia (MAGUK, TaCDH, SNARE, FMRFamida, Rojo Nilo / LysoTracker Red, birrefringencia polarizada).
+        </p>
+      </div>
+
+      <div class="bio-callout p-2.5 rounded-r">
+        <div class="bio-head text-[11px] font-bold uppercase tracking-wider" style="color: var(--accent);">Función Fisiológica</div>
+        <p id="insp-function" class="text-xs leading-relaxed mt-0.5" style="color: var(--ink);">
+          Se desliza mediante cilios ventrales sobre sustratos marinos, se detiene sobre algas para secretar enzimas digestivas externamente y coordina su conducta mediante neuropéptidos paracrinos.
+        </p>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Bottom Camera Presets & Interaction Hint Bar -->
+  <nav id="bottom-bar" class="fixed bottom-3 left-1/2 -translate-x-1/2 z-20 bio-panel rounded-md px-3 py-2 flex flex-wrap items-center justify-center gap-1.5 max-w-[96vw]">
+    <button data-cam="full" class="cam-btn bio-btn bio-btn-active px-2.5 py-1.5 rounded text-xs">
+      Sección Completa
+    </button>
+    <button data-cam="rim" class="cam-btn bio-btn px-2.5 py-1.5 rounded text-xs font-medium">
+      Borde (Cristal y Glandular)
+    </button>
+    <button data-cam="interior" class="cam-btn bio-btn px-2.5 py-1.5 rounded text-xs font-medium">
+      Interior (Fibrosa y Lipófila)
+    </button>
+    <button data-cam="ventral" class="cam-btn bio-btn px-2.5 py-1.5 rounded text-xs font-medium">
+      Cilios y Esferas Ventrales
+    </button>
+    <button data-cam="dorsal" class="cam-btn bio-btn px-2.5 py-1.5 rounded text-xs font-medium">
+      Pavimento Dorsal
+    </button>
+    <span class="hidden lg:inline-block text-[11px] pl-2" style="color: var(--muted); border-left: 1px solid var(--rule);">
+      Arrastrar: Rotar · Rueda: Zoom · Clic derecho: Desplazar · Clic en célula: Inspeccionar
+    </span>
+  </nav>
+
+  <!-- Import Map for Three.js & OrbitControls -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    // =========================================================================
+    // 1. SCIENTIFIC DATASET — Smith et al. (2014), Current Biology 24, 1565-1572
+    // =========================================================================
+    const CELL_DATA = {
+      vec: {
+        id: 'vec',
+        name: 'Células Epiteliales Ventrales (CEV)',
+        shortName: 'Epiteliales Ventrales',
+        color: '#E5DFB9',
+        swatch: '#E5DFB9',
+        pct: '72%',
+        density: '1845 ± 257 / 10⁴ µm²',
+        count: '~36 226 células',
+        category: 'Placa Ventral · Dominante',
+        location: 'Forman la densa placa epitelial ventral seudoestratificada orientada hacia el sustrato, tanto en el margen como en el interior.',
+        markers: 'Un único cilio en una fosa ciliar (CilB+, α-tubulina+) rodeado de densas microvellosidades; uniones apicales MAGUK+; inclusión floculenta de ~1 µm cerca del núcleo; gránulos densos basales de 200–400 nm.',
+        function: 'Impulsan la locomoción por deslizamiento ciliar sobre el sustrato y absorben nutrientes digeridos mediante transportadores microvellositarios y endocitosis vesicular (captación de ferritina).'
+      },
+      lipophil: {
+        id: 'lipophil',
+        name: 'Células Lipófilas',
+        shortName: 'Células Lipófilas',
+        color: '#D98A8E',
+        swatch: '#D98A8E',
+        pct: '11%',
+        density: '285 ± 52 / 10⁴ µm²',
+        count: '~5 596 células',
+        category: 'Ventral e Interior · Digestiva',
+        location: 'Intercaladas de forma uniforme por todo el epitelio ventral (>20 µm desde el borde; ausentes en el margen), con somas profundos que se proyectan hacia el interior entre las células fibrosas.',
+        markers: 'No ciliadas; repletas de inclusiones lipídicas esféricas teñidas con Rojo Nilo, C1-Bodipy-C12 y LysoTracker Red acidófilo; esfera refringente prominente (~3 µm) en la superficie ventral.',
+        function: 'Nuevo tipo celular digestivo principal identificado por Smith et al. (2014); probablemente secreta enzimas digestivas externamente sobre las algas atrapadas durante las pausas de alimentación.'
+      },
+      dec: {
+        id: 'dec',
+        name: 'Células Epiteliales Dorsales (CED)',
+        shortName: 'Epiteliales Dorsales',
+        color: '#B8BC8A',
+        swatch: '#B8BC8A',
+        pct: '9%',
+        density: '236 ± 24 / 10⁴ µm²',
+        count: '~4 634 células',
+        category: 'Techo Dorsal · Protectora',
+        location: 'Forman un pavimento poligonal continuo y delgado en el techo dorsal, con cuerpos celulares en forma de lágrima suspendidos por cuellos finos dentro del espacio interior lleno de líquido.',
+        markers: 'Contornos poligonales MAGUK+ y F-actina (faloidina+); un único cilio dorsal con escasas microvellosidades; gránulos elípticos oscuros de ~0,5 µm. En cepas silvestres (Fig. S2B), algunas CED contienen «esferas brillantes» refringentes de ~5 µm.',
+        function: 'Constituyen la barrera epitelial protectora superior (carente de uniones estrechas y lámina basal); las esferas brillantes dorsales en cepas silvestres brindan defensa química contra depredadores.'
+      },
+      fiber: {
+        id: 'fiber',
+        name: 'Células Fibrosas',
+        shortName: 'Células Fibrosas',
+        color: '#E6C15A',
+        swatch: '#E6C15A',
+        pct: '4,4%',
+        density: '113 ± 9 / 10⁴ µm²',
+        count: '~2 219 células',
+        category: 'Capa Interior · Integradora',
+        location: 'Espaciadas regularmente en una monocapa a lo largo de la cavidad interior, entre el epitelio dorsal y la placa ventral.',
+        markers: 'Delimitadas por cadherina de Trichoplax (TaCDH) y receptor tipo P2X; 6 o más prolongaciones largas y ramificadas que contactan con todos los demás tipos celulares; cúmulo mitocondrial intercalado con cuerpos pálidos, inclusiones bacilares rodeadas de RER y una vacuola de concreción oscura.',
+        function: 'Forman una red celular estructural y de comunicación que contacta con células dorsales, ventrales, lipófilas y cristalinas; septos electrodensos ocasionales recuerdan a uniones de tapón sincitiales.'
+      },
+      gland: {
+        id: 'gland',
+        name: 'Células Glandulares (Neurosecretoras)',
+        shortName: 'Células Glandulares',
+        color: '#8AB88E',
+        swatch: '#8AB88E',
+        pct: '2,7%',
+        density: '70 ± 10 / 10⁴ µm²',
+        count: '~1 374 células',
+        category: 'Margen y Ventral · Neurosecretora',
+        location: 'Aproximadamente la mitad se concentra en un anillo prominente a menos de ~20 µm del borde lateral; el resto se dispersa de manera escasa por las regiones centrales del epitelio ventral.',
+        markers: 'Células ciliadas en forma de reloj de arena repletas de gránulos de 200–500 nm; inmunomarcadas para proteínas SNARE neuronales (sintaxina 1, sinaptobrevina, SNAP-25) y sinapsina; la subpoblación del borde expresa un neuropéptido tipo FMRFamida.',
+        function: 'Posibles células neurosecretoras y quimiosensoriales que liberan neuropéptidos tipo FMRFamida de forma paracrina para modular el deslizamiento ciliar y la conducta alimentaria.'
+      },
+      crystal: {
+        id: 'crystal',
+        name: 'Células Cristalinas',
+        shortName: 'Células Cristalinas',
+        color: '#7FB3D5',
+        swatch: '#7FB3D5',
+        pct: '0,15%',
+        density: '3,8 ± 0,7 / 10⁴ µm²',
+        count: '~75 células',
+        category: 'Borde Lateral · Sensorial',
+        location: 'Células poco frecuentes dispuestas exclusivamente alrededor del margen lateral directamente debajo del epitelio dorsal, en posición más dorsal que las células glandulares y sin alcanzar la superficie.',
+        markers: 'Citoplasma claro sin gránulos secretores; núcleo periférico aplanado en forma de copa; par de mitocondrias flanqueantes; cristal romboidal birrefringente central de ~2 µm visible con luz polarizada.',
+        function: 'Posibles células sensoriales tipo estatocisto sensibles a la gravedad o a la luz (Trichoplax expresa genes de la vía de las opsinas y responde a la luz y la gravedad).'
+      },
+      shiny: {
+        id: 'shiny',
+        name: 'Esferas Brillantes Dorsales (Cepa Silvestre)',
+        shortName: 'Esferas Brillantes Dorsales',
+        color: '#F8FAFC',
+        swatch: '#FDE68A',
+        pct: 'Variante de cepa',
+        density: 'Inclusión epitelial dorsal (~5 µm)',
+        count: 'Presentes en cepas silvestres',
+        category: 'Epitelio Dorsal · Antidepredador',
+        location: 'Ubicadas dentro de células epiteliales dorsales cerca de la superficie dorsal en cepas de placozoos recolectadas en el medio natural (Smith et al. 2014, p. 1569–1570 y Fig. S2B, S3C), pero ausentes en el clon cultivado de Grell.',
+        markers: 'Grandes inclusiones lipídicas refringentes (~5 µm) visibles mediante microscopía DIC; se tiñen intensamente tanto con los colorantes lipófilos C1-Bodipy-C12 / Rojo Nilo como con LysoTracker Red acidófilo.',
+        function: 'Documentadas por Jackson y Buss (2009) y Smith et al. (2014) para almacenar compuestos tóxicos o repelentes en la superficie dorsal como defensa frente a depredadores marinos.'
+      }
+    };
+
+    // =========================================================================
+    // 2. THREE.JS SCENE, RENDERER, LIGHTING & CLIPPING SETUP
+    // =========================================================================
+    const container = document.getElementById('canvas-container');
+    const scene = new THREE.Scene();
+
+    // Detect Bioprâxis theme (syncs with data-theme or prefers-color-scheme)
+    function isDarkTheme() {
+      const explicit = document.documentElement.getAttribute('data-theme');
+      if (explicit === 'dark') return true;
+      if (explicit === 'light') return false;
+      return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    // Follow the site's saved theme (same origin as the chapter pages)
+    try { const saved = localStorage.getItem('theme'); if (saved) document.documentElement.setAttribute('data-theme', saved); } catch (e) {}
+
+    const initialBgHex = isDarkTheme() ? 0x150f22 : 0xf7f5f3;
+    scene.background = new THREE.Color(initialBgHex);
+    scene.fog = new THREE.FogExp2(initialBgHex, 0.011);
+
+    const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 200);
+    camera.position.set(14, 12.5, 22);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.15;
+    renderer.localClippingEnabled = true;
+    container.appendChild(renderer.domElement);
+
+    // Z-Axis Clipping Plane for Cutaway Inspection
+    const clipPlaneZ = new THREE.Plane(new THREE.Vector3(0, 0, -1), 6.0);
+
+    // OrbitControls
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.minDistance = 6;
+    controls.maxDistance = 52;
+    controls.target.set(0, 0.4, 0);
+
+    // Three-Point + Rim Lighting for Rich Biological Depth
+    const hemiLight = new THREE.HemisphereLight(0xdbeafe, 0x1e293b, 0.95);
+    scene.add(hemiLight);
+
+    const keyLight = new THREE.DirectionalLight(0xffffff, 1.55);
+    keyLight.position.set(16, 26, 18);
+    keyLight.castShadow = true;
+    keyLight.shadow.mapSize.width = 2048;
+    keyLight.shadow.mapSize.height = 2048;
+    keyLight.shadow.camera.near = 2;
+    keyLight.shadow.camera.far = 65;
+    const d = 18;
+    keyLight.shadow.camera.left = -d;
+    keyLight.shadow.camera.right = d;
+    keyLight.shadow.camera.top = d;
+    keyLight.shadow.camera.bottom = -d;
+    keyLight.shadow.bias = -0.0005;
+    scene.add(keyLight);
+
+    const rimLight = new THREE.DirectionalLight(0x38bdf8, 0.75);
+    rimLight.position.set(-18, 8, -14);
+    scene.add(rimLight);
+
+    const ventralFill = new THREE.DirectionalLight(0xfef3c7, 0.55);
+    ventralFill.position.set(4, -18, 10);
+    scene.add(ventralFill);
+
+    // Subtle Substrate Grid Plane below Ventral Cilia (adapts to Bioprâxis paper/plum theme)
+    const substrateGeo = new THREE.PlaneGeometry(42, 26);
+    const substrateMat = new THREE.MeshStandardMaterial({
+      color: isDarkTheme() ? 0x1c1530 : 0xece7f4,
+      roughness: 0.9,
+      metalness: 0.05,
+      transparent: true,
+      opacity: 0.65
+    });
+    const substrateMesh = new THREE.Mesh(substrateGeo, substrateMat);
+    substrateMesh.rotation.x = -Math.PI / 2;
+    substrateMesh.position.y = -5.55;
+    substrateMesh.receiveShadow = true;
+    scene.add(substrateMesh);
+
+    let gridHelper = new THREE.GridHelper(
+      36,
+      36,
+      isDarkTheme() ? 0x4b2a7b : 0x7b5ea7,
+      isDarkTheme() ? 0x2e2540 : 0xdcd6e2
+    );
+    gridHelper.position.y = -5.53;
+    scene.add(gridHelper);
+
+    // Theme Synchronization Function (updates 3D canvas backdrop, fog, grid & UI icon)
+    function applyBiopraxisTheme(dark) {
+      const bgHex = dark ? 0x150f22 : 0xf7f5f3;
+      scene.background.setHex(bgHex);
+      scene.fog.color.setHex(bgHex);
+      substrateMat.color.setHex(dark ? 0x1c1530 : 0xece7f4);
+
+      scene.remove(gridHelper);
+      gridHelper.geometry.dispose();
+      gridHelper.material.dispose();
+      gridHelper = new THREE.GridHelper(
+        36,
+        36,
+        dark ? 0x4b2a7b : 0x7b5ea7,
+        dark ? 0x2e2540 : 0xdcd6e2
+      );
+      gridHelper.position.y = -5.53;
+      scene.add(gridHelper);
+
+      const iconEl = document.getElementById('theme-icon');
+      if (iconEl) {
+        iconEl.innerHTML = dark
+          ? '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>'
+          : '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
+      }
+    }
+
+    // Wire up Bioprâxis round theme toggle button & system preference listener
+    document.getElementById('theme-toggle-btn').addEventListener('click', () => {
+      const nextDark = !isDarkTheme();
+      document.documentElement.setAttribute('data-theme', nextDark ? 'dark' : 'light');
+      try { localStorage.setItem('theme', nextDark ? 'dark' : 'light'); } catch (e) {}
+      if (window.parent !== window) window.parent.postMessage({ type: 'bioprax-theme-changed', dark: nextDark }, '*');
+      applyBiopraxisTheme(nextDark);
+    });
+
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (!document.documentElement.getAttribute('data-theme')) {
+          applyBiopraxisTheme(isDarkTheme());
+        }
+      });
+    }
+    applyBiopraxisTheme(isDarkTheme());
+
+    // =========================================================================
+    // 3. PROCEDURAL 3D HISTOLOGICAL BLOCK ARCHITECTURE
+    // =========================================================================
+    // Block Coordinate System:
+    // X: -11.0 (Curved Lateral Rim/Margin)  --->  +11.0 (Interior/Central Region)
+    // Z:  -4.8 (Back Face)                  --->   +4.8 (Front Cutaway Face)
+    // Y:  -4.0 (Ventral Surface)            --->   +4.0 (Dorsal Roof)
+
+    const rootGroup = new THREE.Group();
+    scene.add(rootGroup);
+
+    // Layer groups for Exploded View separation
+    const dorsalLayerGroup = new THREE.Group();
+    const interiorLayerGroup = new THREE.Group();
+    const ventralLayerGroup = new THREE.Group();
+    rootGroup.add(dorsalLayerGroup, interiorLayerGroup, ventralLayerGroup);
+
+    // Type-specific groups for visibility toggling & raycasting
+    const typeGroups = {
+      vec: new THREE.Group(),
+      lipophil: new THREE.Group(),
+      dec: new THREE.Group(),
+      fiber: new THREE.Group(),
+      gland: new THREE.Group(),
+      crystal: new THREE.Group(),
+      shiny: new THREE.Group()
+    };
+
+    ventralLayerGroup.add(typeGroups.vec, typeGroups.lipophil, typeGroups.gland);
+    interiorLayerGroup.add(typeGroups.fiber, typeGroups.crystal);
+    dorsalLayerGroup.add(typeGroups.dec, typeGroups.shiny);
+
+    const interactiveMeshes = [];
+    const animatedCilia = [];
+    const animatedCrystals = [];
+    const shinySphereMeshes = [];
+
+    // Deterministic pseudo-random generator for clean, reproducible histology
+    let seed = 4219;
+    function rand() {
+      seed = (seed * 16807) % 2147483647;
+      return (seed - 1) / 2147483646;
+    }
+
+    // Helper: Apply shared clipping plane & metadata to meshes
+    function registerMesh(mesh, cellTypeKey, isHighlightable = true) {
+      if (!mesh) return mesh;
+      if (!mesh.userData) mesh.userData = {};
+      mesh.userData.cellType = cellTypeKey;
+      mesh.userData.isHighlightable = isHighlightable;
+      if (mesh.material) {
+        const mats = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+        mats.forEach(m => {
+          m.clippingPlanes = [clipPlaneZ];
+          m.clipShadows = true;
+        });
+      }
+      if (isHighlightable) {
+        interactiveMeshes.push(mesh);
+      }
+      return mesh;
+    }
+
+    // Shared Materials (Cloned per type so hover highlight works cleanly)
+    const materials = {
+      vecBody: new THREE.MeshPhysicalMaterial({
+        color: 0xe5dfb9,
+        roughness: 0.52,
+        metalness: 0.02,
+        clearcoat: 0.15,
+        clearcoatRoughness: 0.6
+      }),
+      vecNucleus: new THREE.MeshStandardMaterial({
+        color: 0xb5ad84,
+        roughness: 0.7
+      }),
+      vecInclusion: new THREE.MeshStandardMaterial({
+        color: 0xcfc79c,
+        roughness: 0.4,
+        transparent: true,
+        opacity: 0.85
+      }),
+      lipophilBody: new THREE.MeshPhysicalMaterial({
+        color: 0xd98a8e,
+        roughness: 0.42,
+        metalness: 0.03,
+        clearcoat: 0.25,
+        clearcoatRoughness: 0.4
+      }),
+      lipophilVentralSphere: new THREE.MeshPhysicalMaterial({
+        color: 0xd8b4fe,
+        emissive: 0x3b1d5e,
+        emissiveIntensity: 0.22,
+        roughness: 0.12,
+        metalness: 0.05,
+        transmission: 0.35,
+        thickness: 1.2,
+        clearcoat: 0.9,
+        clearcoatRoughness: 0.1
+      }),
+      lipophilGranule: new THREE.MeshStandardMaterial({
+        color: 0xf4c2c7,
+        roughness: 0.35
+      }),
+      decRoof: new THREE.MeshPhysicalMaterial({
+        color: 0xb8bc8a,
+        roughness: 0.55,
+        metalness: 0.02,
+        clearcoat: 0.2
+      }),
+      decDarkGranule: new THREE.MeshStandardMaterial({
+        color: 0x292d1e,
+        roughness: 0.6
+      }),
+      fiberBody: new THREE.MeshPhysicalMaterial({
+        color: 0xe6c15a,
+        roughness: 0.38,
+        metalness: 0.05,
+        clearcoat: 0.3
+      }),
+      fiberMito: new THREE.MeshStandardMaterial({
+        color: 0x4a3714,
+        roughness: 0.5
+      }),
+      glandBody: new THREE.MeshPhysicalMaterial({
+        color: 0x8ab88e,
+        roughness: 0.45,
+        clearcoat: 0.25
+      }),
+      glandGranule: new THREE.MeshStandardMaterial({
+        color: 0xdcfce7,
+        emissive: 0x14532d,
+        emissiveIntensity: 0.25,
+        roughness: 0.3
+      }),
+      crystalCell: new THREE.MeshPhysicalMaterial({
+        color: 0x7fb3d5,
+        roughness: 0.2,
+        transmission: 0.45,
+        transparent: true,
+        opacity: 0.86,
+        clearcoat: 0.85
+      }),
+      crystalCore: new THREE.MeshPhysicalMaterial({
+        color: 0xffffff,
+        emissive: 0x38bdf8,
+        emissiveIntensity: 0.45,
+        roughness: 0.05,
+        metalness: 0.2,
+        clearcoat: 1.0,
+        reflectivity: 1.0
+      }),
+      shinySphere: new THREE.MeshPhysicalMaterial({
+        color: 0xfef9c3,
+        emissive: 0xf59e0b,
+        emissiveIntensity: 0.18,
+        roughness: 0.06,
+        metalness: 0.12,
+        clearcoat: 1.0,
+        clearcoatRoughness: 0.05,
+        iridescence: 0.85,
+        iridescenceIOR: 1.45
+      }),
+      cilium: new THREE.MeshStandardMaterial({
+        color: 0xf8fafc,
+        roughness: 0.35
+      }),
+      microvillus: new THREE.MeshStandardMaterial({
+        color: 0xd6cfa8,
+        roughness: 0.5
+      })
+    };
+
+    // Helper: Create a waving cilium + optional microvilli crown
+    function createCiliumGroup(isVentral = true, phaseOffset = 0) {
+      const group = new THREE.Group();
+      const length = isVentral ? 1.35 : 1.1;
+      const radius = isVentral ? 0.042 : 0.036;
+
+      // Curved tapered cilium shaft
+      const curve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0.08, isVentral ? -length * 0.35 : length * 0.35, 0.03),
+        new THREE.Vector3(-0.06, isVentral ? -length * 0.72 : length * 0.72, -0.02),
+        new THREE.Vector3(0.1, isVentral ? -length : length, 0.04)
+      ]);
+      const geo = new THREE.TubeGeometry(curve, 8, radius, 6, false);
+      const mesh = new THREE.Mesh(geo, materials.cilium);
+      group.add(mesh);
+
+      // Microvilli brush border around ventral ciliary pit
+      if (isVentral) {
+        const mvGeo = new THREE.CylinderGeometry(0.016, 0.02, 0.34, 5);
+        for (let i = 0; i < 6; i++) {
+          const ang = (i / 6) * Math.PI * 2;
+          const mv = new THREE.Mesh(mvGeo, materials.microvillus);
+          mv.position.set(Math.cos(ang) * 0.14, -0.16, Math.sin(ang) * 0.14);
+          mv.rotation.z = Math.cos(ang) * 0.14;
+          mv.rotation.x = -Math.sin(ang) * 0.14;
+          group.add(mv);
+        }
+      }
+
+      animatedCilia.push({
+        group,
+        phase: phaseOffset,
+        isVentral
+      });
+      return group;
+    }
+
+    // -------------------------------------------------------------------------
+    // A. BUILD CURVED RIM + VENTRAL PLATE (VECs 72%, Gland 2.7%, Lipophils 11%)
+    // -------------------------------------------------------------------------
+    // Curved lateral margin profile on left (X from -11.2 to -7.5) transitions
+    // smoothly into the flat trilaminar interior block (X from -7.5 to +10.8).
+
+    function getRimCurvePoint(t) {
+      // t = 0 (Dorsal rim) -> t = 0.5 (Apex of lateral rim) -> t = 1 (Ventral rim)
+      const angle = (t - 0.5) * Math.PI; // -PI/2 to +PI/2
+      const rx = 3.2;
+      const ry = 3.55;
+      const x = -7.6 - Math.cos(angle) * rx;
+      const y = -Math.sin(angle) * ry;
+      const normal = new THREE.Vector3(-Math.cos(angle), -Math.sin(angle), 0).normalize();
+      return { x, y, normal, angle };
+    }
+
+    // Build Ventral Epithelial Cells (VECs) — 72% (tightly packed pseudocolumnar cells)
+    function buildVentralPlate() {
+      const vecCellGeo = new THREE.CapsuleGeometry(0.34, 1.95, 6, 10);
+      const nucGeo = new THREE.SphereGeometry(0.21, 8, 8);
+      const flocGeo = new THREE.SphereGeometry(0.17, 8, 8);
+
+      // 1. Curved Rim Transition Epithelial Cells (t from 0.22 to 0.96)
+      const zCols = 11;
+      const zMin = -4.2;
+      const zMax = 4.2;
+      const zStep = (zMax - zMin) / (zCols - 1);
+
+      for (let zi = 0; zi < zCols; zi++) {
+        const z = zMin + zi * zStep + (rand() - 0.5) * 0.12;
+
+        // Curved margin cells
+        const rimSteps = 7;
+        for (let ri = 0; ri < rimSteps; ri++) {
+          const t = 0.24 + (ri / (rimSteps - 1)) * 0.72;
+          const pt = getRimCurvePoint(t);
+
+          // Reserve slots near margin (t ~ 0.65 - 0.85) for Gland Cells
+          const isGlandSlot = (ri === 3 || ri === 4) && (zi % 2 === 0);
+          if (isGlandSlot) {
+            createGlandCell(
+              pt.x - pt.normal.x * 1.05,
+              pt.y - pt.normal.y * 1.05,
+              z,
+              pt.normal,
+              true
+            );
+            continue;
+          }
+
+          const cellGroup = new THREE.Group();
+          const mesh = new THREE.Mesh(vecCellGeo, materials.vecBody);
+          mesh.scale.set(0.92, 0.85, 0.92);
+          mesh.castShadow = true;
+          mesh.receiveShadow = true;
+          registerMesh(mesh, 'vec');
+          cellGroup.add(mesh);
+
+          // Nucleus
+          const nuc = new THREE.Mesh(nucGeo, materials.vecNucleus);
+          nuc.position.set(0, 0.25, 0.18);
+          registerMesh(nuc, 'vec', false);
+          cellGroup.add(nuc);
+
+          // Position & orient along normal
+          cellGroup.position.set(
+            pt.x - pt.normal.x * 1.1,
+            pt.y - pt.normal.y * 1.1,
+            z
+          );
+          const upVec = new THREE.Vector3(0, -1, 0);
+          const quat = new THREE.Quaternion().setFromUnitVectors(upVec, pt.normal);
+          cellGroup.quaternion.copy(quat);
+
+          // Cilia along ventral-lateral rim
+          if (t > 0.48) {
+            const cil = createCiliumGroup(true, zi * 0.4 + ri * 0.5);
+            cil.position.set(0, -1.12, 0);
+            cellGroup.add(cil);
+          }
+
+          typeGroups.vec.add(cellGroup);
+        }
+
+        // 2. Main Ventral Plate (X from -7.4 to +10.4)
+        const xStart = -7.3;
+        const xEnd = 10.3;
+        const xCols = 24;
+        const xStep = (xEnd - xStart) / (xCols - 1);
+
+        for (let xi = 0; xi < xCols; xi++) {
+          const x = xStart + xi * xStep + (rand() - 0.5) * 0.14;
+          const zPos = zMin + zi * zStep + (rand() - 0.5) * 0.14;
+
+          // Lipophils are evenly interspersed in interior (absent within ~20 µm of rim: x > -4.5)
+          const isLipophilSlot =
+            x > -4.6 &&
+            ((xi + zi * 2) % 6 === 2) &&
+            (zi % 2 === 0 || xi % 4 === 1);
+
+          // Occasional central Gland Cell (sparse away from rim)
+          const isCentralGland =
+            !isLipophilSlot &&
+            x > -3.0 &&
+            (xi === 9 && zi === 8 || xi === 18 && zi === 4);
+
+          if (isLipophilSlot) {
+            createLipophilCell(x, -2.15, zPos);
+            continue;
+          }
+
+          if (isCentralGland) {
+            createGlandCell(x, -2.25, zPos, new THREE.Vector3(0, -1, 0), false);
+            continue;
+          }
+
+          // Standard Ventral Epithelial Cell (VEC)
+          const vecGroup = new THREE.Group();
+          const heightJitter = 0.92 + rand() * 0.22;
+          const body = new THREE.Mesh(vecCellGeo, materials.vecBody);
+          body.scale.set(1.0 + rand() * 0.1, heightJitter, 1.0 + rand() * 0.1);
+          body.castShadow = true;
+          body.receiveShadow = true;
+          registerMesh(body, 'vec');
+          vecGroup.add(body);
+
+          // Nucleus (pseudostratified heights)
+          const nuc = new THREE.Mesh(nucGeo, materials.vecNucleus);
+          nuc.position.set(0, (rand() - 0.3) * 0.75, 0.15);
+          registerMesh(nuc, 'vec', false);
+          vecGroup.add(nuc);
+
+          // ~1 µm flocculent inclusion near nucleus
+          const floc = new THREE.Mesh(flocGeo, materials.vecInclusion);
+          floc.position.set(0.08, 0.45, -0.12);
+          registerMesh(floc, 'vec', false);
+          vecGroup.add(floc);
+
+          // Ventral cilium + microvilli
+          const cil = createCiliumGroup(true, x * 0.45 + zPos * 0.3);
+          cil.position.set(0, -1.25 * heightJitter, 0);
+          vecGroup.add(cil);
+
+          vecGroup.position.set(x, -2.35 + (heightJitter - 1) * 0.4, zPos);
+          vecGroup.rotation.z = (rand() - 0.5) * 0.08;
+          vecGroup.rotation.x = (rand() - 0.5) * 0.08;
+          typeGroups.vec.add(vecGroup);
+        }
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // B. LIPOPHIL CELLS (11%) — Flask-shaped with large ~3 µm ventral sphere
+    // -------------------------------------------------------------------------
+    function createLipophilCell(x, y, z) {
+      const group = new THREE.Group();
+
+      // Deep bulbous interior cell body (mingles with fiber cells)
+      const somaGeo = new THREE.SphereGeometry(0.88, 14, 12);
+      const soma = new THREE.Mesh(somaGeo, materials.lipophilBody);
+      soma.scale.set(1.15, 1.25, 0.95);
+      soma.position.set(0.15, 1.35, 0);
+      soma.castShadow = true;
+      soma.receiveShadow = true;
+      registerMesh(soma, 'lipophil');
+      group.add(soma);
+
+      // Thick tapering neck extending down to the ventral surface
+      const neckCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0.12, 1.1, 0),
+        new THREE.Vector3(0.04, 0.25, 0.03),
+        new THREE.Vector3(0, -0.65, 0)
+      ]);
+      const neckGeo = new THREE.TubeGeometry(neckCurve, 10, 0.34, 10, false);
+      const neck = new THREE.Mesh(neckGeo, materials.lipophilBody);
+      neck.castShadow = true;
+      registerMesh(neck, 'lipophil');
+      group.add(neck);
+
+      // Extra-large (~3 µm) refractile lavender/translucent sphere at ventral tip
+      const bigSphereGeo = new THREE.SphereGeometry(0.56, 18, 16);
+      const bigSphere = new THREE.Mesh(bigSphereGeo, materials.lipophilVentralSphere);
+      bigSphere.position.set(0, -1.08, 0);
+      bigSphere.castShadow = true;
+      registerMesh(bigSphere, 'lipophil');
+      group.add(bigSphere);
+
+      // Interior packed lipid granules (Nile Red / LysoTracker positive)
+      const granGeo = new THREE.SphereGeometry(0.22, 8, 8);
+      const offsets = [
+        [-0.35, 1.55, 0.35], [0.42, 1.65, 0.25], [0.05, 1.85, -0.32],
+        [-0.28, 1.15, -0.35], [0.38, 1.1, 0.32], [0.02, 0.45, 0.16],
+        [-0.08, -0.15, -0.14], [0.1, 1.4, 0.55]
+      ];
+      offsets.forEach(([ox, oy, oz]) => {
+        const g = new THREE.Mesh(granGeo, materials.lipophilGranule);
+        g.scale.setScalar(0.75 + rand() * 0.55);
+        g.position.set(ox, oy, oz);
+        registerMesh(g, 'lipophil', false);
+        group.add(g);
+      });
+
+      group.position.set(x, y, z);
+      group.rotation.y = (rand() - 0.5) * 0.5;
+      typeGroups.lipophil.add(group);
+    }
+
+    // -------------------------------------------------------------------------
+    // C. GLAND CELLS (2.7%) — Hourglass neurosecretory cells near rim & ventral
+    // -------------------------------------------------------------------------
+    function createGlandCell(x, y, z, normalVec, isRim) {
+      const group = new THREE.Group();
+
+      // Hourglass profile via LatheGeometry
+      const points = [
+        new THREE.Vector2(0.05, -1.15),
+        new THREE.Vector2(0.32, -0.95),
+        new THREE.Vector2(0.28, -0.55),
+        new THREE.Vector2(0.13, -0.05), // narrow waist
+        new THREE.Vector2(0.34, 0.55),  // apical/interior bulb
+        new THREE.Vector2(0.38, 0.95),
+        new THREE.Vector2(0.05, 1.2)
+      ];
+      const latheGeo = new THREE.LatheGeometry(points, 14);
+      const body = new THREE.Mesh(latheGeo, materials.glandBody);
+      body.castShadow = true;
+      registerMesh(body, 'gland');
+      group.add(body);
+
+      // 200–500 nm SNARE / FMRFamide secretory granules
+      const granGeo = new THREE.SphereGeometry(0.085, 7, 7);
+      for (let i = 0; i < 14; i++) {
+        const g = new THREE.Mesh(granGeo, materials.glandGranule);
+        const isLower = i < 7;
+        const gy = isLower ? -0.95 + rand() * 0.5 : 0.4 + rand() * 0.6;
+        const rMax = isLower ? 0.2 : 0.24;
+        const ang = rand() * Math.PI * 2;
+        g.position.set(Math.cos(ang) * rMax * rand(), gy, Math.sin(ang) * rMax * rand());
+        registerMesh(g, 'gland', false);
+        group.add(g);
+      }
+
+      // Gland cells bear a ventral cilium (putative chemosensory role)
+      const cil = createCiliumGroup(true, x + z);
+      cil.position.set(0, -1.15, 0);
+      group.add(cil);
+
+      group.position.set(x, y, z);
+      const upVec = new THREE.Vector3(0, -1, 0);
+      const quat = new THREE.Quaternion().setFromUnitVectors(upVec, normalVec.clone().normalize());
+      group.quaternion.copy(quat);
+
+      if (isRim) {
+        group.scale.setScalar(0.95);
+      }
+      typeGroups.gland.add(group);
+    }
+
+    // -------------------------------------------------------------------------
+    // D. DORSAL EPITHELIAL CELLS (9%) & TOGGLEABLE SHINY SPHERES
+    // -------------------------------------------------------------------------
+    function buildDorsalRoof() {
+      // Continuous thin dorsal roof pavement slab (curved at left margin, flat across interior)
+      const shape = new THREE.Shape();
+      // Start at dorsal-rim transition
+      shape.moveTo(-7.6, 3.55);
+      shape.lineTo(10.6, 3.55);
+      shape.lineTo(10.6, 3.22);
+      shape.lineTo(-7.6, 3.22);
+      // Curve smoothly down the upper rim
+      shape.absarc(-7.6, 0, 3.22, Math.PI / 2, Math.PI * 0.78, false);
+      shape.absarc(-7.6, 0, 3.55, Math.PI * 0.78, Math.PI / 2, true);
+
+      const extrudeSettings = {
+        depth: 9.2,
+        bevelEnabled: true,
+        bevelSegments: 2,
+        steps: 1,
+        bevelSize: 0.04,
+        bevelThickness: 0.04
+      };
+      const roofGeo = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+      roofGeo.translate(0, 0, -4.6);
+      const roofMesh = new THREE.Mesh(roofGeo, materials.decRoof);
+      roofMesh.castShadow = true;
+      roofMesh.receiveShadow = true;
+      registerMesh(roofMesh, 'dec');
+      typeGroups.dec.add(roofMesh);
+
+      // Polygonal junction ridges on dorsal surface (F-actin / MAGUK pavement)
+      const ridgeMat = new THREE.MeshStandardMaterial({
+        color: 0x8f9464,
+        roughness: 0.7,
+        clippingPlanes: [clipPlaneZ],
+        clipShadows: true
+      });
+
+      const hexCols = 11;
+      const hexRows = 6;
+      const dx = 1.65;
+      const dz = 1.55;
+
+      const neckGeo = new THREE.CylinderGeometry(0.11, 0.14, 0.65, 8);
+      const somaGeo = new THREE.SphereGeometry(0.36, 12, 10);
+      const darkGranGeo = new THREE.SphereGeometry(0.065, 6, 6);
+
+      for (let ix = 0; ix < hexCols; ix++) {
+        for (let iz = 0; iz < hexRows; iz++) {
+          const x = -6.8 + ix * dx + (iz % 2) * (dx * 0.5) + (rand() - 0.5) * 0.15;
+          const z = -3.8 + iz * dz + (rand() - 0.5) * 0.15;
+          if (x > 10.0) continue;
+
+          // Polygonal cell border ring on top surface
+          const polyRingGeo = new THREE.RingGeometry(0.72, 0.8, 6);
+          const polyRing = new THREE.Mesh(polyRingGeo, ridgeMat);
+          polyRing.rotation.x = -Math.PI / 2;
+          polyRing.rotation.z = rand() * 0.5;
+          polyRing.position.set(x, 3.6, z);
+          registerMesh(polyRing, 'dec', false);
+          typeGroups.dec.add(polyRing);
+
+          // Hanging teardrop cell body suspended by neck in dorsal fluid space
+          const decCell = new THREE.Group();
+          const neck = new THREE.Mesh(neckGeo, materials.decRoof);
+          neck.position.set(0, -0.32, 0);
+          registerMesh(neck, 'dec');
+          decCell.add(neck);
+
+          const soma = new THREE.Mesh(somaGeo, materials.decRoof);
+          soma.scale.set(0.95, 1.35, 0.95);
+          soma.position.set(0, -0.78, 0);
+          soma.castShadow = true;
+          registerMesh(soma, 'dec');
+          decCell.add(soma);
+
+          // Small dark ~0.5 µm granules in dorsal roof & soma
+          for (let g = 0; g < 4; g++) {
+            const dg = new THREE.Mesh(darkGranGeo, materials.decDarkGranule);
+            dg.position.set(
+              (rand() - 0.5) * 0.9,
+              0.12 + (rand() - 0.5) * 0.12,
+              (rand() - 0.5) * 0.9
+            );
+            registerMesh(dg, 'dec', false);
+            decCell.add(dg);
+          }
+
+          // Sparse dorsal cilium (DECs have a single cilium)
+          if ((ix + iz) % 2 === 0) {
+            const dcil = createCiliumGroup(false, x * 0.3 + z * 0.4);
+            dcil.position.set(0, 0.36, 0);
+            decCell.add(dcil);
+          }
+
+          decCell.position.set(x, 3.24, z);
+          typeGroups.dec.add(decCell);
+
+          // Toggleable Dorsal "Shiny Spheres" (~5 µm refractile lipid spheres in field strains)
+          if ((ix + iz * 2) % 3 === 1) {
+            const shinyGeo = new THREE.SphereGeometry(0.46, 18, 16);
+            const shinyMesh = new THREE.Mesh(shinyGeo, materials.shinySphere);
+            shinyMesh.position.set(x + 0.18, 3.38, z - 0.12);
+            shinyMesh.castShadow = true;
+            registerMesh(shinyMesh, 'shiny');
+            typeGroups.shiny.add(shinyMesh);
+            shinySphereMeshes.push(shinyMesh);
+          }
+        }
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // E. FIBER CELLS (4.4%) — Regularly spaced stellate cells with 6+ branches
+    // -------------------------------------------------------------------------
+    function buildFiberCells() {
+      const fiberPositions = [
+        [-5.6, 0.25, -2.5], [-5.2, 0.35, 2.3],
+        [-2.0, 0.3, -2.8],  [-1.6, 0.2, 0.3],  [-2.2, 0.35, 3.1],
+        [1.8, 0.25, -2.2],  [2.2, 0.4, 1.4],   [2.0, 0.2, 3.6],
+        [5.6, 0.35, -2.7],  [5.4, 0.25, 0.5],  [5.8, 0.3, 3.2],
+        [8.8, 0.3, -1.8],   [8.6, 0.35, 2.0]
+      ];
+
+      const somaGeo = new THREE.IcosahedronGeometry(0.68, 2);
+      const mitoGeo = new THREE.SphereGeometry(0.11, 7, 7);
+      const vacuoleGeo = new THREE.SphereGeometry(0.24, 10, 10);
+
+      fiberPositions.forEach(([fx, fy, fz], idx) => {
+        const fiberGroup = new THREE.Group();
+
+        // Irregular stellate soma
+        const soma = new THREE.Mesh(somaGeo, materials.fiberBody);
+        soma.scale.set(1.25, 0.78, 1.1);
+        soma.castShadow = true;
+        soma.receiveShadow = true;
+        registerMesh(soma, 'fiber');
+        fiberGroup.add(soma);
+
+        // Characteristic mitochondrial cluster + dark concrement vacuole
+        for (let m = 0; m < 6; m++) {
+          const mito = new THREE.Mesh(mitoGeo, materials.fiberMito);
+          mito.scale.set(1.4, 0.8, 0.9);
+          mito.position.set(
+            0.25 + (rand() - 0.5) * 0.26,
+            (rand() - 0.5) * 0.2,
+            0.2 + (rand() - 0.5) * 0.26
+          );
+          registerMesh(mito, 'fiber', false);
+          fiberGroup.add(mito);
+        }
+        const vac = new THREE.Mesh(vacuoleGeo, materials.fiberMito);
+        vac.position.set(-0.28, 0.08, 0.25);
+        registerMesh(vac, 'fiber', false);
+        fiberGroup.add(vac);
+
+        // 7 long tapering branching processes contacting dorsal, ventral, lipophil & adjacent fiber cells
+        const branchTargets = [
+          new THREE.Vector3(-2.1, 2.3, -0.8),   // up to dorsal epithelium
+          new THREE.Vector3(1.9, 2.4, 0.9),     // up to dorsal epithelium
+          new THREE.Vector3(-1.8, -1.45, 0.7),  // down to ventral plate
+          new THREE.Vector3(2.0, -1.5, -0.6),   // down to ventral plate
+          new THREE.Vector3(2.8, 0.1, 0.2),     // horizontal to neighbor fiber/lipophil
+          new THREE.Vector3(-2.6, -0.1, -0.3),  // horizontal to neighbor
+          new THREE.Vector3(0.3, 0.35, 2.4)     // Z-axis process
+        ];
+
+        branchTargets.forEach((target, bIdx) => {
+          const mid = target.clone().multiplyScalar(0.5);
+          mid.y += (bIdx % 2 === 0 ? 0.25 : -0.2);
+          const curve = new THREE.CatmullRomCurve3([
+            new THREE.Vector3(0, 0, 0),
+            mid,
+            target
+          ]);
+          // Tapered branch using custom radial segments
+          const tubeGeo = new THREE.TubeGeometry(curve, 12, 0.09, 6, false);
+          const posAttr = tubeGeo.attributes.position;
+          const v = new THREE.Vector3();
+          for (let i = 0; i < posAttr.count; i++) {
+            v.fromBufferAttribute(posAttr, i);
+            const distRatio = Math.min(1, v.length() / target.length());
+            // Taper down toward tip
+            const centerOnCurve = curve.getPointAt(distRatio);
+            v.sub(centerOnCurve).multiplyScalar(1.35 - distRatio * 0.95).add(centerOnCurve);
+            posAttr.setXYZ(i, v.x, v.y, v.z);
+          }
+          tubeGeo.computeVertexNormals();
+
+          const branchMesh = new THREE.Mesh(tubeGeo, materials.fiberBody);
+          branchMesh.castShadow = true;
+          registerMesh(branchMesh, 'fiber');
+          fiberGroup.add(branchMesh);
+        });
+
+        fiberGroup.position.set(fx, fy, fz);
+        fiberGroup.rotation.y = (idx * 0.9) % (Math.PI * 2);
+        typeGroups.fiber.add(fiberGroup);
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // F. CRYSTAL CELLS (0.15%) — Rare cells under dorsal rim with birefringent crystal
+    // -------------------------------------------------------------------------
+    function buildCrystalCells() {
+      // Positioned strictly near the lateral rim directly beneath the dorsal epithelium
+      const crystalLocations = [
+        [-8.35, 1.75, 2.85],
+        [-8.45, 1.72, -2.4]
+      ];
+
+      const outerGeo = new THREE.SphereGeometry(0.66, 20, 18);
+      const crystalGeo = new THREE.OctahedronGeometry(0.28, 0);
+      const cupNucGeo = new THREE.SphereGeometry(0.48, 14, 12, 0, Math.PI);
+      const flankMitoGeo = new THREE.CapsuleGeometry(0.08, 0.22, 4, 8);
+
+      crystalLocations.forEach(([cx, cy, cz]) => {
+        const cellGroup = new THREE.Group();
+
+        // Translucent pale-blue spherical cell body
+        const outer = new THREE.Mesh(outerGeo, materials.crystalCell);
+        outer.castShadow = true;
+        registerMesh(outer, 'crystal');
+        cellGroup.add(outer);
+
+        // Peripheral cup-shaped nucleus applied to one side (Fig. 6)
+        const cupNuc = new THREE.Mesh(cupNucGeo, materials.vecNucleus);
+        cupNuc.position.set(-0.22, -0.05, 0.12);
+        cupNuc.rotation.y = -Math.PI / 2;
+        registerMesh(cupNuc, 'crystal', false);
+        cellGroup.add(cupNuc);
+
+        // Two flanking mitochondria beside the crystal
+        const m1 = new THREE.Mesh(flankMitoGeo, materials.fiberMito);
+        m1.position.set(-0.24, 0, 0.16);
+        const m2 = new THREE.Mesh(flankMitoGeo, materials.fiberMito);
+        m2.position.set(0.24, 0, -0.14);
+        registerMesh(m1, 'crystal', false);
+        registerMesh(m2, 'crystal', false);
+        cellGroup.add(m1, m2);
+
+        // Central birefringent rhomboid crystal (~2 µm) that nutates/shimmers
+        const crystalMesh = new THREE.Mesh(crystalGeo, materials.crystalCore);
+        crystalMesh.scale.set(0.85, 1.35, 0.65);
+        registerMesh(crystalMesh, 'crystal');
+        cellGroup.add(crystalMesh);
+        animatedCrystals.push(crystalMesh);
+
+        cellGroup.position.set(cx, cy, cz);
+        typeGroups.crystal.add(cellGroup);
+      });
+    }
+
+    // Build all anatomical components
+    buildVentralPlate();
+    buildDorsalRoof();
+    buildFiberCells();
+    buildCrystalCells();
+
+    // =========================================================================
+    // 4. INTERACTIVE UI, RAYCASTING, CAMERA PRESETS & SECTION CONTROLS
+    // =========================================================================
+    const cellTypeListEl = document.getElementById('cell-type-list');
+    let selectedCellKey = null;
+    let hoveredCellKey = null;
+
+    // Populate Left Legend Checkboxes
+    const orderedKeys = ['vec', 'lipophil', 'dec', 'fiber', 'gland', 'crystal'];
+    orderedKeys.forEach(key => {
+      const info = CELL_DATA[key];
+      const row = document.createElement('div');
+      row.id = `row-${key}`;
+      row.className = 'cell-row flex items-center justify-between gap-2 px-2.5 py-2 rounded cursor-pointer';
+      row.innerHTML = `
+        <div class="flex items-center gap-2 min-w-0 flex-1" data-select="${key}">
+          <span class="w-3 h-3 rounded-full shrink-0 border border-black/25" style="background:${info.swatch}"></span>
+          <div class="truncate">
+            <div class="text-xs font-semibold truncate" style="color: var(--ink);">${info.shortName}</div>
+            <div class="mono text-[10px]" style="color: var(--muted);">${info.count}</div>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 shrink-0">
+          <span class="mono text-[11px] font-bold px-1.5 py-0.5 rounded" style="background: var(--accent-soft); color: var(--accent); border: 1px solid var(--rule);">
+            ${info.pct}
+          </span>
+          <input type="checkbox" checked data-toggle="${key}" title="Alternar visibilidad" class="w-3.5 h-3.5 rounded cursor-pointer" style="accent-color: var(--accent);" />
+        </div>
+      `;
+      cellTypeListEl.appendChild(row);
+
+      // Click row text to inspect cell details
+      row.querySelector('[data-select]').addEventListener('click', () => {
+        selectCellType(key);
+      });
+
+      // Checkbox toggles visibility of that cell population
+      const cb = row.querySelector('[data-toggle]');
+      cb.addEventListener('change', (e) => {
+        e.stopPropagation();
+        typeGroups[key].visible = e.target.checked;
+      });
+    });
+
+    // Show All / Reset buttons
+    document.getElementById('btn-show-all').addEventListener('click', () => {
+      orderedKeys.forEach(k => {
+        typeGroups[k].visible = true;
+        const cb = document.querySelector(`input[data-toggle="${k}"]`);
+        if (cb) cb.checked = true;
+      });
+    });
+
+    document.getElementById('btn-solo-reset').addEventListener('click', () => {
+      orderedKeys.forEach(k => {
+        typeGroups[k].visible = true;
+        const cb = document.querySelector(`input[data-toggle="${k}"]`);
+        if (cb) cb.checked = true;
+      });
+      document.getElementById('slider-explode').value = 0;
+      document.getElementById('explode-val').textContent = '0%';
+      dorsalLayerGroup.position.y = 0;
+      interiorLayerGroup.position.y = 0;
+      ventralLayerGroup.position.y = 0;
+
+      document.getElementById('slider-clip').value = 100;
+      document.getElementById('clip-val').textContent = '100%';
+      clipPlaneZ.constant = 6.0;
+
+      selectedCellKey = null;
+      document.querySelectorAll('.cell-row').forEach(r => r.classList.remove('active-cell'));
+      setCameraPreset('full');
+    });
+
+    // Toggle Dorsal Shiny Spheres (Field Strain vs Grell Lab Clone)
+    const toggleShinyEl = document.getElementById('toggle-shiny-spheres');
+    toggleShinyEl.addEventListener('change', (e) => {
+      typeGroups.shiny.visible = e.target.checked;
+      if (e.target.checked) {
+        selectCellType('shiny');
+      }
+    });
+
+    // Toggle Cilia & Microvilli visibility
+    document.getElementById('toggle-cilia').addEventListener('change', (e) => {
+      const show = e.target.checked;
+      animatedCilia.forEach(item => {
+        item.group.visible = show;
+      });
+    });
+
+    let waveEnabled = true;
+    document.getElementById('toggle-wave').addEventListener('change', (e) => {
+      waveEnabled = e.target.checked;
+    });
+
+    // Exploded View Slider (Separates Dorsal, Interior, and Ventral layers vertically)
+    const sliderExplode = document.getElementById('slider-explode');
+    const explodeVal = document.getElementById('explode-val');
+    sliderExplode.addEventListener('input', (e) => {
+      const pct = Number(e.target.value);
+      explodeVal.textContent = `${pct}%`;
+      const offset = (pct / 100) * 3.4;
+      dorsalLayerGroup.position.y = offset;
+      interiorLayerGroup.position.y = 0;
+      ventralLayerGroup.position.y = -offset;
+    });
+
+    // Z-Axis Cutaway Clipping Slider
+    const sliderClip = document.getElementById('slider-clip');
+    const clipVal = document.getElementById('clip-val');
+    sliderClip.addEventListener('input', (e) => {
+      const pct = Number(e.target.value);
+      clipVal.textContent = `${pct}%`;
+      // Map 25%..100% -> Z plane constant -2.5 .. +6.0
+      const zConst = -2.5 + ((pct - 25) / 75) * 8.5;
+      clipPlaneZ.constant = zConst;
+    });
+
+    // Update Inspector Panel
+    function selectCellType(key) {
+      const info = CELL_DATA[key];
+      if (!info) return;
+      selectedCellKey = key;
+
+      document.querySelectorAll('.cell-row').forEach(r => r.classList.remove('active-cell'));
+      const activeRow = document.getElementById(`row-${key}`);
+      if (activeRow) activeRow.classList.add('active-cell');
+
+      document.getElementById('insp-swatch').style.background = info.swatch;
+      document.getElementById('insp-category').textContent = info.category;
+      document.getElementById('insp-badge').textContent = info.density;
+      document.getElementById('insp-title').textContent = info.name;
+      document.getElementById('insp-subtitle').textContent = 'Smith et al. (2014) · Perfil Ultraestructural y Cuantitativo';
+      document.getElementById('insp-pct').textContent = info.pct;
+      document.getElementById('insp-count').textContent = info.count;
+      document.getElementById('insp-location').textContent = info.location;
+      document.getElementById('insp-markers').textContent = info.markers;
+      document.getElementById('insp-function').textContent = info.function;
+
+      pulseCellTypeHighlight(key);
+    }
+
+    // Brief emissive highlight pulse when a cell type is selected
+    const baseEmissives = {
+      vec: { mat: materials.vecBody, color: 0x000000, intensity: 0 },
+      lipophil: { mat: materials.lipophilBody, color: 0x000000, intensity: 0 },
+      dec: { mat: materials.decRoof, color: 0x000000, intensity: 0 },
+      fiber: { mat: materials.fiberBody, color: 0x000000, intensity: 0 },
+      gland: { mat: materials.glandBody, color: 0x000000, intensity: 0 },
+      crystal: { mat: materials.crystalCell, color: 0x000000, intensity: 0 },
+      shiny: { mat: materials.shinySphere, color: 0xf59e0b, intensity: 0.18 }
+    };
+
+    function pulseCellTypeHighlight(key) {
+      Object.entries(baseEmissives).forEach(([k, cfg]) => {
+        if (k === key) {
+          cfg.mat.emissive.setHex(0x7b5ea7);
+          cfg.mat.emissiveIntensity = 0.38;
+        } else {
+          cfg.mat.emissive.setHex(cfg.color);
+          cfg.mat.emissiveIntensity = cfg.intensity;
+        }
+      });
+      setTimeout(() => {
+        Object.values(baseEmissives).forEach(cfg => {
+          cfg.mat.emissive.setHex(cfg.color);
+          cfg.mat.emissiveIntensity = cfg.intensity;
+        });
+      }, 950);
+    }
+
+    // =========================================================================
+    // 5. RAYCASTING (HOVER TOOLTIP & CLICK SELECTION)
+    // =========================================================================
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+    const tooltip = document.getElementById('hover-tooltip');
+    const tooltipDot = document.getElementById('tooltip-dot');
+    const tooltipTitle = document.getElementById('tooltip-title');
+    const tooltipPct = document.getElementById('tooltip-pct');
+
+    let pointerDownPos = { x: 0, y: 0 };
+
+    renderer.domElement.addEventListener('pointerdown', (e) => {
+      pointerDownPos = { x: e.clientX, y: e.clientY };
+    });
+
+    renderer.domElement.addEventListener('pointermove', (e) => {
+      pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+      raycaster.setFromCamera(pointer, camera);
+      const visibleTargets = interactiveMeshes.filter(m => {
+        let obj = m;
+        while (obj) {
+          if (!obj.visible) return false;
+          obj = obj.parent;
+        }
+        // Respect Z clipping plane
+        const worldPos = new THREE.Vector3();
+        m.getWorldPosition(worldPos);
+        return clipPlaneZ.distanceToPoint(worldPos) >= -0.3;
+      });
+
+      const hits = raycaster.intersectObjects(visibleTargets, false);
+      if (hits.length > 0) {
+        const hitKey = hits[0].object.userData.cellType;
+        const info = CELL_DATA[hitKey];
+        if (info) {
+          hoveredCellKey = hitKey;
+          renderer.domElement.style.cursor = 'pointer';
+          tooltipDot.style.background = info.swatch;
+          tooltipTitle.textContent = info.shortName;
+          tooltipPct.textContent = info.pct;
+          tooltip.style.left = `${Math.min(window.innerWidth - 210, e.clientX + 14)}px`;
+          tooltip.style.top = `${Math.min(window.innerHeight - 60, e.clientY + 14)}px`;
+          tooltip.classList.remove('hidden');
+          return;
+        }
+      }
+
+      hoveredCellKey = null;
+      renderer.domElement.style.cursor = 'grab';
+      tooltip.classList.add('hidden');
+    });
+
+    renderer.domElement.addEventListener('pointerup', (e) => {
+      const dist = Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y);
+      if (dist < 5 && hoveredCellKey) {
+        selectCellType(hoveredCellKey);
+      }
+    });
+
+    // =========================================================================
+    // 6. SMOOTH CAMERA PRESETS
+    // =========================================================================
+    const CAMERA_PRESETS = {
+      full:     { pos: [14.0, 12.5, 22.0], target: [0.0, 0.2, 0.0] },
+      rim:      { pos: [-14.5, 5.2, 13.5], target: [-7.8, 0.4, 0.8] },
+      interior: { pos: [3.2, 4.5, 13.8],   target: [2.2, -0.3, 0.2] },
+      ventral:  { pos: [4.5, -9.5, 15.5],  target: [0.5, -2.5, 0.0] },
+      dorsal:   { pos: [0.5, 19.5, 10.5],  target: [0.0, 2.5, 0.0] }
+    };
+
+    let camAnim = null;
+
+    function setCameraPreset(presetName) {
+      const preset = CAMERA_PRESETS[presetName];
+      if (!preset) return;
+
+      document.querySelectorAll('.cam-btn').forEach(btn => {
+        if (btn.dataset.cam === presetName) {
+          btn.classList.add('bio-btn-active');
+        } else {
+          btn.classList.remove('bio-btn-active');
+        }
+      });
+
+      camAnim = {
+        startPos: camera.position.clone(),
+        endPos: new THREE.Vector3(...preset.pos),
+        startTarget: controls.target.clone(),
+        endTarget: new THREE.Vector3(...preset.target),
+        progress: 0
+      };
+    }
+
+    document.querySelectorAll('.cam-btn').forEach(btn => {
+      btn.addEventListener('click', () => setCameraPreset(btn.dataset.cam));
+    });
+
+    // Toggle HUD visibility for clean inspection; also driven by the chapter page when embedded
+    const EMBED = window.self !== window.top || new URLSearchParams(location.search).has('embed');
+    const toggleHudBtn = document.getElementById('toggle-hud-btn');
+    let hudVisible = true;
+    function setHud(v) {
+      hudVisible = v;
+      document.getElementById('left-panel').style.display = v ? 'block' : 'none';
+      document.getElementById('inspector-panel').style.display = v ? 'block' : 'none';
+      document.getElementById('bottom-bar').style.display = v ? 'flex' : 'none';
+      toggleHudBtn.textContent = v ? 'Ocultar UI' : 'Mostrar UI';
+      document.documentElement.classList.toggle('hud-off', !v);
+    }
+    // Embedded and not fullscreen: leave the mouse wheel and vertical swipes to the page
+    function setInteractive(full) {
+      controls.enableZoom = full || !EMBED;
+      renderer.domElement.style.touchAction = (full || !EMBED) ? 'none' : 'pan-y';
+    }
+    toggleHudBtn.addEventListener('click', () => setHud(!hudVisible));
+    window.addEventListener('message', (e) => {
+      const d = e.data || {};
+      if (d.type === 'bioprax-hud') { setHud(d.full ? window.innerWidth >= 900 : false); setInteractive(!!d.full); }
+      if (d.type === 'bioprax-theme') { document.documentElement.setAttribute('data-theme', d.dark ? 'dark' : 'light'); applyBiopraxisTheme(isDarkTheme()); }
+    });
+    if (EMBED) { setHud(false); setInteractive(false); }
+
+    // Handle Window Resize
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // =========================================================================
+    // 7. ANIMATION LOOP (METACHRONAL CILIARY WAVE & BIREFRINGENT CRYSTALS)
+    // =========================================================================
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const elapsed = clock.getElapsedTime();
+
+      // Smooth camera transition if active
+      if (camAnim) {
+        camAnim.progress = Math.min(1, camAnim.progress + 0.045);
+        const ease = 1 - Math.pow(1 - camAnim.progress, 3);
+        camera.position.lerpVectors(camAnim.startPos, camAnim.endPos, ease);
+        controls.target.lerpVectors(camAnim.startTarget, camAnim.endTarget, ease);
+        if (camAnim.progress >= 1) camAnim = null;
+      }
+
+      // Metachronal ciliary gliding wave
+      if (waveEnabled) {
+        for (let i = 0; i < animatedCilia.length; i++) {
+          const item = animatedCilia[i];
+          if (!item.group.visible) continue;
+          const wave = Math.sin(elapsed * 4.2 + item.phase);
+          item.group.rotation.z = wave * 0.24;
+          item.group.rotation.x = Math.cos(elapsed * 3.1 + item.phase) * 0.1;
+        }
+      }
+
+      // Nutation & birefringent shimmer of rhomboid crystals (Fig. S1F)
+      for (let i = 0; i < animatedCrystals.length; i++) {
+        const cr = animatedCrystals[i];
+        cr.rotation.y = elapsed * 0.85 + i;
+        cr.rotation.z = Math.sin(elapsed * 1.4 + i) * 0.28;
+        materials.crystalCore.emissiveIntensity = 0.35 + Math.sin(elapsed * 3.0 + i * 1.5) * 0.25;
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    window.onload = function () {
+      animate();
+    };
+  </script>
+</body>
+</html>
