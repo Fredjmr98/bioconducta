@@ -222,17 +222,55 @@
       /* embedded in the chapter: compact header until fullscreen */
     .hud-off .hud-extra { display: none; }
     .hud-off #theme-toggle-btn { display: none; }
-    @media (max-width: 640px) {
-      #left-panel, #inspector-panel {
-        left: 0.75rem !important;
-        right: 0.75rem !important;
+    @media (max-width: 899px) {
+      header {
+        left: 0.5rem !important;
+        right: 0.5rem !important;
+        top: 0.5rem !important;
+        max-width: none !important;
+        padding: 0.5rem 0.75rem !important;
+      }
+      header .hud-extra,
+      header .uppercase,
+      header .w-2.h-2 {
+        display: none !important;
+      }
+      header h1 {
+        font-size: 0.95rem !important;
+        margin-top: 0 !important;
+      }
+      #left-panel,
+      #inspector-panel {
+        top: auto !important;
+        bottom: 3.6rem !important;
+        left: 0.5rem !important;
+        right: 0.5rem !important;
         width: auto !important;
-        max-width: calc(100vw - 1.5rem) !important;
+        max-width: none !important;
+        max-height: 36vh !important;
+        padding: 0.75rem !important;
+        display: none;
+      }
+      #left-panel.mobile-open,
+      #inspector-panel.mobile-open {
+        display: block !important;
       }
       #bottom-bar {
-        max-width: calc(100vw - 1.5rem) !important;
-        flex-wrap: wrap;
-        justify-content: center;
+        bottom: 0.5rem !important;
+        left: 0.5rem !important;
+        right: 0.5rem !important;
+        transform: none !important;
+        max-width: none !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        justify-content: flex-start !important;
+        padding: 0.35rem 0.5rem !important;
+        gap: 0.35rem !important;
+      }
+      #bottom-bar button {
+        white-space: nowrap;
+        font-size: 11px !important;
+        padding: 0.3rem 0.55rem !important;
       }
     }
   </style>
@@ -412,6 +450,8 @@
 
   <!-- Bottom Camera Presets & Interaction Hint Bar -->
   <nav id="bottom-bar" class="fixed bottom-3 left-1/2 -translate-x-1/2 z-20 bio-panel rounded-md px-3 py-2 flex flex-wrap items-center justify-center gap-1.5 max-w-[96vw]">
+    <button id="mob-btn-cells" class="bio-btn px-2.5 py-1.5 rounded text-xs font-semibold md:hidden">Células (6)</button>
+    <button id="mob-btn-info" class="bio-btn px-2.5 py-1.5 rounded text-xs font-semibold md:hidden">Detalles</button>
     <button data-cam="full" class="cam-btn bio-btn bio-btn-active px-2.5 py-1.5 rounded text-xs">
       Sección Completa
     </button>
@@ -1562,6 +1602,17 @@
       document.getElementById('insp-function').textContent = info.function;
 
       pulseCellTypeHighlight(key);
+
+      if (window.innerWidth < 900 && hudVisible) {
+        const lp = document.getElementById('left-panel');
+        const ip = document.getElementById('inspector-panel');
+        const mc = document.getElementById('mob-btn-cells');
+        const mi = document.getElementById('mob-btn-info');
+        if (lp) lp.classList.remove('mobile-open');
+        if (ip) ip.classList.add('mobile-open');
+        if (mc) mc.classList.remove('bio-btn-active');
+        if (mi) mi.classList.add('bio-btn-active');
+      }
     }
 
     // Brief emissive highlight pulse when a cell type is selected
@@ -1696,12 +1747,55 @@
     // Toggle HUD visibility for clean inspection; also driven by the chapter page when embedded
     const EMBED = window.self !== window.top || new URLSearchParams(location.search).has('embed');
     const toggleHudBtn = document.getElementById('toggle-hud-btn');
+    const leftPanelEl = document.getElementById('left-panel');
+    const inspectorPanelEl = document.getElementById('inspector-panel');
+    const bottomBarEl = document.getElementById('bottom-bar');
+    const mobBtnCells = document.getElementById('mob-btn-cells');
+    const mobBtnInfo = document.getElementById('mob-btn-info');
     let hudVisible = true;
+
+    function closeMobileDrawers() {
+      leftPanelEl.classList.remove('mobile-open');
+      inspectorPanelEl.classList.remove('mobile-open');
+      if (mobBtnCells) mobBtnCells.classList.remove('bio-btn-active');
+      if (mobBtnInfo) mobBtnInfo.classList.remove('bio-btn-active');
+    }
+
+    function toggleMobileDrawer(targetPanel, activeBtn) {
+      const isOpen = targetPanel.classList.contains('mobile-open');
+      closeMobileDrawers();
+      if (!isOpen) {
+        targetPanel.classList.add('mobile-open');
+        if (activeBtn) activeBtn.classList.add('bio-btn-active');
+      }
+    }
+
+    if (mobBtnCells) {
+      mobBtnCells.addEventListener('click', () => toggleMobileDrawer(leftPanelEl, mobBtnCells));
+    }
+    if (mobBtnInfo) {
+      mobBtnInfo.addEventListener('click', () => toggleMobileDrawer(inspectorPanelEl, mobBtnInfo));
+    }
+
     function setHud(v) {
       hudVisible = v;
-      document.getElementById('left-panel').style.display = v ? 'block' : 'none';
-      document.getElementById('inspector-panel').style.display = v ? 'block' : 'none';
-      document.getElementById('bottom-bar').style.display = v ? 'flex' : 'none';
+      const isMobile = window.innerWidth < 900;
+      if (!v) {
+        leftPanelEl.style.display = 'none';
+        inspectorPanelEl.style.display = 'none';
+        bottomBarEl.style.display = 'none';
+        closeMobileDrawers();
+      } else if (isMobile) {
+        leftPanelEl.style.display = '';
+        inspectorPanelEl.style.display = '';
+        bottomBarEl.style.display = 'flex';
+        closeMobileDrawers();
+      } else {
+        leftPanelEl.style.display = 'block';
+        inspectorPanelEl.style.display = 'block';
+        bottomBarEl.style.display = 'flex';
+        closeMobileDrawers();
+      }
       toggleHudBtn.textContent = v ? 'Ocultar UI' : 'Mostrar UI';
       document.documentElement.classList.toggle('hud-off', !v);
     }
@@ -1714,16 +1808,18 @@
     toggleHudBtn.addEventListener('click', () => setHud(!hudVisible));
     window.addEventListener('message', (e) => {
       const d = e.data || {};
-      if (d.type === 'bioprax-hud') { setHud(d.full ? window.innerWidth >= 900 : false); setInteractive(!!d.full); }
+      if (d.type === 'bioprax-hud') { setHud(!!d.full); setInteractive(!!d.full); }
       if (d.type === 'bioprax-theme') { document.documentElement.setAttribute('data-theme', d.dark ? 'dark' : 'light'); applyBiopraxisTheme(isDarkTheme()); }
     });
     if (EMBED) { setHud(false); setInteractive(false); }
+    else if (window.innerWidth < 900) { setHud(true); }
 
     // Handle Window Resize
     window.addEventListener('resize', () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
+      if (hudVisible) setHud(true);
     });
 
     // =========================================================================
