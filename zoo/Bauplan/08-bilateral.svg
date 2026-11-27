@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 740 430" width="100%" height="auto">
+
+  <style>
+    .ink { stroke: #1f1830; }
+    .ink-fill { fill: #1f1830; }
+    .muted { fill: #62597a; stroke: #62597a; }
+    .accent { stroke: #4b2a7b; }
+    .accent-fill { fill: #4b2a7b; }
+    .soft-fill { fill: #ece7f4; }
+    .alt-fill { fill: #d8cceb; }
+    .plane-fill { fill: rgba(123, 94, 167, 0.14); stroke: #4b2a7b; }
+    .plane-dashed { stroke: #4b2a7b; stroke-dasharray: 6 3; }
+    .txt-main { font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #1f1830; }
+    .txt-sub { font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 400; fill: #62597a; }
+    .txt-badge { font-family: 'Barlow Semi Condensed', 'Barlow', sans-serif; font-size: 14px; font-weight: 700; fill: #4b2a7b; }
+    @media (prefers-color-scheme: dark) {
+      .ink { stroke: #e8e2f2; }
+      .ink-fill { fill: #e8e2f2; }
+      .muted { fill: #a89fc0; stroke: #a89fc0; }
+      .accent { stroke: #b79df0; }
+      .accent-fill { fill: #b79df0; }
+      .soft-fill { fill: #261d3d; }
+      .alt-fill { fill: #362857; }
+      .plane-fill { fill: rgba(183, 157, 240, 0.16); stroke: #b79df0; }
+      .plane-dashed { stroke: #b79df0; }
+      .txt-main { fill: #e8e2f2; }
+      .txt-sub { fill: #a89fc0; }
+      .txt-badge { fill: #b79df0; }
+    }
+  </style>
+
+  <!-- Left: Lateral view with Frontal & Transverse planes + Axes -->
+  <g transform="translate(20, 25)">
+    <text x="235" y="16" text-anchor="middle" class="txt-badge">(A) Vista lateral: ejes corporales y planos de sección</text>
+
+    <!-- Fish silhouette (bilateral model, Brusca Fig. 3.4A style) -->
+    <path d="M 85 182
+             C 110 142, 165 124, 225 126
+             C 285 128, 335 152, 375 162
+             L 422 128
+             C 414 162, 414 198, 422 232
+             L 375 198
+             C 332 214, 275 234, 210 232
+             C 150 230, 108 214, 85 182 Z"
+          class="soft-fill ink" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Dorsal fin -->
+    <path d="M 185 126 C 205 98, 248 98, 268 132" class="alt-fill ink" stroke-width="1.8"/>
+    <!-- Pelvic fin -->
+    <path d="M 235 232 C 248 252, 272 252, 285 226" class="alt-fill ink" stroke-width="1.8"/>
+    <!-- Gill & Eye (neutral mouth line, no smile) -->
+    <path d="M 142 140 C 154 165, 152 198, 138 218" fill="none" class="ink" stroke-width="1.6"/>
+    <circle cx="114" cy="166" r="6.5" class="alt-fill ink" stroke-width="1.6"/>
+    <line x1="87" y1="184" x2="108" y2="184" class="ink" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- Single unified Frontal plane (no internal midline) -->
+    <polygon points="25,204 95,160 455,160 385,204" class="plane-fill" stroke-width="1.4"/>
+
+    <!-- Single unified Transverse plane (no internal vertical midline) -->
+    <polygon points="222,92 295,48 295,275 222,318" class="plane-fill" stroke-width="1.4"/>
+
+    <!-- Directional arrows: Dorsal, Ventral, Anterior, Posterior -->
+    <line x1="175" y1="95" x2="175" y2="62" class="accent" stroke-width="1.8"/>
+    <polygon points="175,56 171,65 179,65" class="accent-fill"/>
+    <text x="166" y="74" text-anchor="end" class="txt-main">Dorsal</text>
+
+    <line x1="175" y1="252" x2="175" y2="285" class="accent" stroke-width="1.8"/>
+    <polygon points="175,291 171,282 179,282" class="accent-fill"/>
+    <text x="166" y="280" text-anchor="end" class="txt-main">Ventral</text>
+
+    <line x1="68" y1="142" x2="32" y2="142" class="accent" stroke-width="1.8"/>
+    <polygon points="26,142 35,138 35,146" class="accent-fill"/>
+    <text x="50" y="133" text-anchor="middle" class="txt-main">Anterior</text>
+
+    <line x1="418" y1="252" x2="454" y2="252" class="accent" stroke-width="1.8"/>
+    <polygon points="460,252 451,248 451,256" class="accent-fill"/>
+    <text x="438" y="270" text-anchor="middle" class="txt-main">Posterior</text>
+
+    <!-- Plane labels -->
+    <text x="302" y="54" class="txt-main">Plano transversal</text>
+    <text x="25" y="222" class="txt-main">Plano frontal</text>
+  </g>
+
+  <!-- Right: Transverse cross-section showing Midsagittal plane -->
+  <g transform="translate(505, 25)">
+    <text x="108" y="16" text-anchor="middle" class="txt-badge">(B) Corte transversal</text>
+
+    <g transform="translate(108, 185)">
+      <!-- Fish cross-section -->
+      <path d="M 0 -86 L 0 -58 C 28 -44, 34 36, 0 58 L 0 74 L 0 58 C -34 36, -28 -44, 0 -58 Z"
+            class="soft-fill ink" stroke-width="2" stroke-linejoin="round"/>
+      <!-- Internal landmarks -->
+      <circle cx="0" cy="-24" r="6" class="alt-fill ink" stroke-width="1.4"/>
+      <ellipse cx="0" cy="18" rx="9" ry="12" class="alt-fill ink" stroke-width="1.4"/>
+      <ellipse cx="-14" cy="-6" rx="4" ry="10" class="alt-fill ink" stroke-width="1.2"/>
+      <ellipse cx="14" cy="-6" rx="4" ry="10" class="alt-fill ink" stroke-width="1.2"/>
+
+      <!-- Single Midsagittal Plane (vertical centerline) -->
+      <line x1="0" y1="-108" x2="0" y2="108" class="accent" stroke-width="2" stroke-dasharray="6 3"/>
+
+      <!-- Frontal plane trace (horizontal) -->
+      <line x1="-58" y1="0" x2="58" y2="0" class="plane-dashed" stroke-width="1.4"/>
+
+      <!-- Lateral arrows -->
+      <line x1="-34" y1="-44" x2="-68" y2="-44" class="accent" stroke-width="1.6"/>
+      <polygon points="-74,-44 -65,-48 -65,-40" class="accent-fill"/>
+      <text x="-54" y="-52" text-anchor="middle" class="txt-main">Lateral</text>
+
+      <line x1="34" y1="-44" x2="68" y2="-44" class="accent" stroke-width="1.6"/>
+      <polygon points="74,-44 65,-48 65,-40" class="accent-fill"/>
+      <text x="54" y="-52" text-anchor="middle" class="txt-main">Lateral</text>
+
+      <!-- Dorsal & Ventral labels -->
+      <text x="10" y="-92" class="txt-sub">Dorsal</text>
+      <text x="-10" y="92" text-anchor="end" class="txt-sub">Ventral</text>
+      <text x="62" y="-5" class="txt-sub">Plano</text>
+      <text x="62" y="8" class="txt-sub">frontal</text>
+    </g>
+
+    <text x="108" y="316" text-anchor="middle" class="txt-main">Plano mediosagital</text>
+    <text x="108" y="333" text-anchor="middle" class="txt-sub">(único plano de simetría</text>
+    <text x="108" y="348" text-anchor="middle" class="txt-sub">que define mitades derecha e izquierda)</text>
+  </g>
+</svg>
