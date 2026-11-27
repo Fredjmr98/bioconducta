@@ -194,12 +194,13 @@ ul, ol { padding-left: 1.5em; }
 /* Embedded interactive figure (iframe) with fullscreen button */
 .embed3d-frame { position: relative; width: 100%; max-width: 100%; aspect-ratio: 16 / 10; min-height: 24rem; background: var(--accent-soft); border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
 .embed3d-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.embed3d-frame[data-auto] { aspect-ratio: auto; min-height: 0; height: calc(var(--embed-h, 24rem) + 2px); } /* frame fits a figure that reports its height (embed-fit.js) */
 .embed3d-frame:fullscreen { aspect-ratio: auto; width: 100%; height: 100%; border: 0; border-radius: 0; }
 .embed3d-frame:-webkit-full-screen { aspect-ratio: auto; width: 100%; height: 100%; border: 0; border-radius: 0; }
 .embed3d-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; margin-top: .5rem; font: 500 .9rem var(--sans); }
 .embed3d-tools button, .embed3d-close { padding: .3rem .8rem; border: 1px solid var(--accent); border-radius: 2px; background: var(--bg); color: var(--accent); font: 500 .9rem var(--sans); cursor: pointer; }
 .embed3d-tools button:hover, .embed3d-close:hover { background: var(--accent); color: var(--bg); }
 .embed3d-close { display: none; }
-.embed3d.is-full .embed3d-frame { position: fixed; inset: 0; z-index: 2000; aspect-ratio: auto; min-height: 0; border: 0; border-radius: 0; }
+.embed3d.is-full .embed3d-frame { position: fixed; inset: 0; z-index: 2000; aspect-ratio: auto; min-height: 0; height: auto; border: 0; border-radius: 0; }
 .embed3d.is-full .embed3d-close { display: block; position: fixed; z-index: 2001; top: .7rem; left: 50%; transform: translateX(-50%); }
 @media print { .embed3d-frame, .embed3d-tools { display: none; } }

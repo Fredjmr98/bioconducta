@@ -30,6 +30,13 @@
   /* the frame's own theme button (visible in fullscreen) drives the page's button */
   window.addEventListener('message', function (e) {
     var d = e.data || {}, b = document.getElementById('theme-toggle');
+    /* a figure that reports its own height (embed-fit.js) gets a frame that fits it exactly */
+    if (d.type === 'bioprax-embed-height' && d.height > 0) {
+      document.querySelectorAll('.embed3d-frame iframe').forEach(function (f) {
+        if (f.contentWindow === e.source) { f.parentNode.setAttribute('data-auto', ''); f.parentNode.style.setProperty('--embed-h', Math.ceil(d.height) + 'px'); }
+      });
+      return;
+    }
     if (d.type === 'bioprax-theme-changed' && b && dark() !== !!d.dark) b.click();
   });
 })();
