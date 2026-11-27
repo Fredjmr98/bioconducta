@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 430" width="100%" height="auto">
+
+  <style>
+    .ink { stroke: #1f1830; }
+    .ink-fill { fill: #1f1830; }
+    .muted { fill: #62597a; stroke: #62597a; }
+    .accent { stroke: #4b2a7b; }
+    .accent-fill { fill: #4b2a7b; }
+    .soft-fill { fill: #ece7f4; }
+    .alt-fill { fill: #d8cceb; }
+    .plane-fill { fill: rgba(123, 94, 167, 0.14); stroke: #4b2a7b; }
+    .plane-dashed { stroke: #4b2a7b; stroke-dasharray: 5 4; }
+    .txt-main { font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #1f1830; }
+    .txt-sub { font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 400; fill: #62597a; }
+    .txt-badge { font-family: 'Barlow Semi Condensed', 'Barlow', sans-serif; font-size: 14px; font-weight: 700; fill: #4b2a7b; }
+    @media (prefers-color-scheme: dark) {
+      .ink { stroke: #e8e2f2; }
+      .ink-fill { fill: #e8e2f2; }
+      .muted { fill: #a89fc0; stroke: #a89fc0; }
+      .accent { stroke: #b79df0; }
+      .accent-fill { fill: #b79df0; }
+      .soft-fill { fill: #261d3d; }
+      .alt-fill { fill: #362857; }
+      .plane-fill { fill: rgba(183, 157, 240, 0.16); stroke: #b79df0; }
+      .plane-dashed { stroke: #b79df0; }
+      .txt-main { fill: #e8e2f2; }
+      .txt-sub { fill: #a89fc0; }
+      .txt-badge { fill: #b79df0; }
+    }
+  </style>
+
+  <g transform="translate(30, 20)">
+    <text x="165" y="18" text-anchor="middle" class="txt-badge">(A) Simetría radial a lo largo del eje oral-aboral</text>
+
+    <polygon points="75,78 165,120 165,335 75,292" class="plane-fill" stroke-width="1.3"/>
+    <polygon points="255,78 165,120 165,335 255,292" class="plane-fill" stroke-width="1.3"/>
+
+    <path d="M 118 148 L 118 272 C 110 285, 106 296, 112 304 C 132 316, 198 316, 218 304 C 224 296, 220 285, 212 272 L 212 148 Z"
+          class="soft-fill ink" stroke-width="2"/>
+
+    <ellipse cx="165" cy="148" rx="47" ry="18" class="alt-fill ink" stroke-width="1.8"/>
+    <ellipse cx="165" cy="148" rx="11" ry="4.5" class="soft-fill accent" stroke-width="1.5"/>
+
+    <path d="M 122 144 C 95 135, 78 118, 72 102 C 88 110, 108 124, 128 138" class="soft-fill ink" stroke-width="1.7"/>
+    <path d="M 136 135 C 118 116, 112 94, 114 78 C 126 92, 136 112, 146 132" class="soft-fill ink" stroke-width="1.7"/>
+    <path d="M 156 131 C 152 108, 154 88, 160 72 C 166 88, 168 108, 168 131" class="soft-fill ink" stroke-width="1.7"/>
+    <path d="M 182 133 C 190 112, 202 92, 214 80 C 214 96, 206 116, 192 136" class="soft-fill ink" stroke-width="1.7"/>
+    <path d="M 204 142 C 224 126, 242 112, 258 104 C 250 120, 232 136, 208 147" class="soft-fill ink" stroke-width="1.7"/>
+    <path d="M 124 154 C 98 158, 78 168, 68 180 C 86 178, 108 170, 132 160" class="soft-fill ink" stroke-width="1.7"/>
+    <path d="M 145 162 C 134 180, 128 198, 130 214 C 142 200, 150 182, 156 164" class="soft-fill ink" stroke-width="1.7"/>
+    <path d="M 176 164 C 182 182, 190 200, 202 214 C 204 198, 198 180, 186 162" class="soft-fill ink" stroke-width="1.7"/>
+    <path d="M 202 156 C 224 166, 244 176, 262 178 C 252 166, 232 156, 208 150" class="soft-fill ink" stroke-width="1.7"/>
+
+    <polygon points="165,120 255,164 255,375 165,335" class="plane-fill" stroke-width="1.3"/>
+    <polygon points="165,120 75,164 75,375 165,335" class="plane-fill" stroke-width="1.3"/>
+
+    <line x1="165" y1="45" x2="165" y2="148" class="accent" stroke-width="2.2"/>
+    <line x1="165" y1="148" x2="165" y2="312" class="plane-dashed" stroke-width="2"/>
+    <line x1="165" y1="312" x2="165" y2="365" class="accent" stroke-width="2.2"/>
+
+    <text x="174" y="56" class="txt-main">Eje oral-aboral</text>
+    <text x="225" y="148" class="txt-sub">Polo oral</text>
+    <text x="225" y="308" class="txt-sub">Polo aboral</text>
+  </g>
+
+  <g transform="translate(380, 20)">
+    <text x="115" y="18" text-anchor="middle" class="txt-badge">(B) Vista oral (desde el polo oral)</text>
+    <g transform="translate(115, 205)">
+      <path d="M 45.4 -7.2 Q 82.0 0.0 104.0 0.0 Q 81.0 12.8 45.4 7.2 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M 42.9 16.5 Q 71.0 41.0 90.1 52.0 Q 63.7 51.6 35.7 28.9 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M 28.9 35.7 Q 41.0 71.0 52.0 90.1 Q 29.4 76.6 16.5 42.9 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M 7.2 45.4 Q 0.0 82.0 0.0 104.0 Q -12.8 81.0 -7.2 45.4 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M -16.5 42.9 Q -41.0 71.0 -52.0 90.1 Q -51.6 63.7 -28.9 35.7 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M -35.7 28.9 Q -71.0 41.0 -90.1 52.0 Q -76.6 29.4 -42.9 16.5 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M -45.4 7.2 Q -82.0 0.0 -104.0 0.0 Q -81.0 -12.8 -45.4 -7.2 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M -42.9 -16.5 Q -71.0 -41.0 -90.1 -52.0 Q -63.7 -51.6 -35.7 -28.9 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M -28.9 -35.7 Q -41.0 -71.0 -52.0 -90.1 Q -29.4 -76.6 -16.5 -42.9 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M -7.2 -45.4 Q -0.0 -82.0 -0.0 -104.0 Q 12.8 -81.0 7.2 -45.4 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M 16.5 -42.9 Q 41.0 -71.0 52.0 -90.1 Q 51.6 -63.7 28.9 -35.7 Z" class="soft-fill ink" stroke-width="1.5"/><path d="M 35.7 -28.9 Q 71.0 -41.0 90.1 -52.0 Q 76.6 -29.4 42.9 -16.5 Z" class="soft-fill ink" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="50" class="alt-fill ink" stroke-width="1.8"/>
+      <circle cx="0" cy="0" r="12" class="soft-fill ink" stroke-width="1.5"/>
+      <line x1="-115.0" y1="-0.0" x2="115.0" y2="0.0" class="plane-dashed" stroke-width="1.4"/><line x1="-99.6" y1="-57.5" x2="99.6" y2="57.5" class="plane-dashed" stroke-width="1.4"/><line x1="-57.5" y1="-99.6" x2="57.5" y2="99.6" class="plane-dashed" stroke-width="1.4"/><line x1="-0.0" y1="-115.0" x2="0.0" y2="115.0" class="plane-dashed" stroke-width="1.4"/><line x1="57.5" y1="-99.6" x2="-57.5" y2="99.6" class="plane-dashed" stroke-width="1.4"/><line x1="99.6" y1="-57.5" x2="-99.6" y2="57.5" class="plane-dashed" stroke-width="1.4"/>
+      <circle cx="0" cy="0" r="3.5" class="accent-fill"/>
+    </g>
+    <text x="115" y="365" text-anchor="middle" class="txt-sub">Planos que contienen el eje oral-aboral</text>
+    <text x="115" y="381" text-anchor="middle" class="txt-sub">dividen al animal en mitades equivalentes</text>
+  </g>
+</svg>

@@ -222,6 +222,19 @@
       /* embedded in the chapter: compact header until fullscreen */
     .hud-off .hud-extra { display: none; }
     .hud-off #theme-toggle-btn { display: none; }
+    @media (max-width: 640px) {
+      #left-panel, #inspector-panel {
+        left: 0.75rem !important;
+        right: 0.75rem !important;
+        width: auto !important;
+        max-width: calc(100vw - 1.5rem) !important;
+      }
+      #bottom-bar {
+        max-width: calc(100vw - 1.5rem) !important;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
@@ -245,7 +258,7 @@
       <div>
         <div class="flex items-center gap-2">
           <span class="inline-block w-2 h-2" style="background: var(--slate);"></span>
-          <span class="text-[10px] uppercase tracking-widest font-bold" style="color: var(--accent);">Filo Placozoa · Histología 3D</span>
+          <span class="text-[10px] uppercase tracking-widest font-bold" style="color: var(--accent);">Phylum Placozoa</span>
         </div>
         <h1 class="bio-head text-lg sm:text-xl font-semibold tracking-tight mt-0.5" style="color: var(--ink);">
           Plan corporal de <em>Trichoplax adhaerens</em>
@@ -1694,9 +1707,10 @@
     }
     // Embedded and not fullscreen: leave the mouse wheel and vertical swipes to the page
     function setInteractive(full) {
-      controls.enableZoom = full || !EMBED;
+      controls.enableZoom = true || !EMBED;
       renderer.domElement.style.touchAction = (full || !EMBED) ? 'none' : 'pan-y';
     }
+
     toggleHudBtn.addEventListener('click', () => setHud(!hudVisible));
     window.addEventListener('message', (e) => {
       const d = e.data || {};

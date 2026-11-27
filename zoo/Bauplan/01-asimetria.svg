@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="100%" height="auto">
+
+  <style>
+    .ink { stroke: #1f1830; }
+    .ink-fill { fill: #1f1830; }
+    .muted { fill: #62597a; stroke: #62597a; }
+    .accent { stroke: #4b2a7b; }
+    .accent-fill { fill: #4b2a7b; }
+    .soft-fill { fill: #ece7f4; }
+    .alt-fill { fill: #d8cceb; }
+    .plane-fill { fill: rgba(123, 94, 167, 0.14); stroke: #4b2a7b; }
+    .plane-dashed { stroke: #4b2a7b; stroke-dasharray: 5 4; }
+    .txt-main { font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #1f1830; }
+    .txt-sub { font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 400; fill: #62597a; }
+    .txt-badge { font-family: 'Barlow Semi Condensed', 'Barlow', sans-serif; font-size: 14px; font-weight: 700; fill: #4b2a7b; }
+    @media (prefers-color-scheme: dark) {
+      .ink { stroke: #e8e2f2; }
+      .ink-fill { fill: #e8e2f2; }
+      .muted { fill: #a89fc0; stroke: #a89fc0; }
+      .accent { stroke: #b79df0; }
+      .accent-fill { fill: #b79df0; }
+      .soft-fill { fill: #261d3d; }
+      .alt-fill { fill: #362857; }
+      .plane-fill { fill: rgba(183, 157, 240, 0.16); stroke: #b79df0; }
+      .plane-dashed { stroke: #b79df0; }
+      .txt-main { fill: #e8e2f2; }
+      .txt-sub { fill: #a89fc0; }
+      .txt-badge { fill: #b79df0; }
+    }
+  </style>
+
+  <!-- Irregular Sponge (Porifera) on left -->
+  <g transform="translate(40, 35)">
+    <text x="115" y="16" text-anchor="middle" class="txt-badge">(A) Porifera (esponja irregular)</text>
+    <!-- Substrate line -->
+    <path d="M 20 315 Q 115 305 220 318" fill="none" class="ink" stroke-width="1.5" stroke-opacity="0.4"/>
+    <!-- Irregular branching/lobate sponge body -->
+    <path d="M 48 312
+             C 34 275, 42 230, 56 195
+             C 40 165, 45 128, 72 115
+             C 82 85, 114 78, 124 108
+             C 138 92, 165 98, 162 126
+             C 188 122, 206 146, 188 175
+             C 212 198, 205 236, 182 254
+             C 194 278, 184 302, 174 314 Z"
+          class="soft-fill ink" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Oscula (irregular openings) -->
+    <ellipse cx="96" cy="95" rx="11" ry="5" transform="rotate(-14 96 95)" class="alt-fill ink" stroke-width="1.5"/>
+    <ellipse cx="148" cy="112" rx="9" ry="4.5" transform="rotate(18 148 112)" class="alt-fill ink" stroke-width="1.5"/>
+    <ellipse cx="182" cy="148" rx="7" ry="4" transform="rotate(42 182 148)" class="alt-fill ink" stroke-width="1.5"/>
+    <!-- Ostia pores -->
+    <circle cx="78" cy="155" r="2.5" class="muted"/>
+    <circle cx="115" cy="168" r="3" class="muted"/>
+    <circle cx="142" cy="195" r="2.5" class="muted"/>
+    <circle cx="88" cy="222" r="3.2" class="muted"/>
+    <circle cx="130" cy="245" r="2.5" class="muted"/>
+    <circle cx="160" cy="228" r="2.8" class="muted"/>
+    <circle cx="104" cy="276" r="2.6" class="muted"/>
+    <text x="115" y="344" text-anchor="middle" class="txt-sub">Sin eje corporal ni plano de simetría</text>
+  </g>
+
+  <!-- Amoeboid Placozoan (Trichoplax) on right -->
+  <g transform="translate(320, 35)">
+    <text x="120" y="16" text-anchor="middle" class="txt-badge">(B) Placozoa (forma ameboide)</text>
+    <!-- Irregular flattened amoeboid outline -->
+    <path d="M 55 155
+             C 32 135, 48 92, 86 102
+             C 110 72, 154 78, 162 112
+             C 198 104, 224 138, 198 168
+             C 220 202, 196 244, 164 234
+             C 145 268, 98 265, 88 232
+             C 52 246, 30 208, 56 184
+             C 44 174, 46 162, 55 155 Z"
+          class="soft-fill ink" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Inner syncytial / granular texture -->
+    <path d="M 74 156 C 65 132, 92 114, 118 122 C 145 108, 178 126, 174 156 C 185 184, 165 215, 138 210 C 112 224, 78 208, 80 182 Z"
+          fill="none" class="accent" stroke-width="1.2" stroke-dasharray="3 3" stroke-opacity="0.7"/>
+    <circle cx="112" cy="152" r="3" class="accent-fill" opacity="0.65"/>
+    <circle cx="144" cy="142" r="2.5" class="accent-fill" opacity="0.65"/>
+    <circle cx="132" cy="180" r="3.5" class="accent-fill" opacity="0.65"/>
+    <circle cx="98" cy="185" r="2.2" class="accent-fill" opacity="0.65"/>
+    <text x="120" y="344" text-anchor="middle" class="txt-sub">Contorno cambiante; ausencia de polaridad</text>
+  </g>
+</svg>

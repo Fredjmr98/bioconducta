@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Número de Reynolds en Metazoos Acuáticos — Esquema 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #f7f5f3;
+      --ink: #1f1830;
+      --muted: #62597a;
+      --rule: #dcd6e2;
+      --accent: #4b2a7b;
+      --accent-soft: #ece7f4;
+      --pill-bg: rgba(247, 245, 243, 0.90);
+      --card-bg: rgba(247, 245, 243, 0.96);
+      --sans: "Barlow", -apple-system, BlinkMacSystemFont, sans-serif;
+      --head: "Barlow Semi Condensed", "Barlow", sans-serif;
+      --serif: "Crimson Pro", Georgia, serif;
+      --line-stroke: rgba(31, 24, 48, 0.55);
+      --label-bg: rgba(247, 245, 243, 0.90);
+      --visc-color: #0284c7;
+      --iner-color: #d97706;
+    }
+
+    [data-theme="dark"] {
+      --bg: #150f22;
+      --ink: #e8e2f2;
+      --muted: #a89fc0;
+      --rule: #2e2540;
+      --accent: #b79df0;
+      --accent-soft: #221a38;
+      --pill-bg: rgba(21, 15, 34, 0.90);
+      --card-bg: rgba(21, 15, 34, 0.96);
+      --line-stroke: rgba(232, 226, 242, 0.55);
+      --label-bg: rgba(21, 15, 34, 0.88);
+      --visc-color: #38bdf8;
+      --iner-color: #fbbf24;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #150f22;
+        --ink: #e8e2f2;
+        --muted: #a89fc0;
+        --rule: #2e2540;
+        --accent: #b79df0;
+        --accent-soft: #221a38;
+        --pill-bg: rgba(21, 15, 34, 0.90);
+        --card-bg: rgba(21, 15, 34, 0.96);
+        --line-stroke: rgba(232, 226, 242, 0.55);
+        --label-bg: rgba(21, 15, 34, 0.88);
+        --visc-color: #38bdf8;
+        --iner-color: #fbbf24;
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    #canvas-container {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+    #canvas-container canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Overlay SVG for leader lines */
+    #leader-svg {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 5;
+    }
+    #leader-svg line {
+      stroke: var(--line-stroke);
+      stroke-width: 1.1;
+    }
+    #leader-svg circle {
+      fill: var(--ink);
+    }
+
+    /* Floating anatomical & hydrodynamic labels */
+    #labels-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .ann-label {
+      position: absolute;
+      pointer-events: auto;
+      cursor: pointer;
+      font-size: 11.5px;
+      line-height: 1.22;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--label-bg);
+      border: 1px solid var(--rule);
+      padding: 2.5px 6.5px;
+      border-radius: 4px;
+      white-space: nowrap;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      transition: border-color 0.14s ease, color 0.14s ease, background-color 0.14s ease;
+      transform: translateY(-50%);
+    }
+    .ann-label:hover, .ann-label.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--card-bg);
+      z-index: 12;
+    }
+    .ann-label .sub {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    /* Live Equation & Regime HUD (Top-Left) */
+    #re-hud {
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      z-index: 20;
+      background: var(--pill-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 9px 12px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07);
+      max-width: min(315px, calc(100vw - 24px));
+    }
+
+    .re-top {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .re-formula {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .re-value {
+      font-family: var(--head);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.01em;
+    }
+
+    .re-regime-pill {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .force-bar-wrap {
+      margin-top: 2px;
+    }
+
+    .force-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .force-labels .visc { color: var(--visc-color); }
+    .force-labels .iner { color: var(--iner-color); }
+
+    .force-track {
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: var(--iner-color);
+      overflow: hidden;
+      display: flex;
+    }
+    .force-fill-visc {
+      height: 100%;
+      background: var(--visc-color);
+      transition: width 0.2s ease;
+    }
+
+    .re-metrics {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 6px;
+      padding-top: 5px;
+      border-top: 1px solid var(--rule);
+      font-size: 10.5px;
+      color: var(--muted);
+    }
+    .re-metrics strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    /* Click-triggered info popover (Top-Right) */
+    #info-card {
+      position: fixed;
+      top: 12px;
+      right: 12px;
+      z-index: 25;
+      width: min(290px, calc(100vw - 24px));
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 11px 13px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      display: none;
+    }
+    #info-card.visible { display: block; }
+
+    .info-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+    .info-title {
+      font-family: var(--head);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+    .info-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+    .info-body {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--ink);
+      opacity: 0.92;
+    }
+    .info-close {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+    .info-close:hover {
+      color: var(--ink);
+      background: var(--accent-soft);
+    }
+
+    /* Compact Bottom Control Pill */
+    #dock {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 10px;
+      background: var(--pill-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+      max-width: calc(100vw - 16px);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .seg {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .tab {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 7px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+    .tab:hover { color: var(--ink); }
+    .tab.active {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+    }
+
+    .sep {
+      width: 1px;
+      height: 14px;
+      background: var(--rule);
+      flex-shrink: 0;
+    }
+
+    .slider-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 52px;
+      height: 3px;
+      background: var(--rule);
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 1.5px solid var(--bg);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 1.5px solid var(--bg);
+    }
+
+    .toggle-pill {
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .toggle-pill.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .toggle-pill.stopped {
+      background: #dc2626;
+      border-color: #dc2626;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .theme-toggle {
+      width: 26px;
+      height: 26px;
+      padding: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: var(--bg);
+      color: var(--accent);
+      border: 1px solid var(--rule);
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    .theme-toggle:active { transform: scale(0.93); }
+
+    @media (max-width: 720px) {
+      #re-hud {
+        top: 8px;
+        left: 8px;
+        padding: 7px 9px;
+      }
+      .re-value { font-size: 15px; }
+      #dock {
+        border-radius: 14px;
+        padding: 6px 8px;
+        gap: 5px;
+        bottom: 8px;
+      }
+      .ann-label {
+        font-size: 10px;
+        padding: 1.5px 4.5px;
+      }
+      .ann-label .sub { font-size: 9px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <svg id="leader-svg"></svg>
+  <div id="labels-layer"></div>
+
+  <!-- Live Reynolds Formula & Force Balance HUD -->
+  <div id="re-hud" aria-live="polite">
+    <div class="re-top">
+      <span class="re-formula">R<sub>e</sub> = &rho; &middot; l &middot; U / &nu;</span>
+      <span class="re-value" id="re-number">R<sub>e</sub> &approx; 1.0</span>
+    </div>
+    <div class="re-regime-pill" id="re-regime-label">Régimen viscoso (flujo laminar adherido)</div>
+    <div class="force-bar-wrap">
+      <div class="force-labels">
+        <span class="visc" id="visc-pct">Fuerzas viscosas: 50%</span>
+        <span class="iner" id="iner-pct">Inercia: 50%</span>
+      </div>
+      <div class="force-track">
+        <div class="force-fill-visc" id="visc-bar" style="width: 50%"></div>
+      </div>
+    </div>
+    <div class="re-metrics">
+      <span>l = <strong id="val-size">1.0 mm</strong></span>
+      <span>U = <strong id="val-vel">1.0 mm/s</strong></span>
+      <span>Deslizamiento: <strong id="val-coast">&lt; 0.01 mm</strong></span>
+    </div>
+  </div>
+
+  <!-- Info Card (opens on label click) -->
+  <div id="info-card" role="dialog" aria-live="polite">
+    <div class="info-header">
+      <div class="info-title" id="info-title"></div>
+      <button class="info-close" id="info-close" title="Cerrar">✕</button>
+    </div>
+    <div class="info-tag" id="info-tag"></div>
+    <div class="info-body" id="info-body"></div>
+  </div>
+
+  <!-- Compact Bottom Control Pill -->
+  <div id="dock" role="toolbar" aria-label="Controles hidrodinámicos">
+    <div class="seg" id="preset-tabs">
+      <button class="tab active" data-preset="low" title="Larva ciliada de 1 mm a 1 mm/s (Re ≈ 1)">Bajo R<sub>e</sub> (~1)</button>
+      <button class="tab" data-preset="mid" title="Invertebrado pequeño de 10 mm a 20 mm/s (Re ≈ 200)">Medio R<sub>e</sub> (~200)</button>
+      <button class="tab" data-preset="high" title="Nadador macroscópico de 100 mm a 500 mm/s (Re ≈ 50,000)">Alto R<sub>e</sub> (~5&times;10<sup>4</sup>)</button>
+    </div>
+    <div class="sep"></div>
+    <label class="slider-wrap" title="Longitud corporal (l)">
+      <span>l</span>
+      <input type="range" id="slider-size" min="0" max="100" value="22" />
+    </label>
+    <label class="slider-wrap" title="Velocidad relativa (U)">
+      <span>U</span>
+      <input type="range" id="slider-vel" min="0" max="100" value="18" />
+    </label>
+    <label class="slider-wrap" title="Viscosidad del fluido (ν)">
+      <span>&nu;</span>
+      <input type="range" id="slider-visc" min="0" max="100" value="15" />
+    </label>
+    <div class="sep"></div>
+    <button class="toggle-pill" id="mode-toggle" title="Alternar entre cuerpo entero y apéndice con setas (remo vs. tamiz)">Setas</button>
+    <button class="toggle-pill" id="propulsion-toggle" title="Detener cilios o musculatura para observar la inercia">Detener nado</button>
+    <button class="toggle-pill active" id="labels-toggle" title="Mostrar u ocultar etiquetas">Etiquetas</button>
+    <div class="sep"></div>
+    <button id="theme-toggle-btn" class="theme-toggle" title="Cambiar tema claro / oscuro" aria-label="Cambiar tema">
+      <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+      </svg>
+    </button>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    try { const saved = localStorage.getItem('theme'); if (saved) document.documentElement.setAttribute('data-theme', saved); } catch (e) {}
+    const EMBED = window.self !== window.top || new URLSearchParams(location.search).has('embed');
+
+    function isDarkTheme() {
+      const t = document.documentElement.getAttribute('data-theme');
+      return t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    function applyThemeScene() {
+      const dark = isDarkTheme();
+      if (window.scene) {
+        scene.background = new THREE.Color(dark ? 0x150f22 : 0xf7f5f3);
+      }
+      const iconEl = document.getElementById('theme-icon');
+      if (iconEl) {
+        iconEl.innerHTML = dark
+          ? '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>'
+          : '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
+      }
+    }
+
+    document.getElementById('theme-toggle-btn').addEventListener('click', () => {
+      const nextDark = !isDarkTheme();
+      document.documentElement.setAttribute('data-theme', nextDark ? 'dark' : 'light');
+      try { localStorage.setItem('theme', nextDark ? 'dark' : 'light'); } catch (e) {}
+      if (window.parent !== window) {
+        window.parent.postMessage({ type: 'bioprax-theme-changed', dark: nextDark }, '*');
+      }
+      applyThemeScene();
+    });
+
+    window.addEventListener('message', (e) => {
+      const d = e.data || {};
+      if (d.type === 'bioprax-theme') {
+        document.documentElement.setAttribute('data-theme', d.dark ? 'dark' : 'light');
+        applyThemeScene();
+      }
+      if (d.type === 'bioprax-hud') {
+        const full = !!d.full;
+        if (window.controls) {
+          controls.enableZoom = true;
+          renderer.domElement.style.touchAction = (full || !EMBED) ? 'none' : 'pan-y';
+        }
+      }
+    });
+
+    // =========================================================================
+    // 1. SCENE, CAMERA & RENDERER
+    // =========================================================================
+    const container = document.getElementById('canvas-container');
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
+
+    window.scene = new THREE.Scene();
+    applyThemeScene();
+
+    const camera = new THREE.PerspectiveCamera(36, window.innerWidth / window.innerHeight, 0.1, 150);
+    camera.position.set(0.4, 3.6, 12.2);
+
+    window.controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.minDistance = 4.5;
+    controls.maxDistance = 24;
+    controls.target.set(0.3, -0.1, 0);
+    if (EMBED) renderer.domElement.style.touchAction = 'pan-y';
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.72));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 0.65);
+    keyLight.position.set(6, 12, 10);
+    scene.add(keyLight);
+    const fillLight = new THREE.DirectionalLight(0xc7d2fe, 0.30);
+    fillLight.position.set(-8, -6, 6);
+    scene.add(fillLight);
+
+    // =========================================================================
+    // 2. HYDRODYNAMIC STATE & REYNOLDS EQUATION
+    // =========================================================================
+    const state = {
+      sizeSlider: 22,     // maps to l: 0.2 mm -> 200 mm (log scale)
+      velSlider: 18,      // maps to U: 0.2 mm/s -> 1000 mm/s (log scale)
+      viscSlider: 15,     // maps to kinematic viscosity ν: 1 mm²/s (water) -> 50 mm²/s (syrup/tar)
+      mode: 'body',       // 'body' | 'setae'
+      propelling: true,
+      currentSpeedFactor: 1.0, // decays smoothly when stopped (fast at low Re, slow glide at high Re)
+      bodyOffsetX: 0
+    };
+
+    function computePhysics() {
+      // l in mm: 0.2 mm to 200 mm (at slider=22 -> ~1.0 mm)
+      const l_mm = 0.2 * Math.pow(1000, state.sizeSlider / 100);
+      // U in mm/s: 0.2 mm/s to 1000 mm/s (at slider=18 -> ~1.0 mm/s)
+      const U_mms = 0.2 * Math.pow(5000, state.velSlider / 100);
+      // ν in mm²/s: water at 20°C is ~1.0 mm²/s; slider=15 gives ~1.0 mm²/s; up to 40 mm²/s
+      const nu_mm2s = 0.65 * Math.pow(60, state.viscSlider / 100);
+
+      // Re = (l * U) / ν (since ρ / μ = 1 / ν)
+      const Re = (l_mm * U_mms) / nu_mm2s;
+      const logRe = Math.log10(Math.max(1e-3, Re));
+
+      // Viscous vs inertial dominance fraction (smooth sigmoid centered around Re = 10)
+      const inertialFrac = 1 / (1 + Math.exp(-(logRe - 1.0) * 1.35));
+      const viscousFrac = 1 - inertialFrac;
+
+      // Boundary layer thickness relative to body radius (δ / l ∝ 1 / sqrt(Re), capped for display)
+      const boundaryThickness = Math.min(1.35, Math.max(0.08, 0.85 / Math.pow(Math.max(0.15, Re), 0.34)));
+
+      // Coasting distance when propulsion stops (s_coast ∝ l * Re)
+      const coast_mm = l_mm * Math.min(25, Re * 0.008);
+
+      return { l_mm, U_mms, nu_mm2s, Re, logRe, inertialFrac, viscousFrac, boundaryThickness, coast_mm };
+    }
+
+    // =========================================================================
+    // 3. 3D IDEALIZED TRIPLOBLASTIC METAZOAN & SETAE MODELS
+    // =========================================================================
+    const bodyGroup = new THREE.Group();
+    const setaeGroup = new THREE.Group();
+    setaeGroup.visible = false;
+    scene.add(bodyGroup);
+    scene.add(setaeGroup);
+
+    // --- (A) Idealized Triploblastic Metazoan (Streamlined Spindle + Ciliary Band + Cutaway Internal Gut) ---
+    const MATS = {
+      ectoderm: new THREE.MeshLambertMaterial({ color: 0x3b82f6, side: THREE.DoubleSide }),
+      mesoderm: new THREE.MeshLambertMaterial({ color: 0xdc2626, side: THREE.DoubleSide }),
+      endoderm: new THREE.MeshLambertMaterial({ color: 0xeab308, side: THREE.DoubleSide }),
+      cilia: new THREE.MeshBasicMaterial({ color: 0x93c5fd }),
+      boundary: new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.20,
+        depthWrite: false,
+        side: THREE.DoubleSide
+      }),
+      seta: new THREE.MeshLambertMaterial({ color: 0x6366f1 }),
+      setaEnvelope: new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.24,
+        depthWrite: false,
+        side: THREE.DoubleSide
+      })
+    };
+
+    // Build spindle body via LatheGeometry (half-cutaway or full outer + internal gut preview)
+    const lathePts = [];
+    const segsL = 48;
+    const bodyLen = 3.4;
+    const maxR = 0.72;
+    for (let i = 0; i <= segsL; i++) {
+      const t = i / segsL; // 0 = anterior (left, -X), 1 = posterior (right, +X)
+      const x = (t - 0.5) * bodyLen;
+      const r = maxR * Math.sin(Math.pow(t, 0.78) * Math.PI);
+      lathePts.push(new THREE.Vector2(Math.max(0.001, r), x));
+    }
+
+    // Main outer ectoderm shell (270° cutaway on front-top quadrant so triploblastic layers remain visible)
+    const ectoGeom = new THREE.LatheGeometry(lathePts, 48, 0.35, Math.PI * 1.65);
+    ectoGeom.rotateZ(-Math.PI / 2);
+    const ectoMesh = new THREE.Mesh(ectoGeom, MATS.ectoderm);
+    bodyGroup.add(ectoMesh);
+
+    // Mesoderm lining inside cutaway
+    const mesoPts = lathePts.map(p => new THREE.Vector2(Math.max(0.001, p.x * 0.84), p.y * 0.94));
+    const mesoGeom = new THREE.LatheGeometry(mesoPts, 48, 0.35, Math.PI * 1.65);
+    mesoGeom.rotateZ(-Math.PI / 2);
+    bodyGroup.add(new THREE.Mesh(mesoGeom, MATS.mesoderm));
+
+    // Endoderm digestive tube running along central axis
+    const gutGeom = new THREE.CylinderGeometry(0.18, 0.16, bodyLen * 0.82, 28);
+    gutGeom.rotateZ(Math.PI / 2);
+    bodyGroup.add(new THREE.Mesh(gutGeom, MATS.endoderm));
+
+    // Cilia rings around anterior-mid ectoderm (animate metachronal wave when propelling)
+    const ciliaMeshes = [];
+    const ringXs = [-1.0, -0.55, -0.1, 0.35, 0.8];
+    ringXs.forEach((rx, rIdx) => {
+      const normT = (rx / bodyLen) + 0.5;
+      const rad = maxR * Math.sin(Math.pow(normT, 0.78) * Math.PI);
+      const count = 22;
+      for (let c = 0; c < count; c++) {
+        const theta = (c / count) * Math.PI * 2;
+        if (theta > 0.35 && theta < 0.35 + Math.PI * 1.65) {
+          const cilGeom = new THREE.CylinderGeometry(0.012, 0.016, 0.24, 6);
+          cilGeom.translate(0, 0.12, 0);
+          const cil = new THREE.Mesh(cilGeom, MATS.cilia);
+          cil.position.set(rx, Math.cos(theta) * rad, Math.sin(theta) * rad);
+          cil.rotation.x = theta;
+          cil.userData = { baseTheta: theta, phase: rIdx * 0.9 + c * 0.25 };
+          bodyGroup.add(cil);
+          ciliaMeshes.push(cil);
+        }
+      }
+    });
+
+    // No-slip viscous boundary layer envelope (scales radially with boundaryThickness!)
+    const boundaryPts = lathePts.map(p => new THREE.Vector2(p.x + 0.15, p.y * 1.04));
+    const boundaryGeom = new THREE.LatheGeometry(boundaryPts, 40, 0, Math.PI * 2);
+    boundaryGeom.rotateZ(-Math.PI / 2);
+    const boundaryMesh = new THREE.Mesh(boundaryGeom, MATS.boundary);
+    bodyGroup.add(boundaryMesh);
+
+    // --- (B) Appendage with Setae (Paddle vs. Sieve demonstration from textbook) ---
+    const stalkGeom = new THREE.CylinderGeometry(0.14, 0.18, 2.8, 20);
+    const stalkMesh = new THREE.Mesh(stalkGeom, MATS.ectoderm);
+    stalkMesh.position.set(-0.6, 0, 0);
+    setaeGroup.add(stalkMesh);
+
+    const setaCount = 7;
+    const setaEnvelopes = [];
+    for (let i = 0; i < setaCount; i++) {
+      const sy = -1.05 + (i / (setaCount - 1)) * 2.1;
+      const sGeom = new THREE.CylinderGeometry(0.024, 0.032, 1.85, 12);
+      sGeom.rotateZ(-Math.PI / 2);
+      const sMesh = new THREE.Mesh(sGeom, MATS.seta);
+      sMesh.position.set(0.35, sy, 0);
+      setaeGroup.add(sMesh);
+
+      // Adhering fluid sleeve around each seta: overlaps into a solid PADDLE at low Re, shrinks into a SIEVE at high Re
+      const envGeom = new THREE.CylinderGeometry(0.18, 0.18, 1.82, 16);
+      envGeom.rotateZ(-Math.PI / 2);
+      const envMesh = new THREE.Mesh(envGeom, MATS.setaEnvelope);
+      envMesh.position.set(0.35, sy, 0);
+      setaeGroup.add(envMesh);
+      setaEnvelopes.push(envMesh);
+    }
+
+    // =========================================================================
+    // 4. FLUID STREAMLINES & TURBULENT VORTEX PARTICLES
+    // =========================================================================
+    const STREAM_COUNT = 22;
+    const STREAM_PTS = 56;
+    const streamlines = [];
+
+    const streamMatLaminar = new THREE.LineBasicMaterial({ color: 0x0284c7, transparent: true, opacity: 0.65 });
+    const streamMatTurbulent = new THREE.LineBasicMaterial({ color: 0xd97706, transparent: true, opacity: 0.72 });
+
+    for (let s = 0; s < STREAM_COUNT; s++) {
+      const ring = s < 14 ? 0 : 1;
+      const idxInRing = ring === 0 ? s : s - 14;
+      const totalInRing = ring === 0 ? 14 : 8;
+      const angle = (idxInRing / totalInRing) * Math.PI * 2;
+      const baseRad = ring === 0 ? 0.92 : 1.48;
+
+      const positions = new Float32Array(STREAM_PTS * 3);
+      const geom = new THREE.BufferGeometry();
+      geom.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const line = new THREE.Line(geom, streamMatLaminar);
+      scene.add(line);
+
+      streamlines.push({
+        line,
+        geom,
+        positions,
+        angle,
+        baseRad,
+        phase: s * 0.47
+      });
+    }
+
+    // Fluid tracer particles (show speed, boundary layer drag, and turbulent eddies in wake)
+    const PARTICLE_COUNT = 180;
+    const pPositions = new Float32Array(PARTICLE_COUNT * 3);
+    const pMeta = [];
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const x = (Math.random() - 0.35) * 11.5;
+      const theta = Math.random() * Math.PI * 2;
+      const r = 0.25 + Math.random() * 2.1;
+      pPositions[i * 3] = x;
+      pPositions[i * 3 + 1] = Math.cos(theta) * r;
+      pPositions[i * 3 + 2] = Math.sin(theta) * r;
+      pMeta.push({ theta, r, seed: Math.random() * Math.PI * 2 });
+    }
+    const particleGeom = new THREE.BufferGeometry();
+    particleGeom.setAttribute('position', new THREE.BufferAttribute(pPositions, 3));
+    const particleMat = new THREE.PointsMaterial({ color: 0x38bdf8, size: 0.085, transparent: true, opacity: 0.85 });
+    const particlePoints = new THREE.Points(particleGeom, particleMat);
+    scene.add(particlePoints);
+
+    // =========================================================================
+    // 5. ANATOMICAL & HYDRODYNAMIC CALLOUT LABELS
+    // =========================================================================
+    const ANNOTATIONS = [
+      {
+        id: 'lbl-body',
+        mode: 'body',
+        title: 'Metazoo triploblástico',
+        sub: '(ectodermo, mesodermo, endodermo)',
+        tag: 'Escala corporal (l)',
+        localAnchor: [-0.45, 0.55, 0.25],
+        offsetPx: [-110, -56],
+        desc: 'Organismo acuático idealizado. Al aumentar su longitud (l) o velocidad (U), las fuerzas inerciales crecen proporcionalmente frente a la viscosidad del agua.'
+      },
+      {
+        id: 'lbl-cilia',
+        mode: 'body',
+        title: 'Cilios locomotores',
+        sub: '(propulsión activa)',
+        tag: 'Gasto energético',
+        localAnchor: [-0.95, -0.58, 0.2],
+        offsetPx: [-115, 48],
+        desc: 'A bajo Re (< 1.5), el organismo solo avanza mientras bate activamente sus cilios o flagelos; en cuanto se detiene, la viscosidad frena el cuerpo al instante.'
+      },
+      {
+        id: 'lbl-boundary',
+        mode: 'body',
+        title: 'Capa límite adherida',
+        sub: '(fluido arrastrado por viscosidad)',
+        tag: 'Fuerzas viscosas',
+        localAnchor: [0.35, 0.88, 0.0],
+        offsetPx: [42, -52],
+        desc: 'El agua en contacto con la superficie corporal se adhiere y se mueve con el animal. A bajo Re esta capa es muy gruesa; a alto Re se vuelve delgada.'
+      },
+      {
+        id: 'lbl-wake',
+        mode: 'body',
+        title: 'Estela del fluido',
+        sub: '(laminar vs. turbulenta)',
+        tag: 'Inercia del fluido',
+        localAnchor: [2.45, 0.15, 0.0],
+        offsetPx: [48, 36],
+        desc: 'A bajo Re las líneas de corriente se cierran suavemente sin turbulencia. A alto Re la inercia imparte movimiento al agua y genera remolinos turbulentos que reducen la eficiencia.'
+      },
+      {
+        id: 'lbl-setae',
+        mode: 'setae',
+        title: 'Setas del apéndice',
+        sub: '(efecto remo vs. tamiz)',
+        tag: 'Alimentación y natación',
+        localAnchor: [0.65, 0.72, 0.0],
+        offsetPx: [52, -44],
+        desc: 'Cada seta arrastra una capa de agua adherida. A bajo Re o con setas muy juntas, las capas se solapan y el apéndice actúa como un remo sólido; con mayor separación o alto Re, el agua pasa entre ellas como un tamiz.'
+      },
+      {
+        id: 'lbl-gap',
+        mode: 'setae',
+        title: 'Espacio intersetal',
+        sub: '(solapamiento de capa límite)',
+        tag: 'Régimen viscoso',
+        localAnchor: [0.45, -0.35, 0.0],
+        offsetPx: [54, 42],
+        desc: 'Cuando el grosor de la capa viscosa supera la mitad de la distancia entre setas adyacentes, el fluido queda atrapado entre ellas.'
+      }
+    ];
+
+    const leaderSvg = document.getElementById('leader-svg');
+    const labelsLayer = document.getElementById('labels-layer');
+    const infoCard = document.getElementById('info-card');
+    let labelsEnabled = true;
+    let activeAnnId = null;
+
+    function openInfoCard(ann) {
+      if (!labelsEnabled) return;
+      activeAnnId = ann.id;
+      document.getElementById('info-title').textContent = ann.title;
+      document.getElementById('info-tag').textContent = ann.tag;
+      document.getElementById('info-body').textContent = ann.desc;
+      infoCard.classList.add('visible');
+      ANNOTATIONS.forEach(a => { if (a.el) a.el.classList.toggle('active', a.id === ann.id); });
+    }
+
+    function closeInfoCard() {
+      activeAnnId = null;
+      infoCard.classList.remove('visible');
+      ANNOTATIONS.forEach(a => { if (a.el) a.el.classList.remove('active'); });
+    }
+    document.getElementById('info-close').addEventListener('click', closeInfoCard);
+
+    ANNOTATIONS.forEach(ann => {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('r', '2.3');
+      leaderSvg.appendChild(line);
+      leaderSvg.appendChild(dot);
+
+      const el = document.createElement('div');
+      el.className = 'ann-label';
+      el.innerHTML = `${ann.title}<span class="sub">${ann.sub}</span>`;
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!labelsEnabled) return;
+        activeAnnId === ann.id ? closeInfoCard() : openInfoCard(ann);
+      });
+      labelsLayer.appendChild(el);
+
+      ann.lineEl = line;
+      ann.dotEl = dot;
+      ann.el = el;
+    });
+
+    renderer.domElement.addEventListener('click', () => { if (activeAnnId) closeInfoCard(); });
+
+    // =========================================================================
+    // 6. UI CONTROLS & PRESETS
+    // =========================================================================
+    const sliderSize = document.getElementById('slider-size');
+    const sliderVel = document.getElementById('slider-vel');
+    const sliderVisc = document.getElementById('slider-visc');
+
+    function formatRe(Re) {
+      if (Re < 0.1) return Re.toFixed(3);
+      if (Re < 10) return Re.toFixed(1);
+      if (Re < 1000) return Math.round(Re).toString();
+      return Re.toExponential(1).replace('+', '');
+    }
+
+    function updateHUD() {
+      const p = computePhysics();
+      document.getElementById('re-number').innerHTML = `R<sub>e</sub> &approx; ${formatRe(p.Re)}`;
+      document.getElementById('val-size').textContent = p.l_mm < 10 ? `${p.l_mm.toFixed(1)} mm` : `${Math.round(p.l_mm)} mm`;
+      document.getElementById('val-vel').textContent = p.U_mms < 10 ? `${p.U_mms.toFixed(1)} mm/s` : `${Math.round(p.U_mms)} mm/s`;
+      document.getElementById('val-coast').textContent = p.coast_mm < 0.05 ? '< 0.01 mm (frenado inmediato)' : `${p.coast_mm.toFixed(1)} mm`;
+
+      const vPct = Math.round(p.viscousFrac * 100);
+      const iPct = 100 - vPct;
+      document.getElementById('visc-pct').textContent = `Viscosidad: ${vPct}%`;
+      document.getElementById('iner-pct').textContent = `Inercia: ${iPct}%`;
+      document.getElementById('visc-bar').style.width = `${vPct}%`;
+
+      const regimeEl = document.getElementById('re-regime-label');
+      if (p.Re < 2) {
+        regimeEl.textContent = 'Bajo Re (< 1.5): viscosidad domina · sin turbulencia ni inercia';
+      } else if (p.Re < 500) {
+        regimeEl.textContent = 'Re intermedio: transición laminar · separación de capa límite';
+      } else {
+        regimeEl.textContent = 'Alto Re (> 10³): inercia domina · estela turbulenta y planeo';
+      }
+
+      // Scale boundary layer thickness visually
+      const bScale = 1 + p.boundaryThickness * 0.65;
+      boundaryMesh.scale.set(1, bScale, bScale);
+      MATS.boundary.opacity = 0.08 + p.viscousFrac * 0.22;
+
+      // Setae fluid sleeves: expand into solid paddle at low Re, shrink to sieve at high Re
+      const setaRadScale = 0.22 + p.viscousFrac * 1.15;
+      setaEnvelopes.forEach(env => env.scale.set(1, setaRadScale, setaRadScale));
+      MATS.setaEnvelope.opacity = 0.10 + p.viscousFrac * 0.26;
+    }
+
+    function setPreset(key) {
+      document.querySelectorAll('#preset-tabs .tab').forEach(b => b.classList.toggle('active', b.dataset.preset === key));
+      if (key === 'low') {
+        sliderSize.value = 23; // ~1.0 mm
+        sliderVel.value = 19;  // ~1.0 mm/s -> Re ≈ 1.0
+        sliderVisc.value = 15;
+      } else if (key === 'mid') {
+        sliderSize.value = 56; // ~10 mm
+        sliderVel.value = 54;  // ~20 mm/s -> Re ≈ 200
+        sliderVisc.value = 15;
+      } else if (key === 'high') {
+        sliderSize.value = 90; // ~100 mm
+        sliderVel.value = 92;  // ~500 mm/s -> Re ≈ 50,000
+        sliderVisc.value = 15;
+      }
+      state.sizeSlider = parseFloat(sliderSize.value);
+      state.velSlider = parseFloat(sliderVel.value);
+      state.viscSlider = parseFloat(sliderVisc.value);
+      updateHUD();
+    }
+
+    document.querySelectorAll('#preset-tabs .tab').forEach(btn => {
+      btn.addEventListener('click', () => setPreset(btn.dataset.preset));
+    });
+
+    [sliderSize, sliderVel, sliderVisc].forEach(sl => {
+      sl.addEventListener('input', () => {
+        document.querySelectorAll('#preset-tabs .tab').forEach(b => b.classList.remove('active'));
+        state.sizeSlider = parseFloat(sliderSize.value);
+        state.velSlider = parseFloat(sliderVel.value);
+        state.viscSlider = parseFloat(sliderVisc.value);
+        updateHUD();
+      });
+    });
+
+    const modeBtn = document.getElementById('mode-toggle');
+    modeBtn.addEventListener('click', () => {
+      state.mode = state.mode === 'body' ? 'setae' : 'body';
+      const isSetae = state.mode === 'setae';
+      modeBtn.classList.toggle('active', isSetae);
+      modeBtn.textContent = isSetae ? 'Cuerpo' : 'Setas';
+      bodyGroup.visible = !isSetae;
+      setaeGroup.visible = isSetae;
+      closeInfoCard();
+    });
+
+    const propBtn = document.getElementById('propulsion-toggle');
+    propBtn.addEventListener('click', () => {
+      state.propelling = !state.propelling;
+      propBtn.classList.toggle('stopped', !state.propelling);
+      propBtn.textContent = state.propelling ? 'Detener nado' : 'Reanudar nado';
+    });
+
+    const labelsBtn = document.getElementById('labels-toggle');
+    labelsBtn.addEventListener('click', () => {
+      labelsEnabled = !labelsEnabled;
+      labelsBtn.classList.toggle('active', labelsEnabled);
+      leaderSvg.style.display = labelsEnabled ? 'block' : 'none';
+      labelsLayer.style.display = labelsEnabled ? 'block' : 'none';
+      if (!labelsEnabled) closeInfoCard();
+    });
+
+    updateHUD();
+
+    // =========================================================================
+    // 7. 3D-TO-2D LABEL PROJECTION WITH COLLISION AVOIDANCE
+    // =========================================================================
+    const tmpVec = new THREE.Vector3();
+    function projectToScreen(v) {
+      v.project(camera);
+      return {
+        x: (v.x * 0.5 + 0.5) * window.innerWidth,
+        y: (-v.y * 0.5 + 0.5) * window.innerHeight,
+        visible: v.z >= -1 && v.z <= 1
+      };
+    }
+
+    function updateOverlays() {
+      if (!labelsEnabled) return;
+      const items = [];
+
+      ANNOTATIONS.forEach(ann => {
+        if (ann.mode !== state.mode) {
+          ann.el.style.display = 'none';
+          ann.lineEl.style.display = 'none';
+          ann.dotEl.style.display = 'none';
+          return;
+        }
+        tmpVec.set(ann.localAnchor[0] + state.bodyOffsetX, ann.localAnchor[1], ann.localAnchor[2]);
+        const pt = projectToScreen(tmpVec);
+        if (!pt.visible) {
+          ann.el.style.display = 'none';
+          ann.lineEl.style.display = 'none';
+          ann.dotEl.style.display = 'none';
+          return;
+        }
+        ann.el.style.display = 'block';
+        const w = ann.el.offsetWidth || 100;
+        const h = ann.el.offsetHeight || 28;
+        items.push({
+          ref: ann,
+          ax: pt.x,
+          ay: pt.y,
+          x: pt.x + ann.offsetPx[0],
+          y: pt.y + ann.offsetPx[1] - h / 2,
+          w,
+          h
+        });
+      });
+
+      // Keep clear of top-left HUD and bottom dock
+      const minX = 10, maxX = window.innerWidth - 10;
+      const minY = 128, maxY = window.innerHeight - 58;
+      for (let iter = 0; iter < 10; iter++) {
+        for (let i = 0; i < items.length; i++) {
+          for (let j = i + 1; j < items.length; j++) {
+            const a = items[i], b = items[j];
+            const ox = Math.min(a.x + a.w + 6, b.x + b.w + 6) - Math.max(a.x, b.x);
+            const oy = Math.min(a.y + a.h + 5, b.y + b.h + 5) - Math.max(a.y, b.y);
+            if (ox > 0 && oy > 0) {
+              const dir = a.y <= b.y ? -1 : 1;
+              a.y += dir * oy * 0.55;
+              b.y -= dir * oy * 0.55;
+            }
+          }
+        }
+        items.forEach(it => {
+          it.x = Math.max(minX, Math.min(maxX - it.w, it.x));
+          it.y = Math.max(minY, Math.min(maxY - it.h, it.y));
+        });
+      }
+
+      items.forEach(it => {
+        const ann = it.ref;
+        ann.el.style.left = `${it.x}px`;
+        ann.el.style.top = `${it.y + it.h / 2}px`;
+        const attachX = (it.x + it.w / 2) < it.ax ? (it.x + it.w) : it.x;
+        const attachY = it.y + it.h / 2;
+
+        ann.lineEl.style.display = 'block';
+        ann.lineEl.setAttribute('x1', it.ax.toFixed(1));
+        ann.lineEl.setAttribute('y1', it.ay.toFixed(1));
+        ann.lineEl.setAttribute('x2', attachX.toFixed(1));
+        ann.lineEl.setAttribute('y2', attachY.toFixed(1));
+
+        ann.dotEl.style.display = 'block';
+        ann.dotEl.setAttribute('cx', it.ax.toFixed(1));
+        ann.dotEl.setAttribute('cy', it.ay.toFixed(1));
+      });
+    }
+
+    // =========================================================================
+    // 8. ANIMATION LOOP (FLOW STREAMLINES, BOUNDARY LAYER & INERTIAL COASTING)
+    // =========================================================================
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    let simTime = 0;
+    const clock = new THREE.Clock();
+
+    function animate() {
+      requestAnimationFrame(animate);
+      const dt = Math.min(0.05, clock.getDelta());
+      const phys = computePhysics();
+
+      // Propulsion & Inertia physics:
+      // At low Re, stopping propulsion halts motion instantaneously; at high Re, inertia sustains gliding!
+      if (state.propelling) {
+        state.currentSpeedFactor += (1.0 - state.currentSpeedFactor) * Math.min(1, dt * 6);
+        state.bodyOffsetX += (0 - state.bodyOffsetX) * Math.min(1, dt * 3);
+      } else {
+        const decayRate = 0.6 + phys.viscousFrac * 18.0; // instant stop when viscous, slow coast when inertial
+        state.currentSpeedFactor *= Math.exp(-decayRate * dt);
+        if (state.currentSpeedFactor < 0.002) state.currentSpeedFactor = 0;
+        // Slight backward drift in frame when coasting slows down at high Re
+        state.bodyOffsetX += (phys.inertialFrac * 0.9 * (1 - state.currentSpeedFactor) - state.bodyOffsetX) * Math.min(1, dt * 2.5);
+      }
+
+      bodyGroup.position.x = state.bodyOffsetX;
+      setaeGroup.position.x = state.bodyOffsetX;
+
+      const flowSpeed = (0.8 + Math.log10(Math.max(1, phys.U_mms + 1)) * 1.1) * state.currentSpeedFactor;
+      simTime += dt * flowSpeed;
+
+      // Animate cilia metachronal wave when propelling
+      const ciliaAmp = state.propelling ? 0.38 : 0.0;
+      ciliaMeshes.forEach(cil => {
+        const wave = Math.sin(simTime * 7.5 - cil.userData.phase) * ciliaAmp;
+        cil.rotation.z = wave;
+      });
+
+      // Update 3D streamlines (laminar & close-hugging at low Re; turbulent vortex wake at high Re)
+      const turbAmp = phys.inertialFrac * 0.55 * state.currentSpeedFactor;
+      streamlines.forEach(st => {
+        const mat = phys.inertialFrac > 0.5 ? streamMatTurbulent : streamMatLaminar;
+        if (st.line.material !== mat) st.line.material = mat;
+
+        for (let i = 0; i < STREAM_PTS; i++) {
+          const u = i / (STREAM_PTS - 1);
+          const x = -4.2 + u * 10.6;
+          const relX = x - state.bodyOffsetX;
+
+          // Deflection around body spindle (-1.7 to +1.7)
+          let deflect = 0;
+          if (Math.abs(relX) < 2.2) {
+            const norm = Math.cos((relX / 2.2) * (Math.PI / 2));
+            deflect = norm * (0.42 + phys.boundaryThickness * 0.25);
+          }
+
+          // Wake oscillation behind body (relX > 1.3)
+          let eddyY = 0, eddyZ = 0;
+          if (relX > 1.2 && turbAmp > 0.01) {
+            const wakeDist = Math.min(1, (relX - 1.2) / 3.5);
+            const k = relX * 2.4 - simTime * 5.2 + st.phase;
+            eddyY = Math.sin(k) * turbAmp * wakeDist;
+            eddyZ = Math.cos(k * 1.15) * turbAmp * wakeDist;
+          }
+
+          const r = st.baseRad + deflect;
+          st.positions[i * 3] = x;
+          st.positions[i * 3 + 1] = Math.cos(st.angle) * r + eddyY;
+          st.positions[i * 3 + 2] = Math.sin(st.angle) * r + eddyZ;
+        }
+        st.geom.attributes.position.needsUpdate = true;
+      });
+
+      // Update tracer particles
+      particleMat.color.setHex(phys.inertialFrac > 0.5 ? 0xfbbf24 : 0x38bdf8);
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        let x = pPositions[i * 3];
+        const m = pMeta[i];
+        const relX = x - state.bodyOffsetX;
+
+        // No-slip drag: particles inside the viscous boundary layer move slower relative to body!
+        const distFromAxis = Math.abs(m.r - 0.72);
+        const dragFactor = (distFromAxis < phys.boundaryThickness && Math.abs(relX) < 1.8)
+          ? (0.2 + 0.8 * (distFromAxis / phys.boundaryThickness))
+          : 1.0;
+
+        x += dt * flowSpeed * 2.6 * dragFactor;
+        if (x > 6.4) x = -4.6;
+
+        let swirlY = 0, swirlZ = 0;
+        if (relX > 1.2 && turbAmp > 0.01) {
+          const wake = Math.min(1, (relX - 1.2) / 3.0);
+          swirlY = Math.sin(relX * 2.8 - simTime * 5.5 + m.seed) * turbAmp * wake * 1.1;
+          swirlZ = Math.cos(relX * 2.8 - simTime * 5.5 + m.seed) * turbAmp * wake * 1.1;
+        }
+
+        const deflect = Math.abs(relX) < 2.1 ? Math.cos((relX / 2.1) * (Math.PI / 2)) * 0.35 : 0;
+        const r = m.r + deflect;
+
+        pPositions[i * 3] = x;
+        pPositions[i * 3 + 1] = Math.cos(m.theta) * r + swirlY;
+        pPositions[i * 3 + 2] = Math.sin(m.theta) * r + swirlZ;
+      }
+      particleGeom.attributes.position.needsUpdate = true;
+
+      controls.update();
+      renderer.render(scene, camera);
+      updateOverlays();
+    }
+
+    animate();
+  </script>
+</body>
+</html>

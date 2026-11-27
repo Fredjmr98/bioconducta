@@ -1,0 +1,1485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planes Corporales de Metazoos Triploblásticos — Esquema 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #f7f5f3;
+      --ink: #1f1830;
+      --muted: #62597a;
+      --rule: #dcd6e2;
+      --accent: #4b2a7b;
+      --accent-soft: #ece7f4;
+      --pill-bg: rgba(247, 245, 243, 0.88);
+      --card-bg: rgba(247, 245, 243, 0.96);
+      --sans: "Barlow", -apple-system, BlinkMacSystemFont, sans-serif;
+      --head: "Barlow Semi Condensed", "Barlow", sans-serif;
+      --serif: "Crimson Pro", Georgia, serif;
+      --line-stroke: rgba(31, 24, 48, 0.58);
+      --label-bg: rgba(247, 245, 243, 0.90);
+    }
+
+    [data-theme="dark"] {
+      --bg: #150f22;
+      --ink: #e8e2f2;
+      --muted: #a89fc0;
+      --rule: #2e2540;
+      --accent: #b79df0;
+      --accent-soft: #221a38;
+      --pill-bg: rgba(21, 15, 34, 0.88);
+      --card-bg: rgba(21, 15, 34, 0.96);
+      --line-stroke: rgba(232, 226, 242, 0.55);
+      --label-bg: rgba(21, 15, 34, 0.88);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #150f22;
+        --ink: #e8e2f2;
+        --muted: #a89fc0;
+        --rule: #2e2540;
+        --accent: #b79df0;
+        --accent-soft: #221a38;
+        --pill-bg: rgba(21, 15, 34, 0.88);
+        --card-bg: rgba(21, 15, 34, 0.96);
+        --line-stroke: rgba(232, 226, 242, 0.55);
+        --label-bg: rgba(21, 15, 34, 0.88);
+      }
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    #canvas-container {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 1;
+    }
+    #canvas-container canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Overlay SVG for leader lines */
+    #leader-svg {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    #leader-svg line {
+      stroke: var(--line-stroke);
+      stroke-width: 1.1;
+    }
+
+    #leader-svg circle {
+      fill: var(--ink);
+    }
+
+    /* Floating anatomical labels (Figure 3.5 style) */
+    #labels-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 6;
+    }
+
+    .ann-label {
+      position: absolute;
+      pointer-events: auto;
+      cursor: pointer;
+      font-size: 11.5px;
+      line-height: 1.22;
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--label-bg);
+      border: 1px solid var(--rule);
+      padding: 2px 6px;
+      border-radius: 4px;
+      white-space: nowrap;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+      transition: border-color 0.14s ease, color 0.14s ease, background-color 0.14s ease, transform 0.14s ease;
+      transform: translateY(-50%);
+    }
+
+    .ann-label:hover, .ann-label.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--card-bg);
+      z-index: 12;
+    }
+
+    .ann-label .sub {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .plan-badge {
+      position: absolute;
+      pointer-events: none;
+      font-family: var(--head);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--accent);
+      transform: translate(-50%, -50%);
+      background: var(--label-bg);
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--rule);
+    }
+
+    /* Click-triggered info popover (only visible when a label is clicked) */
+    #info-card {
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 25;
+      width: min(290px, calc(100vw - 28px));
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent);
+      border-radius: 8px;
+      padding: 11px 13px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      display: none;
+    }
+
+    #info-card.visible {
+      display: block;
+    }
+
+    .info-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+
+    .info-title {
+      font-family: var(--head);
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .info-germ {
+      display: inline-block;
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-bottom: 6px;
+    }
+
+    .info-body {
+      font-size: 12px;
+      line-height: 1.45;
+      color: var(--ink);
+      opacity: 0.9;
+      margin-bottom: 6px;
+    }
+
+    .info-taxa {
+      font-size: 11px;
+      line-height: 1.35;
+      color: var(--muted);
+      border-top: 1px solid var(--rule);
+      padding-top: 5px;
+    }
+
+    .info-close {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1;
+      cursor: pointer;
+      padding: 1px 4px;
+      border-radius: 4px;
+    }
+
+    .info-close:hover {
+      color: var(--ink);
+      background: var(--accent-soft);
+    }
+
+    /* Single compact floating control pill */
+    #dock {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      background: var(--pill-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--rule);
+      border-radius: 999px;
+      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08);
+      max-width: calc(100vw - 16px);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .seg {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+
+    .tab {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 4px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .tab:hover {
+      color: var(--ink);
+    }
+
+    .tab.active {
+      background: var(--accent);
+      color: var(--bg);
+      font-weight: 600;
+    }
+
+    .sep {
+      width: 1px;
+      height: 14px;
+      background: var(--rule);
+      flex-shrink: 0;
+    }
+
+    .cut-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 58px;
+      height: 3px;
+      background: var(--rule);
+      border-radius: 999px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 1.5px solid var(--bg);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 1.5px solid var(--bg);
+    }
+
+    .layers {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0, 0, 0, 0.16);
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.12s ease, opacity 0.15s ease;
+    }
+
+    .dot:hover {
+      transform: scale(1.18);
+    }
+
+    .dot.off {
+      opacity: 0.25;
+      transform: scale(0.85);
+    }
+
+    .toggle-pill {
+      border: 1px solid var(--rule);
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 999px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .toggle-pill.active {
+      background: var(--accent-soft);
+      border-color: var(--accent);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    /* Bioprâxis round theme toggle button (matches Placozoa 3D) */
+    .theme-toggle {
+      width: 28px;
+      height: 28px;
+      padding: 0;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: var(--bg);
+      color: var(--accent);
+      border: 1px solid var(--rule);
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+      flex-shrink: 0;
+    }
+    .theme-toggle:hover {
+      background: var(--accent);
+      color: var(--bg);
+      border-color: var(--accent);
+    }
+    .theme-toggle:active {
+      transform: scale(0.93);
+    }
+
+    @media (max-width: 640px) {
+      #dock {
+        border-radius: 14px;
+        padding: 6px 8px;
+        gap: 6px;
+        bottom: 8px;
+      }
+      .ann-label {
+        font-size: 10px;
+        padding: 1.5px 4.5px;
+      }
+      .ann-label .sub {
+        font-size: 9px;
+      }
+      .plan-badge {
+        font-size: 10.5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <svg id="leader-svg"></svg>
+  <div id="labels-layer"></div>
+
+  <!-- Info Card (only appears when a visible label is clicked) -->
+  <div id="info-card" role="dialog" aria-live="polite">
+    <div class="info-header">
+      <div class="info-title" id="info-title"></div>
+      <button class="info-close" id="info-close" title="Cerrar">✕</button>
+    </div>
+    <div class="info-germ" id="info-germ"></div>
+    <div class="info-body" id="info-body"></div>
+    <div class="info-taxa" id="info-taxa"></div>
+  </div>
+
+  <!-- Compact Bottom Control Pill -->
+  <div id="dock" role="toolbar" aria-label="Controles del esquema">
+    <div class="seg" id="view-tabs">
+      <button class="tab active" data-view="all">Todos</button>
+      <button class="tab" data-view="acoelomate">Acelomado</button>
+      <button class="tab" data-view="blastocoelomate">Blastocelomado</button>
+      <button class="tab" data-view="coelomate">Celomado</button>
+    </div>
+    <div class="sep"></div>
+    <label class="cut-wrap" title="Sección longitudinal">
+      <span>Corte</span>
+      <input type="range" id="cut-slider" min="0" max="65" value="35" />
+    </label>
+    <div class="sep"></div>
+    <div class="layers" id="layer-dots">
+      <button class="dot" data-layer="ectoderm" style="background:#3b82f6" title="Epidermis (ectodermo)"></button>
+      <button class="dot" data-layer="mesoderm" style="background:#dc2626" title="Musculatura / Mesénquima (mesodermo)"></button>
+      <button class="dot" data-layer="peritoneum" style="background:#f472b6" title="Peritoneo y mesenterios (mesodermo)"></button>
+      <button class="dot" data-layer="endoderm" style="background:#eab308" title="Gastrodermis / Intestino (endodermo)"></button>
+      <button class="dot" data-layer="gonads" style="background:#a855f7" title="Gónadas"></button>
+    </div>
+    <div class="sep"></div>
+    <button class="toggle-pill active" id="labels-toggle" title="Mostrar u ocultar etiquetas">Etiquetas</button>
+    <div class="sep"></div>
+    <button id="theme-toggle-btn" class="theme-toggle" title="Cambiar tema claro / oscuro" aria-label="Cambiar tema">
+      <svg id="theme-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+      </svg>
+    </button>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    function showDiag(msg) {
+      let box = document.getElementById('diag-box');
+      if (!box) {
+        box = document.createElement('pre');
+        box.id = 'diag-box';
+        box.style.cssText = 'position:fixed;top:10px;left:10px;z-index:9999;background:#7f1d1d;color:#fff;padding:10px 14px;border-radius:8px;font:12px monospace;max-width:90vw;white-space:pre-wrap;';
+        document.body.appendChild(box);
+      }
+      box.textContent = msg;
+    }
+
+    window.addEventListener('error', (ev) => showDiag('Error 3D: ' + (ev.message || ev.error)));
+    window.addEventListener('unhandledrejection', (ev) => showDiag('Promise Error 3D: ' + ev.reason));
+
+    try { const saved = localStorage.getItem('theme'); if (saved) document.documentElement.setAttribute('data-theme', saved); } catch (e) {}
+
+    const EMBED = window.self !== window.top || new URLSearchParams(location.search).has('embed');
+
+    // Sync Bioprâxis theme (URL param or parent postMessage)
+    function isDarkTheme() {
+      const t = document.documentElement.getAttribute('data-theme');
+      return t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+
+    function applyThemeScene() {
+      const dark = isDarkTheme();
+      if (window.scene) {
+        scene.background = new THREE.Color(dark ? 0x150f22 : 0xf7f5f3);
+      }
+      const iconEl = document.getElementById('theme-icon');
+      if (iconEl) {
+        iconEl.innerHTML = dark
+          ? '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>'
+          : '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>';
+      }
+    }
+
+    document.getElementById('theme-toggle-btn').addEventListener('click', () => {
+      const nextDark = !isDarkTheme();
+      document.documentElement.setAttribute('data-theme', nextDark ? 'dark' : 'light');
+      try { localStorage.setItem('theme', nextDark ? 'dark' : 'light'); } catch (e) {}
+      if (window.parent !== window) {
+        window.parent.postMessage({ type: 'bioprax-theme-changed', dark: nextDark }, '*');
+      }
+      applyThemeScene();
+    });
+
+    if (window.matchMedia) {
+      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+        if (!document.documentElement.getAttribute('data-theme')) {
+          applyThemeScene();
+        }
+      });
+    }
+
+    window.addEventListener('message', (e) => {
+      const d = e.data || {};
+      if (d.type === 'bioprax-theme') {
+        document.documentElement.setAttribute('data-theme', d.dark ? 'dark' : 'light');
+        applyThemeScene();
+      }
+      if (d.type === 'bioprax-hud') {
+        const full = !!d.full;
+        if (window.controls) {
+          controls.enableZoom = true;
+          renderer.domElement.style.touchAction = (full || !EMBED) ? 'none' : 'pan-y';
+        }
+      }
+    });
+
+    // =========================================================================
+    // 1. SCENE, CAMERA & RENDERER
+    // =========================================================================
+    const container = document.getElementById('canvas-container');
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
+
+    window.scene = new THREE.Scene();
+    applyThemeScene();
+
+    const camera = new THREE.PerspectiveCamera(36, window.innerWidth / window.innerHeight, 0.1, 150);
+    camera.position.set(0, 4.6, 19.6);
+
+    window.controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.06;
+    controls.minDistance = 4.5;
+    controls.maxDistance = 32;
+    controls.target.set(0, -0.1, 0);
+
+    // When embedded inside the chapter page (not fullscreen), allow vertical page scrolling
+    if (EMBED) {
+      renderer.domElement.style.touchAction = 'pan-y';
+    }
+
+    // Lighting
+    scene.add(new THREE.AmbientLight(0xffffff, 0.68));
+    const keyLight = new THREE.DirectionalLight(0xffffff, 0.62);
+    keyLight.position.set(8, 14, 12);
+    scene.add(keyLight);
+
+    const fillLight = new THREE.DirectionalLight(0xe0e7ff, 0.30);
+    fillLight.position.set(-10, -5, 8);
+    scene.add(fillLight);
+
+    // =========================================================================
+    // 2. MATERIALS
+    // =========================================================================
+    const MATS = {
+      ectoderm: new THREE.MeshLambertMaterial({ color: 0x3b82f6, side: THREE.DoubleSide }),
+      mesoderm: new THREE.MeshLambertMaterial({ color: 0xdc2626, side: THREE.DoubleSide }),
+      mesenchyme: new THREE.MeshLambertMaterial({ color: 0xef4444, side: THREE.DoubleSide }),
+      peritoneum: new THREE.MeshLambertMaterial({ color: 0xf472b6, side: THREE.DoubleSide }),
+      endoderm: new THREE.MeshLambertMaterial({
+        color: 0xeab308,
+        side: THREE.DoubleSide,
+        polygonOffset: true,
+        polygonOffsetFactor: -1,
+        polygonOffsetUnits: -1
+      }),
+      lumen: new THREE.MeshBasicMaterial({ color: 0x451a03, side: THREE.DoubleSide }),
+      gonad: new THREE.MeshLambertMaterial({
+        color: 0xa855f7,
+        side: THREE.DoubleSide,
+        polygonOffset: true,
+        polygonOffsetFactor: -2,
+        polygonOffsetUnits: -2
+      }),
+      fluid: new THREE.MeshBasicMaterial({
+        color: 0x38bdf8,
+        transparent: true,
+        opacity: 0.18,
+        depthWrite: false,
+        side: THREE.DoubleSide
+      }),
+      edge: new THREE.LineBasicMaterial({ color: 0x1e1b4b, transparent: true, opacity: 0.35 })
+    };
+
+    // =========================================================================
+    // 3. GEOMETRY BUILDERS
+    // =========================================================================
+    const BASE_LEN = 4.2;
+    const specimens = {
+      acoelomate: new THREE.Group(),
+      blastocoelomate: new THREE.Group(),
+      coelomate: new THREE.Group()
+    };
+
+    const layerMeshes = {
+      ectoderm: [],
+      mesoderm: [],
+      peritoneum: [],
+      endoderm: [],
+      gonads: []
+    };
+
+    const cutTargets = [];
+
+    function regLayer(layerName, obj) {
+      obj.traverse((child) => {
+        if (child.isMesh) child.frustumCulled = false;
+      });
+      layerMeshes[layerName].push(obj);
+      return obj;
+    }
+
+    function regCut(obj, mode, baseZ = 0, span = BASE_LEN) {
+      cutTargets.push({ mesh: obj, mode, baseZ, span });
+      return obj;
+    }
+
+    // Build circular hollow cylinder from native CylinderGeometry + RingGeometry (100% immune to ExtrudeGeometry triangulation issues)
+    function createCircularTube(rOuter, rInner, length, material, segs = 64) {
+      const grp = new THREE.Group();
+
+      const outerWall = new THREE.CylinderGeometry(rOuter, rOuter, length, segs, 1, true);
+      outerWall.rotateX(Math.PI / 2);
+      grp.add(new THREE.Mesh(outerWall, material));
+
+      if (rInner > 0.001) {
+        const innerWall = new THREE.CylinderGeometry(rInner, rInner, length, segs, 1, true);
+        innerWall.rotateX(Math.PI / 2);
+        grp.add(new THREE.Mesh(innerWall, material));
+      }
+
+      const capGeom = new THREE.RingGeometry(Math.max(0.001, rInner), rOuter, segs, 1);
+      const frontCap = new THREE.Mesh(capGeom, material);
+      frontCap.position.z = length / 2;
+      grp.add(frontCap);
+
+      const backCap = new THREE.Mesh(capGeom, material);
+      backCap.position.z = -length / 2;
+      backCap.rotation.y = Math.PI;
+      grp.add(backCap);
+
+      if (material !== MATS.fluid) {
+        const ringEdgeOuter = new THREE.LineLoop(
+          new THREE.BufferGeometry().setFromPoints(new THREE.EllipseCurve(0, 0, rOuter, rOuter, 0, Math.PI * 2, false, 0).getPoints(segs)),
+          MATS.edge
+        );
+        ringEdgeOuter.position.z = length / 2 + 0.002;
+        grp.add(ringEdgeOuter);
+      }
+
+      return grp;
+    }
+
+    function getFlatwormPoints(rx, ry, n = 96) {
+      const pts = [];
+      for (let i = 0; i < n; i++) {
+        const t = (i / n) * Math.PI * 2;
+        const x = Math.cos(t) * rx;
+        const sinT = Math.sin(t);
+        const y = sinT >= 0
+          ? Math.pow(sinT, 0.85) * ry * 1.15 - ry * 0.22
+          : -Math.pow(-sinT, 1.35) * ry * 0.42 - ry * 0.22;
+        pts.push(new THREE.Vector2(x, y));
+      }
+      return pts;
+    }
+
+    function getCirclePoints(r, cx = 0, cy = 0, n = 64) {
+      const pts = [];
+      for (let i = 0; i < n; i++) {
+        const t = (i / n) * Math.PI * 2;
+        pts.push(new THREE.Vector2(cx + Math.cos(t) * r, cy + Math.sin(t) * r));
+      }
+      return pts;
+    }
+
+    function createExtrudedTube(outerPts, innerPts, length, material) {
+      const shape = new THREE.Shape(outerPts);
+      if (innerPts && innerPts.length > 2) {
+        shape.holes.push(new THREE.Path(innerPts));
+      }
+      const geom = new THREE.ExtrudeGeometry(shape, {
+        depth: length,
+        bevelEnabled: false,
+        steps: 1
+      });
+      geom.translate(0, 0, -length / 2);
+      const mesh = new THREE.Mesh(geom, material);
+      mesh.frustumCulled = false;
+      const edges = new THREE.LineSegments(new THREE.EdgesGeometry(geom, 28), MATS.edge);
+      mesh.add(edges);
+      return mesh;
+    }
+
+    // -------------------------------------------------------------------------
+    // (A) ACOELOMATE
+    // -------------------------------------------------------------------------
+    (function buildAcoelomate() {
+      const g = specimens.acoelomate;
+      const outerPts = getFlatwormPoints(2.25, 0.72, 96);
+      const innerEctoPts = getFlatwormPoints(2.03, 0.54, 96);
+      const gutOuterPts = getCirclePoints(0.32, 0, 0.14, 48);
+
+      g.add(regLayer('ectoderm', regCut(createExtrudedTube(outerPts, innerEctoPts, BASE_LEN, MATS.ectoderm), 'outer')));
+      g.add(regLayer('mesoderm', regCut(createExtrudedTube(innerEctoPts, gutOuterPts, BASE_LEN, MATS.mesenchyme), 'outer')));
+
+      const gutMesh = createCircularTube(0.32, 0.17, BASE_LEN + 0.024, MATS.endoderm, 48);
+      gutMesh.position.set(0, 0.14, 0);
+      g.add(regLayer('endoderm', regCut(gutMesh, 'inner', 0, BASE_LEN + 0.024)));
+
+      const lumenGeom = new THREE.CylinderGeometry(0.168, 0.168, BASE_LEN + 0.026, 36, 1, true);
+      lumenGeom.rotateX(Math.PI / 2);
+      const lumenMesh = new THREE.Mesh(lumenGeom, MATS.lumen);
+      lumenMesh.position.set(0, 0.14, 0);
+      g.add(regLayer('endoderm', regCut(lumenMesh, 'inner', 0, BASE_LEN + 0.026)));
+
+      [-0.95, 0.95].forEach((gx) => {
+        const gonadSpan = BASE_LEN + 0.028;
+        const gGeom = new THREE.CylinderGeometry(0.145, 0.145, gonadSpan, 28);
+        gGeom.rotateX(Math.PI / 2);
+        const gm = new THREE.Mesh(gGeom, MATS.gonad);
+        gm.position.set(gx, 0.02, 0);
+        g.add(regLayer('gonads', regCut(gm, 'inner', 0, gonadSpan)));
+      });
+    })();
+
+    // -------------------------------------------------------------------------
+    // (B) BLASTOCOELOMATE
+    // -------------------------------------------------------------------------
+    (function buildBlastocoelomate() {
+      const g = specimens.blastocoelomate;
+      const rEctoOut = 1.48, rEctoIn = 1.31;
+      const rMesoIn = 1.15;
+      const rGutOut = 0.34, rGutIn = 0.19;
+
+      g.add(regLayer('ectoderm', regCut(createCircularTube(rEctoOut, rEctoIn, BASE_LEN, MATS.ectoderm), 'outer')));
+      g.add(regLayer('mesoderm', regCut(createCircularTube(rEctoIn, rMesoIn, BASE_LEN, MATS.mesoderm), 'outer')));
+
+      const fluidMesh = createCircularTube(rMesoIn - 0.005, rGutOut + 0.005, BASE_LEN * 0.99, MATS.fluid);
+      g.add(regLayer('mesoderm', regCut(fluidMesh, 'outer', 0, BASE_LEN * 0.99)));
+
+      g.add(regLayer('endoderm', regCut(createCircularTube(rGutOut, rGutIn, BASE_LEN, MATS.endoderm, 48), 'inner')));
+      const lumenGeom = new THREE.CylinderGeometry(rGutIn - 0.002, rGutIn - 0.002, BASE_LEN, 36, 1, true);
+      lumenGeom.rotateX(Math.PI / 2);
+      g.add(regLayer('endoderm', regCut(new THREE.Mesh(lumenGeom, MATS.lumen), 'inner')));
+
+      [-0.36, 0.36].forEach((gx) => {
+        const gGeom = new THREE.CylinderGeometry(0.14, 0.14, BASE_LEN, 24);
+        gGeom.rotateX(Math.PI / 2);
+        const gm = new THREE.Mesh(gGeom, MATS.gonad);
+        gm.position.set(gx, -0.74, 0);
+        g.add(regLayer('gonads', regCut(gm, 'inner')));
+      });
+    })();
+
+    // -------------------------------------------------------------------------
+    // (C) COELOMATE
+    // -------------------------------------------------------------------------
+    (function buildCoelomate() {
+      const g = specimens.coelomate;
+      const rEctoOut = 1.48, rEctoIn = 1.31;
+      const rBodyMesoIn = 1.15;
+      const rParietalIn = 1.07;
+      const rVisceralOut = 0.44;
+      const rGutMesoOut = 0.38;
+      const rGutOut = 0.30, rGutIn = 0.17;
+
+      g.add(regLayer('ectoderm', regCut(createCircularTube(rEctoOut, rEctoIn, BASE_LEN, MATS.ectoderm), 'outer')));
+      g.add(regLayer('mesoderm', regCut(createCircularTube(rEctoIn, rBodyMesoIn, BASE_LEN, MATS.mesoderm), 'outer')));
+      g.add(regLayer('peritoneum', regCut(createCircularTube(rBodyMesoIn, rParietalIn, BASE_LEN, MATS.peritoneum), 'outer')));
+
+      const mesW = 0.055;
+      const dorsalH = rParietalIn - rVisceralOut + 0.03;
+      const dGeom = new THREE.BoxGeometry(mesW, dorsalH, BASE_LEN);
+      const dMesh = new THREE.Mesh(dGeom, MATS.peritoneum);
+      dMesh.position.set(0, rVisceralOut + dorsalH / 2 - 0.015, 0);
+      g.add(regLayer('peritoneum', regCut(dMesh, 'inner')));
+
+      const vGeom = new THREE.BoxGeometry(mesW, dorsalH, BASE_LEN);
+      const vMesh = new THREE.Mesh(vGeom, MATS.peritoneum);
+      vMesh.position.set(0, -(rVisceralOut + dorsalH / 2 - 0.015), 0);
+      g.add(regLayer('peritoneum', regCut(vMesh, 'inner')));
+
+      g.add(regLayer('peritoneum', regCut(createCircularTube(rVisceralOut, rGutMesoOut, BASE_LEN, MATS.peritoneum, 56), 'inner')));
+      g.add(regLayer('mesoderm', regCut(createCircularTube(rGutMesoOut, rGutOut, BASE_LEN, MATS.mesoderm, 56), 'inner')));
+      g.add(regLayer('endoderm', regCut(createCircularTube(rGutOut, rGutIn, BASE_LEN, MATS.endoderm, 48), 'inner')));
+
+      const lumenGeom = new THREE.CylinderGeometry(rGutIn - 0.002, rGutIn - 0.002, BASE_LEN, 36, 1, true);
+      lumenGeom.rotateX(Math.PI / 2);
+      g.add(regLayer('endoderm', regCut(new THREE.Mesh(lumenGeom, MATS.lumen), 'inner')));
+
+      const fluidMesh = createCircularTube(rParietalIn - 0.005, rVisceralOut + 0.005, BASE_LEN * 0.99, MATS.fluid);
+      g.add(regLayer('peritoneum', regCut(fluidMesh, 'outer', 0, BASE_LEN * 0.99)));
+
+      [-0.44, 0.44].forEach((gx) => {
+        const gGeom = new THREE.CylinderGeometry(0.13, 0.13, BASE_LEN, 24);
+        gGeom.rotateX(Math.PI / 2);
+        const gm = new THREE.Mesh(gGeom, MATS.gonad);
+        gm.position.set(gx, -0.82, 0);
+        g.add(regLayer('gonads', regCut(gm, 'inner')));
+      });
+    })();
+
+    specimens.acoelomate.position.set(-5.0, 0.05, 0);
+    specimens.blastocoelomate.position.set(0.0, 0.0, 0);
+    specimens.coelomate.position.set(4.9, 0.0, 0);
+
+    scene.add(specimens.acoelomate);
+    scene.add(specimens.blastocoelomate);
+    scene.add(specimens.coelomate);
+
+    // =========================================================================
+    // 4. ANATOMICAL LEADER-LINE CALLOUTS (FIGURE 3.5 REFERENCE IN SPANISH)
+    // =========================================================================
+    const ANNOTATIONS = [
+      // --- (A) ACELOMADO ---
+      {
+        id: 'aco-epi',
+        plan: 'acoelomate',
+        layer: 'ectoderm',
+        title: 'Epidermis',
+        sub: '(ectodermo)',
+        germ: 'Ectodermo',
+        localAnchor: [-1.45, -0.52, 0],
+        zMode: 'outer',
+        offsetPx: [-44, 42],
+        desc: 'Epitelio externo derivado del ectodermo que reviste el cuerpo y suele presentar cilios locomotores.',
+        taxa: 'Xenacoelomorpha, Platyhelminthes, Gastrotricha.'
+      },
+      {
+        id: 'aco-gut',
+        plan: 'acoelomate',
+        layer: 'endoderm',
+        title: 'Intestino',
+        sub: '(endodermo)',
+        germ: 'Endodermo',
+        localAnchor: [0.0, 0.25, 0],
+        zMode: 'inner',
+        offsetPx: [-66, -54],
+        desc: 'Tubo digestivo derivado del endodermo (ausente en ciertos grupos como Acoela, que poseen un sincitio digestivo).',
+        taxa: 'Platyhelminthes, Nemertodermatida, Gnathostomulida.'
+      },
+      {
+        id: 'aco-mes',
+        plan: 'acoelomate',
+        layer: 'mesoderm',
+        title: 'Mesénquima',
+        sub: '(mesodermo)',
+        germ: 'Mesodermo',
+        localAnchor: [0.48, -0.18, 0],
+        zMode: 'outer',
+        offsetPx: [26, 46],
+        desc: 'Masa sólida de tejido mesodérmico (parénquima) que rellena por completo el espacio entre la pared corporal y el intestino, sin dejar cavidad corporal.',
+        taxa: 'Platyhelminthes, Xenacoelomorpha, Entoprocta, Cycliophora.'
+      },
+      {
+        id: 'aco-gon',
+        plan: 'acoelomate',
+        layer: 'gonads',
+        title: 'Gónada',
+        sub: '',
+        germ: 'Mesodermo / Células germinales',
+        localAnchor: [0.95, 0.06, 0],
+        zMode: 'inner',
+        offsetPx: [42, -48],
+        desc: 'Órganos reproductores incluidos directamente dentro de la matriz sólida del mesénquima mesodérmico.',
+        taxa: 'Organización acelomada general.'
+      },
+
+      // --- (B) BLASTOCELOMADO ---
+      {
+        id: 'bla-epi',
+        plan: 'blastocoelomate',
+        layer: 'ectoderm',
+        title: 'Epidermis',
+        sub: '(ectodermo)',
+        germ: 'Ectodermo',
+        localAnchor: [-1.02, 0.98, 0],
+        zMode: 'outer',
+        offsetPx: [-88, -46],
+        desc: 'Epitelio externo derivado del ectodermo que recubre el cuerpo (frecuentemente secretor de una cutícula en grupos como Nematoda).',
+        taxa: 'Nematoda, Rotifera, Priapulida, Tardigrada.'
+      },
+      {
+        id: 'bla-gas',
+        plan: 'blastocoelomate',
+        layer: 'endoderm',
+        title: 'Gastrodermis',
+        sub: '(endodermo)',
+        germ: 'Endodermo',
+        localAnchor: [-0.26, 0.08, 0],
+        zMode: 'inner',
+        offsetPx: [-96, -8],
+        desc: 'Revestimiento epitelial interno del tubo digestivo derivado del endodermo; carece de envoltura peritoneal mesodérmica.',
+        taxa: 'Rotifera, Nematoda, Priapulida, Tardigrada.'
+      },
+      {
+        id: 'bla-mus',
+        plan: 'blastocoelomate',
+        layer: 'mesoderm',
+        title: 'Musculatura, etc.',
+        sub: '(mesodermo)',
+        germ: 'Mesodermo',
+        localAnchor: [0.96, 0.72, 0],
+        zMode: 'outer',
+        offsetPx: [42, -46],
+        desc: 'El tejido mesodérmico se restringe a la cara interna de la pared corporal y no rodea al tubo digestivo.',
+        taxa: 'Nematoda, Rotifera, Kinorhyncha, Loricifera.'
+      },
+      {
+        id: 'bla-cav',
+        plan: 'blastocoelomate',
+        layer: 'mesoderm',
+        title: 'Blastoceloma',
+        sub: '(= pseudocele)',
+        germ: 'Remanente del blastocele',
+        localAnchor: [0.62, -0.32, 0],
+        zMode: 'outer',
+        offsetPx: [48, 38],
+        desc: 'Cavidad corporal llena de líquido que persiste del blastocele embrionario. No está revestida por peritoneo, por lo que los órganos internos quedan bañados directamente por el fluido.',
+        taxa: 'Rotifera, Nematoda, Priapulida, Tardigrada, Kinorhyncha.'
+      },
+      {
+        id: 'bla-gon',
+        plan: 'blastocoelomate',
+        layer: 'gonads',
+        title: 'Gónada',
+        sub: '',
+        germ: 'Células germinales / Mesodermo',
+        localAnchor: [-0.36, -0.74, 0],
+        zMode: 'inner',
+        offsetPx: [-84, 46],
+        desc: 'Las gónadas y el intestino se sitúan libres dentro de la cavidad blastocelómica sin mesenterios ni cubierta peritoneal.',
+        taxa: 'Nematoda, Rotifera.'
+      },
+
+      // --- (C) CELOMADO ---
+      {
+        id: 'coe-epi',
+        plan: 'coelomate',
+        layer: 'ectoderm',
+        title: 'Epidermis',
+        sub: '(ectodermo)',
+        germ: 'Ectodermo',
+        localAnchor: [-0.95, 1.05, 0],
+        zMode: 'outer',
+        offsetPx: [-88, -48],
+        desc: 'Capa epitelial más externa del cuerpo derivada del ectodermo.',
+        taxa: 'Annelida, Mollusca, Arthropoda, Echinodermata, Chordata.'
+      },
+      {
+        id: 'coe-dor',
+        plan: 'coelomate',
+        layer: 'peritoneum',
+        title: 'Mesenterio dorsal',
+        sub: '',
+        germ: 'Mesodermo (peritoneo)',
+        localAnchor: [-0.03, 0.76, 0],
+        zMode: 'inner',
+        offsetPx: [-104, -14],
+        desc: 'Doble lámina de peritoneo que suspende el tubo digestivo desde la pared dorsal del cuerpo, separando los compartimentos celómicos derecho e izquierdo.',
+        taxa: 'Annelida, Chordata.'
+      },
+      {
+        id: 'coe-par',
+        plan: 'coelomate',
+        layer: 'peritoneum',
+        title: 'Peritoneo parietal',
+        sub: '(mesodermo)',
+        germ: 'Mesodermo',
+        localAnchor: [0.55, 0.95, 0],
+        zMode: 'outer',
+        offsetPx: [46, -54],
+        desc: 'Epitelio escamoso mesodérmico que tapiza la superficie interna de la musculatura de la pared corporal.',
+        taxa: 'Todos los animales eucelomados.'
+      },
+      {
+        id: 'coe-mus',
+        plan: 'coelomate',
+        layer: 'mesoderm',
+        title: 'Musculatura',
+        sub: '(mesodermo)',
+        germ: 'Mesodermo',
+        localAnchor: [1.08, 0.56, 0],
+        zMode: 'outer',
+        offsetPx: [56, -18],
+        desc: 'Capas musculares somáticas (circulares y longitudinales) situadas entre la epidermis y el peritoneo parietal.',
+        taxa: 'Annelida, Sipuncula, Chordata.'
+      },
+      {
+        id: 'coe-coe',
+        plan: 'coelomate',
+        layer: 'peritoneum',
+        title: 'Celoma',
+        sub: '(= euceloma)',
+        germ: 'Cavidad intramesodérmica',
+        localAnchor: [0.76, 0.14, 0],
+        zMode: 'outer',
+        offsetPx: [62, 16],
+        desc: 'Verdadera cavidad corporal originada en el interior del mesodermo y revestida íntegramente por peritoneo.',
+        taxa: 'Annelida, Echinodermata, Brachiopoda, Phoronida, Chordata.'
+      },
+      {
+        id: 'coe-vis',
+        plan: 'coelomate',
+        layer: 'peritoneum',
+        title: 'Peritoneo visceral',
+        sub: '',
+        germ: 'Mesodermo',
+        localAnchor: [0.42, -0.10, 0],
+        zMode: 'inner',
+        offsetPx: [58, 46],
+        desc: 'Lámina peritoneal mesodérmica que envuelve externamente el intestino y las vísceras, aislándolos de la luz celómica.',
+        taxa: 'Todos los animales eucelomados.'
+      },
+      {
+        id: 'coe-gas',
+        plan: 'coelomate',
+        layer: 'endoderm',
+        title: 'Gastrodermis',
+        sub: '(endodermo)',
+        germ: 'Endodermo',
+        localAnchor: [-0.23, 0.0, 0],
+        zMode: 'inner',
+        offsetPx: [-102, 18],
+        desc: 'Revestimiento interno del tubo digestivo de origen endodérmico, rodeado por musculatura visceral y peritoneo visceral.',
+        taxa: 'Metazoos triploblásticos.'
+      },
+      {
+        id: 'coe-ven',
+        plan: 'coelomate',
+        layer: 'peritoneum',
+        title: 'Mesenterio ventral',
+        sub: '',
+        germ: 'Mesodermo (peritoneo)',
+        localAnchor: [-0.03, -0.76, 0],
+        zMode: 'inner',
+        offsetPx: [-96, 52],
+        desc: 'Lámina peritoneal doble que une el tubo digestivo con la pared ventral del cuerpo (suele reabsorberse parcialmente en numerosos adultos).',
+        taxa: 'Annelida, embriones de vertebrados.'
+      },
+      {
+        id: 'coe-gon',
+        plan: 'coelomate',
+        layer: 'gonads',
+        title: 'Gónada',
+        sub: '(retroperitoneal)',
+        germ: 'Mesodermo',
+        localAnchor: [0.44, -0.82, 0],
+        zMode: 'inner',
+        offsetPx: [48, 72],
+        desc: 'Los órganos internos se desarrollan en posición retroperitoneal, separados del espacio celómico por una cubierta de peritoneo.',
+        taxa: 'Annelida, Chordata, Echinodermata.'
+      }
+    ];
+
+    const PLAN_BADGES = [
+      { plan: 'acoelomate', text: '(A) Acelomado', localPos: [0, 1.48, 0] },
+      { plan: 'blastocoelomate', text: '(B) Blastocelomado', localPos: [0, 2.15, 0] },
+      { plan: 'coelomate', text: '(C) Celomado', localPos: [0, 2.15, 0] }
+    ];
+
+    // Build DOM elements for SVG leader lines, labels, and badges
+    const leaderSvg = document.getElementById('leader-svg');
+    const labelsLayer = document.getElementById('labels-layer');
+    const infoCard = document.getElementById('info-card');
+    const infoTitle = document.getElementById('info-title');
+    const infoGerm = document.getElementById('info-germ');
+    const infoBody = document.getElementById('info-body');
+    const infoTaxa = document.getElementById('info-taxa');
+
+    let labelsEnabled = true;
+    let activeAnnId = null;
+
+    function openInfoCard(ann) {
+      if (!labelsEnabled) return;
+      activeAnnId = ann.id;
+      infoTitle.textContent = ann.sub ? `${ann.title} ${ann.sub}` : ann.title;
+      infoGerm.textContent = ann.germ;
+      infoBody.textContent = ann.desc;
+      infoTaxa.textContent = `Ejemplos: ${ann.taxa}`;
+      infoCard.classList.add('visible');
+
+      ANNOTATIONS.forEach(a => {
+        if (a.el) a.el.classList.toggle('active', a.id === ann.id);
+      });
+    }
+
+    function closeInfoCard() {
+      activeAnnId = null;
+      infoCard.classList.remove('visible');
+      ANNOTATIONS.forEach(a => {
+        if (a.el) a.el.classList.remove('active');
+      });
+    }
+
+    document.getElementById('info-close').addEventListener('click', closeInfoCard);
+
+    ANNOTATIONS.forEach(ann => {
+      const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dot.setAttribute('r', '2.3');
+      leaderSvg.appendChild(line);
+      leaderSvg.appendChild(dot);
+
+      const el = document.createElement('div');
+      el.className = 'ann-label';
+      el.innerHTML = ann.sub ? `${ann.title}<span class="sub">${ann.sub}</span>` : ann.title;
+      el.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!labelsEnabled) return;
+        if (activeAnnId === ann.id) {
+          closeInfoCard();
+        } else {
+          openInfoCard(ann);
+        }
+      });
+      labelsLayer.appendChild(el);
+
+      ann.lineEl = line;
+      ann.dotEl = dot;
+      ann.el = el;
+    });
+
+    PLAN_BADGES.forEach(b => {
+      const el = document.createElement('div');
+      el.className = 'plan-badge';
+      el.textContent = b.text;
+      labelsLayer.appendChild(el);
+      b.el = el;
+    });
+
+    renderer.domElement.addEventListener('click', () => {
+      if (activeAnnId) closeInfoCard();
+    });
+
+    // =========================================================================
+    // 5. CONTROLS: CUTAWAY, VIEWS, LAYERS & LABEL TOGGLE
+    // =========================================================================
+    let currentCutRatio = 0.35;
+    const layerState = {
+      ectoderm: true,
+      mesoderm: true,
+      peritoneum: true,
+      endoderm: true,
+      gonads: true
+    };
+
+    function applyCutaway(ratio) {
+      currentCutRatio = ratio;
+      cutTargets.forEach(({ mesh, mode, baseZ, span }) => {
+        const effRatio = mode === 'outer' ? ratio : ratio * 0.42;
+        const scaleZ = Math.max(0.08, 1 - effRatio);
+        mesh.scale.z = scaleZ;
+        mesh.position.z = baseZ - (span * (1 - scaleZ)) / 2;
+      });
+    }
+    applyCutaway(currentCutRatio);
+
+    document.getElementById('cut-slider').addEventListener('input', (e) => {
+      applyCutaway(parseFloat(e.target.value) / 100);
+    });
+
+    let activeView = 'all';
+    const VIEWS = {
+      all:             { pos: [0.0, 4.6, 19.6], target: [0.0, -0.1, 0.0], show: ['acoelomate', 'blastocoelomate', 'coelomate'] },
+      acoelomate:      { pos: [-5.0, 2.2, 8.6], target: [-5.0, -0.05, 0.0], show: ['acoelomate'] },
+      blastocoelomate: { pos: [0.0, 2.2, 8.6],  target: [0.0, -0.05, 0.0], show: ['blastocoelomate'] },
+      coelomate:       { pos: [4.9, 2.2, 8.6],  target: [4.9, -0.05, 0.0], show: ['coelomate'] }
+    };
+
+    let camAnim = null;
+
+    function setView(key) {
+      const v = VIEWS[key];
+      if (!v) return;
+      activeView = key;
+      closeInfoCard();
+
+      document.querySelectorAll('#view-tabs .tab').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === key);
+      });
+
+      Object.keys(specimens).forEach(k => {
+        specimens[k].visible = v.show.includes(k);
+      });
+
+      camAnim = {
+        p0: camera.position.clone(),
+        p1: new THREE.Vector3(...v.pos),
+        t0: controls.target.clone(),
+        t1: new THREE.Vector3(...v.target),
+        t: 0
+      };
+    }
+
+    document.querySelectorAll('#view-tabs .tab').forEach(btn => {
+      btn.addEventListener('click', () => setView(btn.dataset.view));
+    });
+
+    document.querySelectorAll('#layer-dots .dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        const layer = dot.dataset.layer;
+        const next = !layerState[layer];
+        layerState[layer] = next;
+        dot.classList.toggle('off', !next);
+        layerMeshes[layer].forEach(m => { m.visible = next; });
+        if (!next && activeAnnId) {
+          const currentAnn = ANNOTATIONS.find(a => a.id === activeAnnId);
+          if (currentAnn && currentAnn.layer === layer) closeInfoCard();
+        }
+      });
+    });
+
+    const labelsToggleBtn = document.getElementById('labels-toggle');
+    labelsToggleBtn.addEventListener('click', () => {
+      labelsEnabled = !labelsEnabled;
+      labelsToggleBtn.classList.toggle('active', labelsEnabled);
+      leaderSvg.style.display = labelsEnabled ? 'block' : 'none';
+      labelsLayer.style.display = labelsEnabled ? 'block' : 'none';
+      if (!labelsEnabled) closeInfoCard();
+    });
+
+    const urlView = new URLSearchParams(location.search).get('view');
+    const VIEW_ALIASES = {
+      all: 'all', todos: 'all',
+      acoelomate: 'acoelomate', acelomado: 'acoelomate',
+      blastocoelomate: 'blastocoelomate', blastocelomado: 'blastocoelomate',
+      coelomate: 'coelomate', celomado: 'coelomate'
+    };
+    if (urlView && VIEW_ALIASES[urlView.toLowerCase()]) {
+      setView(VIEW_ALIASES[urlView.toLowerCase()]);
+    }
+
+    // =========================================================================
+    // 6. 3D-TO-2D LABEL & LEADER LINE PROJECTION
+    // =========================================================================
+    const tmpVec = new THREE.Vector3();
+
+    function projectToScreen(vec3) {
+      vec3.project(camera);
+      return {
+        x: (vec3.x * 0.5 + 0.5) * window.innerWidth,
+        y: (-vec3.y * 0.5 + 0.5) * window.innerHeight,
+        visible: vec3.z >= -1 && vec3.z <= 1
+      };
+    }
+
+    function updateOverlays() {
+      if (!labelsEnabled) return;
+
+      const scaleFactor = activeView === 'all' ? 0.92 : 1.25;
+      const items = [];
+
+      PLAN_BADGES.forEach(b => {
+        const grp = specimens[b.plan];
+        if (!grp.visible) {
+          b.el.style.display = 'none';
+          return;
+        }
+        tmpVec.set(b.localPos[0], b.localPos[1], 0).add(grp.position);
+        const pt = projectToScreen(tmpVec);
+        if (!pt.visible) {
+          b.el.style.display = 'none';
+          return;
+        }
+        b.el.style.display = 'block';
+        const w = b.el.offsetWidth || 110;
+        const h = b.el.offsetHeight || 22;
+        items.push({
+          type: 'badge',
+          ref: b,
+          x: pt.x - w / 2,
+          y: pt.y - h / 2,
+          w,
+          h,
+          fixed: true
+        });
+      });
+
+      ANNOTATIONS.forEach(ann => {
+        const grp = specimens[ann.plan];
+        const show = grp.visible && layerState[ann.layer];
+        if (!show) {
+          ann.el.style.display = 'none';
+          ann.lineEl.style.display = 'none';
+          ann.dotEl.style.display = 'none';
+          return;
+        }
+
+        const effRatio = ann.zMode === 'outer' ? currentCutRatio : currentCutRatio * 0.42;
+        const scaleZ = Math.max(0.08, 1 - effRatio);
+        const frontZ = (BASE_LEN * (2 * scaleZ - 1)) / 2;
+
+        tmpVec.set(ann.localAnchor[0], ann.localAnchor[1], frontZ).add(grp.position);
+        const pt = projectToScreen(tmpVec);
+
+        if (!pt.visible) {
+          ann.el.style.display = 'none';
+          ann.lineEl.style.display = 'none';
+          ann.dotEl.style.display = 'none';
+          return;
+        }
+
+        ann.el.style.display = 'block';
+        const w = ann.el.offsetWidth || 92;
+        const h = ann.el.offsetHeight || 28;
+        const ox = ann.offsetPx[0] * scaleFactor;
+        const oy = ann.offsetPx[1] * scaleFactor;
+
+        items.push({
+          type: 'ann',
+          ref: ann,
+          ax: pt.x,
+          ay: pt.y,
+          ox,
+          x: pt.x + ox,
+          y: pt.y + oy - h / 2,
+          w,
+          h,
+          fixed: false
+        });
+      });
+
+      // Iterative 2D bounding-box relaxation to separate any overlapping labels or badges
+      const padX = 6;
+      const padY = 5;
+      const minX = 8;
+      const maxX = window.innerWidth - 8;
+      const minY = 10;
+      const maxY = window.innerHeight - 54;
+
+      for (let iter = 0; iter < 14; iter++) {
+        let moved = false;
+        for (let i = 0; i < items.length; i++) {
+          for (let j = i + 1; j < items.length; j++) {
+            const a = items[i];
+            const b = items[j];
+            if (a.fixed && b.fixed) continue;
+
+            const overlapX = Math.min(a.x + a.w + padX, b.x + b.w + padX) - Math.max(a.x, b.x);
+            const overlapY = Math.min(a.y + a.h + padY, b.y + b.h + padY) - Math.max(a.y, b.y);
+
+            if (overlapX > 0 && overlapY > 0) {
+              moved = true;
+              const cxA = a.x + a.w / 2;
+              const cyA = a.y + a.h / 2;
+              const cxB = b.x + b.w / 2;
+              const cyB = b.y + b.h / 2;
+
+              // Prefer vertical separation when boxes are stacked, or horizontal if side-by-side
+              if (overlapY < overlapX * 1.35) {
+                const dir = cyA <= cyB ? -1 : 1;
+                const shift = overlapY * 0.55;
+                if (a.fixed) {
+                  b.y -= dir * overlapY;
+                } else if (b.fixed) {
+                  a.y += dir * overlapY;
+                } else {
+                  a.y += dir * shift;
+                  b.y -= dir * shift;
+                }
+              } else {
+                const dir = cxA <= cxB ? -1 : 1;
+                const shift = overlapX * 0.55;
+                if (a.fixed) {
+                  b.x -= dir * overlapX;
+                } else if (b.fixed) {
+                  a.x += dir * overlapX;
+                } else {
+                  a.x += dir * shift;
+                  b.x -= dir * shift;
+                }
+              }
+            }
+          }
+        }
+
+        items.forEach(it => {
+          if (it.fixed) return;
+          it.x = Math.max(minX, Math.min(maxX - it.w, it.x));
+          it.y = Math.max(minY, Math.min(maxY - it.h, it.y));
+        });
+
+        if (!moved) break;
+      }
+
+      items.forEach(it => {
+        if (it.type === 'badge') {
+          it.ref.el.style.left = `${it.x + it.w / 2}px`;
+          it.ref.el.style.top = `${it.y + it.h / 2}px`;
+        } else {
+          const ann = it.ref;
+          ann.el.style.left = `${it.x}px`;
+          ann.el.style.top = `${it.y + it.h / 2}px`;
+
+          const attachX = (it.x + it.w / 2) < it.ax ? (it.x + it.w) : it.x;
+          const attachY = it.y + it.h / 2;
+
+          ann.lineEl.style.display = 'block';
+          ann.lineEl.setAttribute('x1', it.ax.toFixed(1));
+          ann.lineEl.setAttribute('y1', it.ay.toFixed(1));
+          ann.lineEl.setAttribute('x2', attachX.toFixed(1));
+          ann.lineEl.setAttribute('y2', attachY.toFixed(1));
+
+          ann.dotEl.style.display = 'block';
+          ann.dotEl.setAttribute('cx', it.ax.toFixed(1));
+          ann.dotEl.setAttribute('cy', it.ay.toFixed(1));
+        }
+      });
+    }
+
+    // =========================================================================
+    // 7. ANIMATION LOOP & RESIZE
+    // =========================================================================
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    function animate() {
+      requestAnimationFrame(animate);
+      if (camAnim) {
+        camAnim.t = Math.min(1, camAnim.t + 0.05);
+        const e = 1 - Math.pow(1 - camAnim.t, 3);
+        camera.position.lerpVectors(camAnim.p0, camAnim.p1, e);
+        controls.target.lerpVectors(camAnim.t0, camAnim.t1, e);
+        if (camAnim.t >= 1) camAnim = null;
+      }
+      controls.update();
+      renderer.render(scene, camera);
+      updateOverlays();
+    }
+    renderer.render(scene, camera);
+    if (renderer.info.render.triangles === 0) {
+      showDiag('Aviso WebGL: 0 triángulos renderizados. Meshes en escena: ' + scene.children.length);
+    }
+    animate();
+  </script>
+</body>
+</html>

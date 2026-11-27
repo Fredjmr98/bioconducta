@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="100%" height="auto">
+
+  <style>
+    .ink { stroke: #1f1830; }
+    .ink-fill { fill: #1f1830; }
+    .muted { fill: #62597a; stroke: #62597a; }
+    .accent { stroke: #4b2a7b; }
+    .accent-fill { fill: #4b2a7b; }
+    .soft-fill { fill: #ece7f4; }
+    .alt-fill { fill: #d8cceb; }
+    .plane-fill { fill: rgba(123, 94, 167, 0.14); stroke: #4b2a7b; }
+    .plane-dashed { stroke: #4b2a7b; stroke-dasharray: 5 4; }
+    .txt-main { font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif; font-size: 13px; font-weight: 600; fill: #1f1830; }
+    .txt-sub { font-family: 'Barlow', 'Helvetica Neue', Arial, sans-serif; font-size: 11px; font-weight: 400; fill: #62597a; }
+    .txt-badge { font-family: 'Barlow Semi Condensed', 'Barlow', sans-serif; font-size: 14px; font-weight: 700; fill: #4b2a7b; }
+    @media (prefers-color-scheme: dark) {
+      .ink { stroke: #e8e2f2; }
+      .ink-fill { fill: #e8e2f2; }
+      .muted { fill: #a89fc0; stroke: #a89fc0; }
+      .accent { stroke: #b79df0; }
+      .accent-fill { fill: #b79df0; }
+      .soft-fill { fill: #261d3d; }
+      .alt-fill { fill: #362857; }
+      .plane-fill { fill: rgba(183, 157, 240, 0.16); stroke: #b79df0; }
+      .plane-dashed { stroke: #b79df0; }
+      .txt-main { fill: #e8e2f2; }
+      .txt-sub { fill: #a89fc0; }
+      .txt-badge { fill: #b79df0; }
+    }
+  </style>
+
+  <g transform="translate(30, 30)">
+    <text x="130" y="16" text-anchor="middle" class="txt-badge">(A) Geometría esférica</text>
+    <circle cx="130" cy="175" r="78" class="soft-fill ink" stroke-width="1.8"/>
+    <polygon points="28,255 102,90 232,95 158,260" class="plane-fill" stroke-width="1.5"/>
+    <ellipse cx="130" cy="175" rx="78" ry="28" transform="rotate(-52 130 175)"
+             fill="none" class="accent" stroke-width="2"/>
+    <ellipse cx="130" cy="175" rx="78" ry="24" transform="rotate(24 130 175)"
+             fill="none" class="plane-dashed" stroke-width="1.4"/>
+    <circle cx="130" cy="175" r="4" class="accent-fill"/>
+    <line x1="130" y1="175" x2="215" y2="232" class="accent" stroke-width="1.2"/>
+    <text x="218" y="236" class="txt-sub">Punto central</text>
+    <text x="34" y="274" class="txt-sub">Plano de simetría</text>
+    <text x="130" y="325" text-anchor="middle" class="txt-sub">Infinitos planos pasan por el centro</text>
+  </g>
+
+  <g transform="translate(320, 30)">
+    <text x="125" y="16" text-anchor="middle" class="txt-badge">(B) Organización concéntrica</text>
+    <g transform="translate(125, 175)">
+      <line x1="0" y1="0" x2="104.0" y2="0.0" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="100.5" y2="26.9" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="90.1" y2="52.0" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="73.5" y2="73.5" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="52.0" y2="90.1" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="26.9" y2="100.5" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="0.0" y2="104.0" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-26.9" y2="100.5" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-52.0" y2="90.1" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-73.5" y2="73.5" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-90.1" y2="52.0" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-100.5" y2="26.9" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-104.0" y2="0.0" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-100.5" y2="-26.9" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-90.1" y2="-52.0" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-73.5" y2="-73.5" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-52.0" y2="-90.1" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-26.9" y2="-100.5" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="-0.0" y2="-104.0" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="26.9" y2="-100.5" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="52.0" y2="-90.1" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="73.5" y2="-73.5" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="90.1" y2="-52.0" class="accent" stroke-width="1.4" stroke-opacity="0.75"/><line x1="0" y1="0" x2="100.5" y2="-26.9" class="accent" stroke-width="1.4" stroke-opacity="0.75"/>
+      <circle cx="0" cy="0" r="68" class="soft-fill ink" stroke-width="1.8"/>
+      <circle cx="0" cy="0" r="44" class="alt-fill accent" stroke-width="1.4" stroke-dasharray="4 3"/>
+      <circle cx="0" cy="0" r="22" class="soft-fill accent" stroke-width="1.5"/>
+      <circle cx="0" cy="0" r="7" class="accent-fill"/>
+    </g>
+    <text x="125" y="325" text-anchor="middle" class="txt-sub">Estructuras concéntricas sin eje polar</text>
+  </g>
+</svg>
