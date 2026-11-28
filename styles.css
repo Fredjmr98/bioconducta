@@ -55,6 +55,14 @@ img { max-width: 100%; height: auto; display: block; }
   font: 600 .9rem var(--sans); color: var(--muted);
 }
 .masthead a { color: var(--ink); text-decoration: none; }
+/* section tabs at the right of the masthead (Índice / Columnas): same fading box as the index rows.
+   The negative margins cancel the padding, so the text stays where it was. */
+.masthead-nav { display: flex; gap: 0; margin: -.3rem -.7rem -.3rem 0; }
+.masthead .masthead-nav a { padding: .3rem .7rem; border-radius: .55rem; color: var(--muted); background-color: transparent;
+  transition: background-color .2s ease, color .2s ease; }
+.masthead .masthead-nav a:hover { color: var(--ink); background-color: var(--accent-soft); }
+.masthead .masthead-nav a[aria-current="page"] { color: var(--accent); }
+@media (prefers-reduced-motion: reduce) { .masthead .masthead-nav a { transition: none; } }
 /* small logo beside the site name (inner pages) */
 .masthead .brand { display: inline-flex; align-items: center; gap: .55rem; }
 .masthead .brand img { width: 1.9rem; height: 1.9rem; border-radius: 50%; box-shadow: 0 0 0 1px var(--rule); }

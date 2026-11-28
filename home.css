@@ -55,6 +55,17 @@
   0%, 100% { transform: translate(0, 0) rotate(var(--tilt)); }
   50%      { transform: translate(-.5rem, .7rem) rotate(calc(var(--tilt) + 2.5deg)); }
 }
+/* mirrored variant: bell near the top-left corner, body hanging down and to the left */
+.medusa--left {
+  right: auto; left: calc(var(--bx) - var(--mw) * .52);
+  transform-origin: 52% 17%;
+  transform: scaleX(-1) rotate(var(--tilt));
+  animation-name: medusa-drift-left;
+}
+@keyframes medusa-drift-left {
+  0%, 100% { transform: translate(0, 0) scaleX(-1) rotate(var(--tilt)); }
+  50%      { transform: translate(.5rem, .7rem) scaleX(-1) rotate(calc(var(--tilt) + 2.5deg)); }
+}
 @media (max-width: 62rem) { .medusa { --mw: 17rem; --bx: 3.5rem; --by: 19vh; opacity: calc(var(--medusa-o) * .7); } }
 @media (prefers-reduced-motion: reduce) { .medusa { animation: none; } }
 @media print { .medusa { display: none; } }

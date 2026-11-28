@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{titulo_txt}} — Bioprâxis</title>
+<meta name="description" content="{{descripcion}}">
+<meta name="author" content="{{autores_txt}}">
+<meta name="citation_title" content="{{titulo_txt}}">
+{{meta_autores}}<meta name="citation_publication_date" content="{{fecha_iso}}">
+{{robots}}<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@200;300;400;500;600;700&family=Barlow+Semi+Condensed:wght@400;500;600&family=Crimson+Pro:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../columnas.css">
+<script src="../theme.js"></script>
+{{math_script}}<script src="../citations.js" defer></script>
+<link rel="icon" href="../favicon.ico" type="image/x-icon">
+</head>
+<body class="book-page">
+<button id="theme-toggle" class="theme-toggle" aria-label="Cambiar entre modo claro y oscuro" aria-pressed="false">☾</button>
+<main class="book">
+<header class="masthead"><a class="brand" href="../index.html"><img src="../logo-small.png" alt="" width="320" height="320">Bioprâxis</a><nav class="masthead-nav" aria-label="Secciones"><a href="../index.html">Índice</a><a href="../columnas.html" aria-current="page">Columnas</a></nav></header>
+<div class="chapter-head">
+  <div class="chapter-num" aria-hidden="true"></div>
+  <div><p class="kicker">{{kicker}}</p><h1>{{titulo}}</h1>
+  {{subtitulo}}</div>
+</div>
+<div class="comb" aria-hidden="true"></div>
+
+<article class="book-body">
+{{aviso}}<aside class="margin"><span class="term">Autoría</span>{{autoria}}</aside>
+<aside class="margin"><span class="term">Tipo de texto</span>Columna de opinión. Revisión editorial; no ha pasado por revisión por pares. <a href="politica-editorial.html">Política editorial</a></aside>
+
+<div class="box abstract"><p class="box-title">Resumen</p><p>{{resumen}}</p><p class="kw"><b>Palabras clave:</b> {{palabras_clave}}</p></div>
+
+{{cuerpo}}
+
+{{declaraciones}}
+{{referencias}}
+{{como_citar}}
+</article>
+</main>
+</body>
+</html>
